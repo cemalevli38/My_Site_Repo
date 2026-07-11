@@ -247,13 +247,6 @@
             opacity: 1;
             text-decoration: underline;
         }
-
-        .newsletter-btn-group {
-            display: flex; gap: 10px; margin-top: 5px;
-        }
-        .newsletter-btn-group button {
-            flex: 1;
-        }
     </style>
 </head>
 <body>
@@ -267,7 +260,6 @@
     <h1>🚀 Cemal Evli</h1>
     <div class="controls">
         <input id="search" placeholder="">
-        <button id="openNewsletter" class="tool-btn" onclick="toggleModal('newsletterModal', true)">📧</button>
         <div class="lang-switcher" id="langSwitcher">
             <button class="lang-btn" id="langBtn">🌐 <span id="langLabel"></span> ▾</button>
             <div class="lang-dropdown">
@@ -312,60 +304,30 @@
     </div>
 </div>
 
-<div id="newsletterModal" class="modal-overlay">
-    <div class="modal-content">
-        <button class="close-modal" onclick="toggleModal('newsletterModal', false)">&times;</button>
-        <h2 id="newsletterTitle"></h2>
-        <form id="newsletter-form" style="display:flex; flex-direction:column; gap:10px; margin-top:15px;">
-            <input type="email" id="email-input" required style="width:100%;">
-            <div class="newsletter-btn-group">
-                <button type="button" id="subscribe-btn" onclick="handleNewsletter('subscribe')" class="tool-btn" style="background:var(--accent); color:#0f172a; border:none;"></button>
-                <button type="button" id="unsubscribe-btn" onclick="handleNewsletter('unsubscribe')" class="tool-btn" style="background:#f87171; color:#0f172a; border:none;"></button>
-            </div>
-        </form>
-        <div id="status-msg" style="margin-top: 10px; text-align: center; font-weight: bold;"></div>
-    </div>
-</div>
-
 <footer>
     <p id="footerText"></p>
-    <div class="footer-links">
-        <a href="about.html" id="linkAbout"></a> | 
-        <a href="privacy.html" id="linkPrivacy"></a>
     </div>
 </footer>
 
 <script>
-const PROJECTS_DATA_URL = "projects.json"; 
-const GAMES_DATA_URL = "games.json";
-const FILES_DATA_URL = "files.json";
-
-const WORKER_PROXY_URL = "https://cemalevliqzzio.evlicemal38.workers.dev/";
+const PROJECTS_DATA_URL = "https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/refs/heads/main/projects.json"; 
+const GAMES_DATA_URL = "https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/refs/heads/main/games.json";
+const FILES_DATA_URL = "https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/refs/heads/main/files.json";
 
 const TRANSLATIONS = {
     en: {
-        searchPlaceholder: "🔍 Search projects or games...",
-        newsletterBtnTitle: "Subscribe",
-        projectsTitle: "📂 My Web Projects",
+        searchPlaceholder: "🔍 Search sites or games...",
+        projectsTitle: "📂 My Sites",
         gamesTitle: "🎮 Games",
         filesTitle: "📁 Files",
         loading: "Loading...",
         error: "Data is not ready yet.",
-        newsletterTitle: "📬 GitHub Newsletter",
-        emailPlaceholder: "Enter your e-mail...",
-        subscribeBtn: "Subscribe",
-        unsubscribeBtn: "Unsubscribe",
-        subscribing: "Subscribing...",
-        unsubscribing: "Unsubscribing...",
-        subscribeSuccess: "✅ Successfully subscribed!",
-        unsubscribeSuccess: "✅ Successfully unsubscribed!",
-        subscribeError: "❌ An error occurred.",
         noFiles: "No files found.",
         openBadge: "OPEN",
         downloadBtn: "DOWNLOAD",
         altLinkBtn: "LINK",
         altTitle: "🔗 ALTERNATIVE LINKS",
-        footerText: 'All rights reserved. &copy; 2026 <a href="https://github.com/cemal201138" target="_blank" style="text-decoration:none; color:inherit;"><b>Cemal Evli</b></a>',
+        footerText: 'All rights reserved. &copy; 2026 <a href="https://github.com/cemalevli38" target="_blank" style="text-decoration:none; color:inherit;"><b>Cemal Evli</b></a>',
         langLabel: "English",
         updateNotice: "🔄 Note: Data on this site is updated every hour.",
         bannerConfirm: "Got it!",
@@ -373,22 +335,12 @@ const TRANSLATIONS = {
         linkPrivacy: "Privacy Policy"
     },
     tr: {
-        searchPlaceholder: "🔍 Proje veya Oyun Ara...",
-        newsletterBtnTitle: "Abone Ol",
-        projectsTitle: "📂 Web Projelerim",
+        searchPlaceholder: "🔍 Site veya Oyun Ara...",
+        projectsTitle: "📂 Sitelerim",
         gamesTitle: "🎮 Oyunlar",
         filesTitle: "📁 Dosyalar",
         loading: "Yükleniyor...",
         error: "Veriler henüz hazır değil.",
-        newsletterTitle: "📬 GitHub Bültenine Kayıt",
-        emailPlaceholder: "E-posta adresini gir...",
-        subscribeBtn: "Abone Ol",
-        unsubscribeBtn: "Abonelikten Çık",
-        subscribing: "Kaydediliyor...",
-        unsubscribing: "Siliniyor...",
-        subscribeSuccess: "✅ Başarıyla abone oldun!",
-        unsubscribeSuccess: "✅ Abonelikten başarıyla çıkıldı!",
-        subscribeError: "❌ Hata oluştu.",
         noFiles: "Dosya bulunamadı.",
         openBadge: "AÇ",
         downloadBtn: "İNDİR",
@@ -412,17 +364,12 @@ function applyLanguage() {
     document.getElementById("projectsTitle").textContent = tr("projectsTitle");
     document.getElementById("gamesTitle").textContent = tr("gamesTitle");
     document.getElementById("filesTitle").textContent = tr("filesTitle");
-    document.getElementById("newsletterTitle").textContent = tr("newsletterTitle");
-    document.getElementById("email-input").placeholder = tr("emailPlaceholder");
-    document.getElementById("subscribe-btn").textContent = tr("subscribeBtn");
-    document.getElementById("unsubscribe-btn").textContent = tr("unsubscribeBtn");
     document.getElementById("footerText").innerHTML = tr("footerText");
     document.getElementById("langLabel").textContent = tr("langLabel");
     document.getElementById("bannerText").textContent = tr("updateNotice");
     document.getElementById("bannerBtn").textContent = tr("bannerConfirm");
     document.getElementById("altTitle").textContent = tr("altTitle");
-    document.getElementById("linkAbout").textContent = tr("linkAbout");
-    document.getElementById("linkPrivacy").textContent = tr("linkPrivacy");
+   
 
     loadProjects();
     loadGames();
@@ -447,59 +394,6 @@ function toggleModal(id, show) {
     }
 }
 
-async function handleNewsletter(action) {
-    const emailInput = document.getElementById('email-input');
-    const subBtn = document.getElementById('subscribe-btn');
-    const unsubBtn = document.getElementById('unsubscribe-btn');
-    const msg = document.getElementById('status-msg');
-    const email = emailInput.value;
-
-    if (!emailInput.checkValidity()) {
-        emailInput.reportValidity();
-        return;
-    }
-
-    subBtn.disabled = true;
-    unsubBtn.disabled = true;
-    
-    if (action === 'subscribe') {
-        subBtn.innerText = tr("subscribing");
-    } else {
-        unsubBtn.innerText = tr("unsubscribing");
-    }
-    
-    try {
-        const response = await fetch(`${WORKER_PROXY_URL}?email=${encodeURIComponent(email)}&action=${action}`);
-        const resultText = await response.text();
-        
-        if (resultText.includes("Başarılı")) {
-            if (action === 'subscribe') {
-                msg.innerHTML = `<span style="color:#4ade80">${tr("subscribeSuccess")}</span>`;
-            } else {
-                msg.innerHTML = `<span style="color:#4ade80">${tr("unsubscribeSuccess")}</span>`;
-            }
-        } else {
-            msg.innerHTML = `<span style="color:#f87171">${resultText}</span>`;
-        }
-        
-        setTimeout(() => { 
-            toggleModal('newsletterModal', false); 
-            subBtn.disabled = false; 
-            unsubBtn.disabled = false;
-            subBtn.innerText = tr("subscribeBtn");
-            unsubBtn.innerText = tr("unsubscribeBtn");
-            msg.innerHTML = "";
-            emailInput.value = "";
-        }, 2000);
-    } catch (err) { 
-        msg.innerHTML = `<span style="color:#f87171">${tr("subscribeError")}</span>`; 
-        subBtn.disabled = false;
-        unsubBtn.disabled = false;
-        subBtn.innerText = tr("subscribeBtn");
-        unsubBtn.innerText = tr("unsubscribeBtn");
-    }
-}
-
 async function loadProjects() {
     const container = document.getElementById("project-container");
     const section = document.getElementById("projects-section");
@@ -510,7 +404,7 @@ async function loadProjects() {
         
         section.classList.remove("hidden");
         container.innerHTML = "";
-        items.filter(i => i.type === "dir" && i.name !== ".github" && i.name !== "My_Social_Media" && i.name !== "imcemo38" && i.name !== "imcemalevli" && i.name !== "suprizsite" && i.name !== "spotifyprofile" && i.name !== "spotifyplaylist" && i.name !== "Portfolio_Site" && i.name !== "Spotify_Calınıyor" && i.name !== "social-png" ).forEach(p => {
+        items.filter(i => i.type === "dir" && i.name !== ".github" ).forEach(p => {
             const card = document.createElement("a");
             card.className = "project-card";
             card.href = p.path;
