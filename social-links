@@ -1,0 +1,8 @@
+[
+  {"icon": "fab fa-instagram",        "url": "https://www.instagram.com/cemalevli38/",     "title": "Instagram"},
+  {"icon": "fab fa-threads",           "url": "https://www.threads.com/@cemalevli38",             "title": "Threads"},
+  {"icon": "fab fa-facebook",         "url": "https://www.facebook.com/profile.php?id=100076601840154",               "title": "Facebook"},
+  {"icon": "fab fa-github",           "url": "https://github.com/cemalevli38",             "title": "GitHub"},
+  {"icon": "fab fa-instagram",        "url": "https://www.instagram.com/cemalevli38y/",     "title": "Instagram Yedek"},
+  {"icon": "fas fa-user-circle",      "url": "https://cemalevli.dpdns.org/imcemalevli/",                "title": "Sosyal Medya Hesaplarım"}
+]
