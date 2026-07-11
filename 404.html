@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Hata</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚠️</text></svg>">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: rgba(30, 41, 59, 0.7);
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #f1f5f9;
+            --accent: #38bdf8;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        * { box-sizing: border-box; transition: all 0.2s ease; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            background-image: radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.1) 0px, transparent 50%);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .error-container {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 50px 30px;
+            border-radius: 24px;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 100px;
+            margin: 0;
+            color: var(--accent);
+            letter-spacing: -5px;
+            line-height: 1;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin: 20px 0 10px;
+        }
+
+        p {
+            opacity: 0.8;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: #0f172a;
+            padding: 14px 28px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .icon-box {
+            font-size: 50px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.3));
+        }
+    </style>
+</head>
+<body>
+
+<div class="error-container">
+    <div class="icon-box">⚠️</div>
+    <h1>404</h1>
+    <h2>Aradığın Yol Kaybolmuş...</h2>
+    <p>Girmek istediğin sayfa mevcut değil veya başka bir evrene taşınmış olabilir.</p>
+    
+    <a href="https://cemalevli.qzz.io/" class="btn">Ana Sayfaya Dön</a>
+</div>
+
+</body>
+</html>

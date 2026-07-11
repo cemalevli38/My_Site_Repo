@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="google-site-verification" content="7ZKGIUgvQFxMqSWI9xBMea2VWjHf21anbsiAN4X3O34" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cemal Evli | My Website</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: rgba(30, 41, 59, 0.7);
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #f1f5f9;
+            --accent: #38bdf8;
+            --game-accent: #f472b6;
+            --file-accent: #a78bfa; 
+            --hover: #1e293b;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .light {
+            --bg: #f8fafc;
+            --card: rgba(255, 255, 255, 0.8);
+            --border: rgba(0, 0, 0, 0.05);
+            --text: #0f172a;
+            --accent: #0284c7;
+            --game-accent: #db2777;
+            --file-accent: #7c3aed;
+            --hover: #e2e8f0;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        * { box-sizing: border-box; transition: all 0.2s ease; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            background-image: radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.1) 0px, transparent 50%);
+            color: var(--text);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .info-banner {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: var(--accent); color: #0f172a;
+            padding: 12px 20px; display: flex; justify-content: center;
+            align-items: center; gap: 15px; z-index: 2000;
+            font-size: 0.9rem; font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transform: translateY(-100%);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .info-banner.show { transform: translateY(0); }
+        .info-banner button {
+            background: rgba(0, 0, 0, 0.15); border: 1px solid rgba(0, 0, 0, 0.2);
+            padding: 5px 15px; border-radius: 8px; cursor: pointer;
+            font-size: 0.8rem; font-weight: bold; color: #0f172a;
+        }
+
+        header {
+            width: 100%; max-width: 900px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+        }
+
+        h1 { margin: 0; font-size: 1.8rem; letter-spacing: -1px; }
+
+        .section-header {
+            width: 100%; max-width: 900px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin: 30px 0 15px;
+        }
+
+        .section-title {
+            font-size: 1.2rem; display: flex; align-items: center;
+            gap: 10px; color: var(--accent); margin: 0;
+        }
+        .section-title.games { color: var(--game-accent); }
+        .section-title.files { color: var(--file-accent); }
+
+        .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+        input {
+            background: var(--card); border: 1px solid var(--border);
+            color: var(--text); padding: 10px 14px; border-radius: 10px;
+            outline: none; backdrop-filter: blur(5px); width: 220px; font-size: 0.95rem;
+        }
+
+        button.tool-btn {
+            background: var(--card); border: 1px solid var(--border);
+            color: var(--text); padding: 10px 16px; border-radius: 10px;
+            cursor: pointer; backdrop-filter: blur(5px);
+            font-weight: 600; font-size: 0.9rem; white-space: nowrap;
+        }
+
+        .lang-switcher { position: relative; display: inline-block; }
+        .lang-btn {
+            background: var(--card); border: 1px solid var(--border);
+            color: var(--text); padding: 10px 16px; border-radius: 10px;
+            cursor: pointer; backdrop-filter: blur(5px);
+            font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 6px;
+        }
+        .lang-dropdown {
+            position: absolute; top: calc(100% + 6px); left: 50%;
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 10px; backdrop-filter: blur(10px);
+            box-shadow: var(--shadow); overflow: hidden; min-width: 130px;
+            opacity: 0; visibility: hidden; transform: translateX(-50%) translateY(-6px);
+            z-index: 999;
+        }
+        .lang-switcher.open .lang-dropdown { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .lang-option {
+            display: flex; align-items: center; gap: 8px; padding: 10px 16px;
+            cursor: pointer; font-size: 0.9rem; font-weight: 600; color: var(--text);
+            border: none; background: none; width: 100%; text-align: left;
+        }
+        .lang-option:hover { background: var(--hover); }
+
+        .grid {
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px; width: 100%; max-width: 900px;
+            justify-content: start;
+        }
+
+        .project-card {
+            background: var(--card); border: 1px solid var(--border);
+            padding: 18px; border-radius: 16px; text-decoration: none;
+            color: var(--text); display: flex; align-items: center;
+            gap: 14px; box-shadow: var(--shadow); backdrop-filter: blur(10px);
+            cursor: pointer; min-height: 85px;
+            width: 100%;
+        }
+        .project-card:hover { transform: translateY(-4px); border-color: var(--accent); background: var(--hover); }
+        .project-card.game-card:hover { border-color: var(--game-accent); }
+        .project-card.file-card:hover { border-color: var(--file-accent); }
+
+        .info-group {
+            flex: 1;
+            display: flex; flex-direction: column; justify-content: center;
+            min-width: 0;
+        }
+
+        .name {
+            font-size: 0.95rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .icon {
+            font-size: 22px; background: rgba(56, 189, 248, 0.1);
+            width: 44px; height: 44px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; border-radius: 12px;
+        }
+        .game-card .icon { background: rgba(244, 114, 182, 0.1); }
+        .file-card .icon { background: rgba(167, 139, 250, 0.1); color: var(--file-accent); }
+
+        .badge {
+            margin-left: 8px; font-size: 0.7rem; padding: 6px 14px;
+            border-radius: 10px; font-weight: bold;
+            background: var(--game-accent); color: white; flex-shrink: 0;
+            text-align: center; min-width: 55px;
+        }
+        .file-card .badge { background: var(--file-accent); }
+        .project-card:not(.game-card):not(.file-card) .badge { background: var(--accent); }
+
+        .modal-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); 
+            display: flex; align-items: center; justify-content: center; 
+            z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s ease;
+            padding: 16px;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { 
+            background: var(--card); border: 1px solid var(--border); 
+            border-radius: 20px; padding: 28px; width: 100%; max-width: 600px; 
+            position: relative; box-shadow: var(--shadow);
+        }
+
+        .file-list {
+            max-height: 45vh; overflow-y: auto; margin-top: 15px;
+            border-radius: 12px; background: rgba(0,0,0,0.2);
+        }
+
+        .file-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 14px; border-bottom: 1px solid var(--border); gap: 12px;
+        }
+
+        .alt-links-section {
+            margin-top: 15px;
+            padding: 12px;
+            background: rgba(56, 189, 248, 0.05);
+            border: 1px dashed var(--accent);
+            border-radius: 12px;
+        }
+        .alt-link-item {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-top: 8px; font-size: 0.85rem;
+        }
+
+        .download-link {
+            background: var(--game-accent); color: white;
+            padding: 6px 14px; border-radius: 8px; text-decoration: none;
+            font-size: 0.75rem; font-weight: bold; white-space: nowrap;
+        }
+
+        .alt-btn { background: var(--accent) !important; }
+
+        .close-modal {
+            position: absolute; top: 14px; right: 14px;
+            background: none; border: none; color: var(--text);
+            font-size: 1.5rem; cursor: pointer;
+        }
+
+        .hidden { display: none !important; }
+
+        footer {
+            margin-top: auto; padding: 60px 0 20px; width: 100%;
+            text-align: center; font-size: 0.9rem; opacity: 0.7;
+        }
+        footer b { color: var(--accent); }
+         
+        .footer-links {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            font-size: 0.85rem;
+        }
+        .footer-links a {
+            color: var(--text);
+            text-decoration: none;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+        .footer-links a:hover {
+            color: var(--accent);
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .newsletter-btn-group {
+            display: flex; gap: 10px; margin-top: 5px;
+        }
+        .newsletter-btn-group button {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+
+<div id="infoBanner" class="info-banner">
+    <span id="bannerText"></span>
+    <button id="bannerBtn" onclick="closeBanner()">Tamam</button>
+</div>
+
+<header>
+    <h1>🚀 Cemal Evli</h1>
+    <div class="controls">
+        <input id="search" placeholder="">
+        <button id="openNewsletter" class="tool-btn" onclick="toggleModal('newsletterModal', true)">📧</button>
+        <div class="lang-switcher" id="langSwitcher">
+            <button class="lang-btn" id="langBtn">🌐 <span id="langLabel"></span> ▾</button>
+            <div class="lang-dropdown">
+                <button class="lang-option" data-lang="en">🇬🇧 English</button>
+                <button class="lang-option" data-lang="tr">🇹🇷 Türkçe</button>
+            </div>
+        </div>
+        <button id="themeToggle" class="tool-btn">🌙 / ☀️</button>
+    </div>
+</header>
+
+<div id="projects-section" style="width: 100%; max-width: 900px;">
+    <div class="section-header">
+        <h2 class="section-title" id="projectsTitle"></h2>
+    </div>
+    <div id="project-container" class="grid"></div>
+</div>
+
+<div id="games-section" class="hidden" style="width: 100%; max-width: 900px;">
+    <div class="section-header">
+        <h2 class="section-title games" id="gamesTitle"></h2>
+    </div>
+    <div id="game-container" class="grid"></div>
+</div>
+
+<div id="files-section" class="hidden" style="width: 100%; max-width: 900px;">
+    <div class="section-header">
+        <h2 class="section-title files" id="filesTitle"></h2>
+    </div>
+    <div id="files-container" class="grid"></div>
+</div>
+
+<div id="gameFilesModal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="close-modal" onclick="toggleModal('gameFilesModal', false)">&times;</button>
+        <h2 id="modalGameName" style="margin:0; font-size:1.4rem;"></h2>
+        <div id="fileContainer" class="file-list"></div>
+        <div id="altLinksContainer" class="alt-links-section hidden">
+            <div style="font-weight: bold; font-size: 0.8rem; color: var(--accent); margin-bottom: 5px;" id="altTitle">🔗 ALTERNATİF LİNKLER</div>
+            <div id="altLinksList"></div>
+        </div>
+    </div>
+</div>
+
+<div id="newsletterModal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="close-modal" onclick="toggleModal('newsletterModal', false)">&times;</button>
+        <h2 id="newsletterTitle"></h2>
+        <form id="newsletter-form" style="display:flex; flex-direction:column; gap:10px; margin-top:15px;">
+            <input type="email" id="email-input" required style="width:100%;">
+            <div class="newsletter-btn-group">
+                <button type="button" id="subscribe-btn" onclick="handleNewsletter('subscribe')" class="tool-btn" style="background:var(--accent); color:#0f172a; border:none;"></button>
+                <button type="button" id="unsubscribe-btn" onclick="handleNewsletter('unsubscribe')" class="tool-btn" style="background:#f87171; color:#0f172a; border:none;"></button>
+            </div>
+        </form>
+        <div id="status-msg" style="margin-top: 10px; text-align: center; font-weight: bold;"></div>
+    </div>
+</div>
+
+<footer>
+    <p id="footerText"></p>
+    <div class="footer-links">
+        <a href="about.html" id="linkAbout"></a> | 
+        <a href="privacy.html" id="linkPrivacy"></a>
+    </div>
+</footer>
+
+<script>
+const PROJECTS_DATA_URL = "projects.json"; 
+const GAMES_DATA_URL = "games.json";
+const FILES_DATA_URL = "files.json";
+
+const WORKER_PROXY_URL = "https://cemalevliqzzio.evlicemal38.workers.dev/";
+
+const TRANSLATIONS = {
+    en: {
+        searchPlaceholder: "🔍 Search projects or games...",
+        newsletterBtnTitle: "Subscribe",
+        projectsTitle: "📂 My Web Projects",
+        gamesTitle: "🎮 Games",
+        filesTitle: "📁 Files",
+        loading: "Loading...",
+        error: "Data is not ready yet.",
+        newsletterTitle: "📬 GitHub Newsletter",
+        emailPlaceholder: "Enter your e-mail...",
+        subscribeBtn: "Subscribe",
+        unsubscribeBtn: "Unsubscribe",
+        subscribing: "Subscribing...",
+        unsubscribing: "Unsubscribing...",
+        subscribeSuccess: "✅ Successfully subscribed!",
+        unsubscribeSuccess: "✅ Successfully unsubscribed!",
+        subscribeError: "❌ An error occurred.",
+        noFiles: "No files found.",
+        openBadge: "OPEN",
+        downloadBtn: "DOWNLOAD",
+        altLinkBtn: "LINK",
+        altTitle: "🔗 ALTERNATIVE LINKS",
+        footerText: 'All rights reserved. &copy; 2026 <a href="https://github.com/cemal201138" target="_blank" style="text-decoration:none; color:inherit;"><b>Cemal Evli</b></a>',
+        langLabel: "English",
+        updateNotice: "🔄 Note: Data on this site is updated every hour.",
+        bannerConfirm: "Got it!",
+        linkAbout: "About & Impressum",
+        linkPrivacy: "Privacy Policy"
+    },
+    tr: {
+        searchPlaceholder: "🔍 Proje veya Oyun Ara...",
+        newsletterBtnTitle: "Abone Ol",
+        projectsTitle: "📂 Web Projelerim",
+        gamesTitle: "🎮 Oyunlar",
+        filesTitle: "📁 Dosyalar",
+        loading: "Yükleniyor...",
+        error: "Veriler henüz hazır değil.",
+        newsletterTitle: "📬 GitHub Bültenine Kayıt",
+        emailPlaceholder: "E-posta adresini gir...",
+        subscribeBtn: "Abone Ol",
+        unsubscribeBtn: "Abonelikten Çık",
+        subscribing: "Kaydediliyor...",
+        unsubscribing: "Siliniyor...",
+        subscribeSuccess: "✅ Başarıyla abone oldun!",
+        unsubscribeSuccess: "✅ Abonelikten başarıyla çıkıldı!",
+        subscribeError: "❌ Hata oluştu.",
+        noFiles: "Dosya bulunamadı.",
+        openBadge: "AÇ",
+        downloadBtn: "İNDİR",
+        altLinkBtn: "LİNK",
+        altTitle: "🔗 ALTERNATİF LİNKLER",
+        footerText: 'Tüm hakları saklıdır. &copy; 2026 <a href="https://github.com/cemal201138" target="_blank" style="text-decoration:none; color:inherit;"><b>Cemal Evli</b></a>',
+        langLabel: "Türkçe",
+        updateNotice: "🔄 Bilgi: Sitedeki veriler her saat başı otomatik olarak güncellenmektedir.",
+        bannerConfirm: "Tamam",
+        linkAbout: "Hakkımda & Künye",
+        linkPrivacy: "Gizlilik Politikası"
+    }
+};
+
+let currentLang = localStorage.getItem("lang") || "en";
+function tr(key) { return TRANSLATIONS[currentLang][key] || TRANSLATIONS["en"][key]; }
+
+function applyLanguage() {
+    document.documentElement.lang = currentLang;
+    document.getElementById("search").placeholder = tr("searchPlaceholder");
+    document.getElementById("projectsTitle").textContent = tr("projectsTitle");
+    document.getElementById("gamesTitle").textContent = tr("gamesTitle");
+    document.getElementById("filesTitle").textContent = tr("filesTitle");
+    document.getElementById("newsletterTitle").textContent = tr("newsletterTitle");
+    document.getElementById("email-input").placeholder = tr("emailPlaceholder");
+    document.getElementById("subscribe-btn").textContent = tr("subscribeBtn");
+    document.getElementById("unsubscribe-btn").textContent = tr("unsubscribeBtn");
+    document.getElementById("footerText").innerHTML = tr("footerText");
+    document.getElementById("langLabel").textContent = tr("langLabel");
+    document.getElementById("bannerText").textContent = tr("updateNotice");
+    document.getElementById("bannerBtn").textContent = tr("bannerConfirm");
+    document.getElementById("altTitle").textContent = tr("altTitle");
+    document.getElementById("linkAbout").textContent = tr("linkAbout");
+    document.getElementById("linkPrivacy").textContent = tr("linkPrivacy");
+
+    loadProjects();
+    loadGames();
+    loadFiles();
+}
+
+function checkBanner() { if (!localStorage.getItem("bannerClosed")) setTimeout(() => document.getElementById("infoBanner").classList.add("show"), 800); }
+function closeBanner() { document.getElementById("infoBanner").classList.remove("show"); localStorage.setItem("bannerClosed", "true"); }
+if (localStorage.getItem("theme") === "light") document.body.classList.add("light");
+document.getElementById('themeToggle').onclick = () => {
+    document.body.classList.toggle("light");
+    localStorage.setItem("theme", document.body.classList.contains("light") ? "light" : "dark");
+};
+
+const norm = s => !s ? "" : s.toLowerCase().replace(/ı/g, 'i').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c').normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[_\s-]/g, "");
+
+function toggleModal(id, show) {
+    const m = document.getElementById(id);
+    if (m) {
+        m.classList.toggle('active', show);
+        document.body.style.overflow = show ? 'hidden' : 'auto';
+    }
+}
+
+async function handleNewsletter(action) {
+    const emailInput = document.getElementById('email-input');
+    const subBtn = document.getElementById('subscribe-btn');
+    const unsubBtn = document.getElementById('unsubscribe-btn');
+    const msg = document.getElementById('status-msg');
+    const email = emailInput.value;
+
+    if (!emailInput.checkValidity()) {
+        emailInput.reportValidity();
+        return;
+    }
+
+    subBtn.disabled = true;
+    unsubBtn.disabled = true;
+    
+    if (action === 'subscribe') {
+        subBtn.innerText = tr("subscribing");
+    } else {
+        unsubBtn.innerText = tr("unsubscribing");
+    }
+    
+    try {
+        const response = await fetch(`${WORKER_PROXY_URL}?email=${encodeURIComponent(email)}&action=${action}`);
+        const resultText = await response.text();
+        
+        if (resultText.includes("Başarılı")) {
+            if (action === 'subscribe') {
+                msg.innerHTML = `<span style="color:#4ade80">${tr("subscribeSuccess")}</span>`;
+            } else {
+                msg.innerHTML = `<span style="color:#4ade80">${tr("unsubscribeSuccess")}</span>`;
+            }
+        } else {
+            msg.innerHTML = `<span style="color:#f87171">${resultText}</span>`;
+        }
+        
+        setTimeout(() => { 
+            toggleModal('newsletterModal', false); 
+            subBtn.disabled = false; 
+            unsubBtn.disabled = false;
+            subBtn.innerText = tr("subscribeBtn");
+            unsubBtn.innerText = tr("unsubscribeBtn");
+            msg.innerHTML = "";
+            emailInput.value = "";
+        }, 2000);
+    } catch (err) { 
+        msg.innerHTML = `<span style="color:#f87171">${tr("subscribeError")}</span>`; 
+        subBtn.disabled = false;
+        unsubBtn.disabled = false;
+        subBtn.innerText = tr("subscribeBtn");
+        unsubBtn.innerText = tr("unsubscribeBtn");
+    }
+}
+
+async function loadProjects() {
+    const container = document.getElementById("project-container");
+    const section = document.getElementById("projects-section");
+    try {
+        const res = await fetch(PROJECTS_DATA_URL);
+        const items = await res.json();
+        if(!items || items.length === 0) { section.classList.add("hidden"); return; }
+        
+        section.classList.remove("hidden");
+        container.innerHTML = "";
+        items.filter(i => i.type === "dir" && i.name !== ".github" && i.name !== "My_Social_Media" && i.name !== "imcemo38" && i.name !== "imcemalevli" && i.name !== "suprizsite" && i.name !== "spotifyprofile" && i.name !== "spotifyplaylist" && i.name !== "Portfolio_Site" && i.name !== "Spotify_Calınıyor" && i.name !== "social-png" ).forEach(p => {
+            const card = document.createElement("a");
+            card.className = "project-card";
+            card.href = p.path;
+            card.target = "_blank";
+            card.dataset.searchName = norm(p.name);
+            card.innerHTML = `
+                <div class="icon">🌐</div>
+                <div class="info-group">
+                    <div class="name"><b>${p.name.replace(/_/g, " ")}</b></div>
+                </div>
+                <span class="badge">${tr("openBadge")}</span>
+            `;
+            container.appendChild(card);
+        });
+    } catch (e) { section.classList.add("hidden"); }
+}
+
+async function loadGames() {
+    const container = document.getElementById("game-container");
+    const section = document.getElementById("games-section");
+    try {
+        const res = await fetch(GAMES_DATA_URL);
+        const releases = await res.json();
+        if(!releases || releases.length === 0) { section.classList.add("hidden"); return; }
+
+        section.classList.remove("hidden");
+        container.innerHTML = "";
+        releases.forEach(rel => {
+            const card = document.createElement("div");
+            card.className = "project-card game-card";
+            card.dataset.searchName = norm(rel.name || rel.tag_name);
+            card.innerHTML = `
+                <div class="icon">🎮</div>
+                <div class="info-group">
+                    <div class="name"><b>${rel.name || rel.tag_name}</b></div>
+                    <div style="font-size:0.75rem; opacity:0.6;">${rel.tag_name}</div>
+                </div>
+                <span class="badge">${tr("openBadge")}</span>
+            `;
+            card.onclick = () => openGameModal(rel);
+            container.appendChild(card);
+        });
+    } catch (e) { section.classList.add("hidden"); }
+}
+
+async function loadFiles() {
+    const container = document.getElementById("files-container");
+    const section = document.getElementById("files-section");
+    try {
+        const res = await fetch(FILES_DATA_URL);
+        const files = await res.json();
+        if(!files || files.length === 0) { section.classList.add("hidden"); return; }
+
+        section.classList.remove("hidden");
+        container.innerHTML = "";
+        files.forEach(file => {
+            const card = document.createElement("div");
+            card.className = "project-card file-card";
+            card.dataset.searchName = norm(file.name || file.tag_name);
+            card.innerHTML = `
+                <div class="icon">📁</div>
+                <div class="info-group">
+                    <div class="name"><b>${file.name || file.tag_name}</b></div>
+                    <div style="font-size:0.75rem; opacity:0.6;">${file.tag_name}</div>
+                </div>
+                <span class="badge">${tr("openBadge")}</span>
+            `;
+            card.onclick = () => openGameModal(file);
+            container.appendChild(card);
+        });
+    } catch (e) { section.classList.add("hidden"); }
+}
+
+function openGameModal(rel) {
+    const fileContainer = document.getElementById("fileContainer");
+    const altContainer = document.getElementById("altLinksContainer");
+    const altList = document.getElementById("altLinksList");
+    
+    document.getElementById("modalGameName").textContent = rel.name || rel.tag_name;
+    
+    fileContainer.innerHTML = "";
+    altList.innerHTML = "";
+    altContainer.classList.add("hidden");
+
+    if (rel.assets && rel.assets.length > 0) {
+        rel.assets.forEach(asset => {
+            const div = document.createElement("div");
+            div.className = "file-item";
+            const size = (asset.size / (1024 * 1024)).toFixed(2);
+            div.innerHTML = `
+                <div class="file-info" style="display:flex; gap:10px; align-items:center; min-width:0;">
+                    <div class="file-icon" style="font-size:1.2rem;">${getFileIcon(asset.name)}</div>
+                    <div style="min-width:0; flex:1;">
+                        <div style="font-weight:bold; font-size:0.85rem; word-break:break-all;">${asset.name}</div>
+                        <div style="font-size:0.7rem; opacity:0.6;">${size} MB</div>
+                    </div>
+                </div>
+                <a href="${asset.browser_download_url}" class="download-link" target="_blank">${tr("downloadBtn")}</a>
+            `;
+            fileContainer.appendChild(div);
+        });
+    } else {
+        fileContainer.innerHTML = `<p style='padding:20px; opacity:0.6; text-align:center;'>${tr("noFiles")}</p>`;
+    }
+
+    if (rel.alt_links && rel.alt_links.length > 0) {
+        altContainer.classList.remove("hidden");
+        rel.alt_links.forEach(link => {
+            addAltLinkRow(link.name, link.url);
+        });
+    } 
+    else if (rel.body && rel.body.trim().startsWith("http")) {
+        altContainer.classList.remove("hidden");
+        addAltLinkRow("Google Drive / Cloud", rel.body.trim());
+    }
+
+    function addAltLinkRow(label, url) {
+        const div = document.createElement("div");
+        div.className = "alt-link-item";
+        div.innerHTML = `
+            <span style="font-weight:600; opacity:0.8;">${label}</span>
+            <a href="${url}" class="download-link alt-btn" target="_blank">${tr("altLinkBtn")}</a>
+        `;
+        altList.appendChild(div);
+    }
+
+    toggleModal('gameFilesModal', true);
+}
+
+function getFileIcon(fn) {
+    const ext = fn.split('.').pop().toLowerCase();
+    return { 'zip':'📦','rar':'📦','apk':'🤖','exe':'⚙️','pdf':'📕','mp4':'🎬','mp3':'🎵' }[ext] || '📄';
+}
+
+document.getElementById('search').addEventListener("input", function () {
+    const q = norm(this.value);
+    document.querySelectorAll(".project-card").forEach(card => {
+        card.classList.toggle("hidden", !card.dataset.searchName.includes(q));
+    });
+});
+
+document.getElementById("langBtn").onclick = (e) => { 
+    e.stopPropagation(); 
+    document.getElementById("langSwitcher").classList.toggle("open"); 
+};
+
+document.querySelectorAll(".lang-option").forEach(btn => {
+    btn.onclick = () => {
+        currentLang = btn.dataset.lang;
+        localStorage.setItem("lang", currentLang);
+        document.getElementById("langSwitcher").classList.remove("open");
+        applyLanguage();
+    };
+});
+
+window.onclick = (e) => {
+    if (e.target.classList.contains('modal-overlay')) toggleModal(e.target.id, false);
+    if (!document.getElementById("langSwitcher").contains(e.target)) document.getElementById("langSwitcher").classList.remove("open");
+};
+
+applyLanguage();
+checkBanner();
+</script>
+</body>
+</html>

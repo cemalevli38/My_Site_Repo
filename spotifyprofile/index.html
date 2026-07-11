@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Yönlendiriliyor...</title>
+    <script>
+        async function fetchUrlAndRedirect() {
+            // Verinin çekileceği ham (raw) GitHub URL'si
+            const jsonUrl = "https://raw.githubusercontent.com/cemal201138/My_Netlify_SitesApps/main/spotifyprofile/spotifyprofileurl.json";
+            
+            try {
+                const response = await fetch(jsonUrl);
+                if (!response.ok) throw new Error("Ağ hatası");
+                
+                const data = await response.json();
+                
+                // JSON dosyanızın yapısına göre yönlendirilecek hedef (Örn: data.url)
+                // Eğer JSON içinde doğrudan "url" anahtarı varsa:
+                if (data && data.url) {
+                    window.location.href = data.url;
+                } else {
+                    // JSON yapısı farklıysa ilk değeri bulmaya çalışır
+                    const firstValue = Object.values(data)[0];
+                    if (firstValue) window.location.href = firstValue;
+                }
+            } catch (error) {
+                console.error("Yönlendirme hatası:", error);
+                // Hata durumunda varsayılan bir adrese gitmesini istersen burayı düzenleyebilirsin:
+                // window.location.href = "https://www.youtube.com";
+            }
+        }
+
+        // Sayfa yüklenir yüklenmez fonksiyonu çalıştır
+        fetchUrlAndRedirect();
+    </script>
+</head>
+<body>
+</body>
+</html>

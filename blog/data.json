@@ -1,0 +1,53 @@
+{
+  "photos": [
+    {
+      "name": "OrtaOkul/2024.07.15.jpg",
+      "download_url": "https://raw.githubusercontent.com/cemal201138/My_Netlify_SitesApps/main/mysite/photos/2024.07.15.jpg"
+    },
+    {
+      "name": "Dürümm/IMG-20260617-WA0014.jpg",
+      "download_url": "https://raw.githubusercontent.com/cemal201138/My_Netlify_SitesApps/main/mysite/photos/IMG-20260617-WA0014.jpg"
+    },
+    {
+      "name": "Dürümm/IMG-20260617-WA0015.jpg",
+      "download_url": "https://raw.githubusercontent.com/cemal201138/My_Netlify_SitesApps/main/mysite/photos/IMG-20260617-WA0015.jpg"
+    },
+    {
+      "name": "Dürümm/IMG-20260617-WA0016.jpg",
+      "download_url": "https://raw.githubusercontent.com/cemal201138/My_Netlify_SitesApps/main/mysite/photos/IMG-20260617-WA0016.jpg"
+    },
+    {
+      "name": "Dürümm/IMG-20260617-WA0017.jpg",
+      "download_url": "https://raw.githubusercontent.com/cemal201138/My_Netlify_SitesApps/main/mysite/photos/IMG-20260617-WA0017.jpg"
+    },
+    {
+      "name": "Dürümm/IMG-20260617-WA0018.jpg",
+      "download_url": "https://raw.githubusercontent.com/cemal201138/My_Netlify_SitesApps/main/mysite/photos/IMG-20260617-WA0018.jpg"
+    },
+    {
+      "name": "Dürümm/IMG-20260617-WA0019.jpg",
+      "download_url": "https://raw.githubusercontent.com/cemal201138/My_Netlify_SitesApps/main/mysite/photos/IMG-20260617-WA0019.jpg"
+    },
+    {
+      "name": "Dürümm/IMG-20260617-WA0021.jpg",
+      "download_url": "https://raw.githubusercontent.com/cemal201138/My_Netlify_SitesApps/main/mysite/photos/IMG-20260617-WA0021.jpg"
+    },
+    {
+      "name": "Dürümm/IMG_20260617_200145_396.jpg",
+      "download_url": "https://raw.githubusercontent.com/cemal201138/My_Netlify_SitesApps/main/mysite/photos/IMG_20260617_200145_396.jpg"
+    }
+    
+  ],
+  "videos": [
+    {
+      "name": "Test/test.mp4",
+      "download_url": "https://raw.githubusercontent.com/cemal201138/My_Netlify_SitesApps/main/mysite/videos/test.mp4"
+    }
+  ],
+  "texts": [
+    {
+      "name": "Dürümm/Dürüm Text",
+      "download_url": "https://raw.githubusercontent.com/cemal201138/My_Netlify_SitesApps/main/mysite/texts/dürümtext.txt"
+    }
+  ]
+}
