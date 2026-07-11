@@ -537,7 +537,7 @@
         async function loadSocialLinks() {
             const container = document.getElementById('lpLinksContainer');
             try {
-                const response = await fetch('https://raw.githubusercontent.com/cemalevli38/My_Sİte_Repo/main/social-links?t=' + Date.now());
+                const response = await fetch('https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/social-links?t=' + Date.now());
                 const links = await response.json();
                 
                 if (Array.isArray(links) && links.length > 0) {
