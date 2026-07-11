@@ -1,0 +1,53 @@
+name: Hourly Data Update
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Her saatin başında otomatik çalışır
+  workflow_dispatch: # İstediğinde manuel çalıştırmak için buton ekler
+
+jobs:
+  update-json:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Dosyaları depoya geri yazabilmesi için şart
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Tüm geçmişi çekerek rebase hatalarını önler
+
+      - name: Fetch Projects and Games
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub'ın otomatik verdiği geçici anahtar
+        run: |
+          # Projeleri çek (Token ile güvenli ve yüksek limitli)
+          curl -sL -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/" > projects.json
+          
+          # Oyunları çek
+          curl -sL -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/cemalevli38/games/releases" > games.json
+          
+          # Dosyaları çek
+          curl -sL -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/cemalevli38/files/releases" > files.json
+
+      - name: Commit and Push Changes
+        run: |
+          # Git kimlik yapılandırması
+          git config --local user.name "cemalevli38"
+          git config --local user.email "cemalevli38@users.noreply.github.com"
+          
+          # Dosyaları takibe al
+          git add projects.json games.json files.json
+          
+          # Eğer değişiklik varsa işlemleri yap
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit -m "Hourly auto-update: $(date)"
+            
+            # Uzak depodaki (GitHub) değişiklikleri al ve üstüne ekle (Conflict önleyici)
+            git pull --rebase origin main
+            
+            # Güncel halini geri gönder
+            git push origin main
+          else
+            echo "Herhangi bir değişiklik yok, commit atılmadı."
+          fi
