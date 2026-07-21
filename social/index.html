@@ -525,7 +525,7 @@
                 '? @besiktas$$(https://www.instagram.com/besiktas/)$$ ??'
             ];
             try {
-                const r = await fetch('https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/imcemalevli/biography?t=' + Date.now());
+                const r = await fetch('https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/social/biography?t=' + Date.now());
                 const d = await r.json();
                 renderBio(d.bio && Array.isArray(d.bio) ? d.bio : fallback);
             } catch (e) {
