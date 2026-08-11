@@ -23,8 +23,11 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #254f1a; /* Orijinal Linktree yeşil/koyu tema alternatifi veya şık Linktree koyu teması */
-            background: #1e2330;
+            background-color: #1e2330; /* Resim yoksa veya yüklenemezse görünecek düz renk */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -33,6 +36,7 @@
             padding: 48px 16px 24px 16px;
             color: #ffffff;
             position: relative;
+            transition: background-image 0.3s ease-in-out;
         }
 
         /* Linktree Stil Konteyner */
@@ -594,6 +598,23 @@
             });
         }
 
+        async function loadBackgroundImage() {
+            const bgUrl = 'https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/socialv2/background.png?t=' + Date.now();
+            return new Promise(res => {
+                const img = new Image();
+                img.src = bgUrl;
+                img.onload = () => {
+                    document.body.style.backgroundImage = `url('${bgUrl}')`;
+                    res();
+                };
+                img.onerror = () => {
+                    // Resim bulunamazsa veya hata verirse görsel kaldırılır, düz renk kalır
+                    document.body.style.backgroundImage = 'none';
+                    res();
+                };
+            });
+        }
+
         async function loadProfileImage() {
             const inner = document.getElementById('lpAvatarInner');
             const url = 'https://wsrv.nl/?url=https://github.com/cemalevli38.png&w=200&h=200&mask=circle&t=' + Date.now();
@@ -643,7 +664,8 @@
 
         async function loadBiography() {
             const fallback = [
-                ' Hata⚠️ '
+                'Small wins lead to a big victory: @bunyanfen$$(https://www.instagram.com/bunyanfen/)$$',
+                '🖤 @besiktas$$(https://www.instagram.com/besiktas/)$$ 🤍'
             ];
             try {
                 const r = await fetch('https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/social/biography?t=' + Date.now());
@@ -710,7 +732,7 @@
             inner.innerHTML = '<i class="fas fa-circle-notch fa-spin" style="font-size:1.5rem;color:#9ca3af"></i>';
             container.innerHTML = '<div style="text-align: center; padding: 20px; color: #9ca3af;"><i class="fas fa-circle-notch fa-spin"></i> Yenileniyor...</div>';
 
-            await Promise.all([loadProfileImage(), loadBiography(), loadSocialLinks()]);
+            await Promise.all([loadBackgroundImage(), loadProfileImage(), loadBiography(), loadSocialLinks()]);
 
             setTimeout(() => {
                 icon.classList.remove('rotating');
@@ -722,6 +744,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            loadBackgroundImage();
             loadProfileImage();
             loadBiography();
             loadSocialLinks();
