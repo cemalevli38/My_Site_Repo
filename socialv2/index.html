@@ -52,6 +52,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Yenileme sırasında karta hafif parıldama / odak efekti */
+        .lp-card.refreshing {
+            filter: brightness(1.08);
         }
 
         /* Sağ üst QR butonu - Linktree paylaşım ikonu stili */
@@ -131,7 +137,7 @@
         /* Linktree Biyografi */
         .lp-bio {
             font-size: 0.95rem;
-            color: #d1d5db;
+            color: #f3f4f6; /* Yumuşak Beyaz Düz Metin */
             line-height: 1.5;
             min-height: 42px;
             font-weight: 500;
@@ -145,18 +151,20 @@
             display: block;
             white-space: nowrap;
             overflow: hidden;
+            color: #f3f4f6;
         }
 
+        /* Biyografideki @etiket ve #hashtag linkleri için özel açık turkuaz Mavi tonu */
         .lp-bio-link {
-            color: #d2e823; /* Linktree Imza Fıstık Yeşili Accent */
+            color: #38bdf8 !important; 
             text-decoration: none !important;
             font-weight: 600;
-            transition: opacity 0.2s;
+            transition: all 0.2s ease;
             display: inline-block;
         }
 
         .lp-bio-link:hover {
-            opacity: 0.8;
+            color: #7dd3fc !important;
             text-decoration: underline !important;
         }
 
@@ -187,11 +195,13 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
+        /* Hover durumunda arkaplanın tam beyaz yerine koyu temayla uyumlu tatlı bir tona geçmesi sağlandı */
         .lp-link:hover {
-            background: #ffffff;
-            color: #000000;
+            background: #3b4252;
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.15);
             transform: scale(1.02);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
         }
 
         .lp-link-left {
@@ -217,8 +227,9 @@
             color: #ffffff;
         }
 
+        /* İkonların üstüne gelince renklerinin çakışmaması için orijinal renk korunur */
         .lp-link:hover .lp-icon-box {
-            color: #000000 !important;
+            color: inherit;
         }
 
         .lp-link-left span {
@@ -236,7 +247,7 @@
         }
 
         .lp-link:hover .lp-arrow {
-            color: #000000;
+            color: #ffffff;
             transform: translateX(3px);
         }
 
@@ -269,9 +280,9 @@
 
         .lp-refresh {
             background: rgba(255, 255, 255, 0.08);
-            border: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: #d1d5db;
-            padding: 10px 20px;
+            padding: 10px 22px;
             border-radius: 30px;
             cursor: pointer;
             font-family: inherit;
@@ -279,18 +290,48 @@
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 8px;
-            transition: all 0.2s;
+            gap: 10px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
         }
 
         .lp-refresh:hover {
             color: #ffffff;
             background: rgba(255, 255, 255, 0.18);
-            transform: translateY(-1px);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
         }
 
-        .rotating { animation: lp-spin 0.8s linear infinite; }
-        @keyframes lp-spin { 100% { transform: rotate(360deg); } }
+        .lp-refresh:active {
+            transform: translateY(0) scale(0.97);
+        }
+
+        .lp-refresh.is-refreshing {
+            background: rgba(56, 189, 248, 0.15);
+            color: #38bdf8;
+            border-color: rgba(56, 189, 248, 0.5);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+        }
+
+        /* Çok daha yumuşak, akıcı ve parlak dönebilen yeni yenileme animasyonu */
+        .rotating { 
+            animation: lp-smooth-spin 0.9s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite; 
+        }
+
+        @keyframes lp-smooth-spin { 
+            0% { 
+                transform: rotate(0deg) scale(1); 
+            } 
+            50% { 
+                transform: rotate(180deg) scale(1.25); 
+                filter: drop-shadow(0 0 6px #38bdf8);
+            } 
+            100% { 
+                transform: rotate(360deg) scale(1); 
+            } 
+        }
 
         /* Modal - Linktree QR Pop-up */
         .qr-modal {
@@ -368,7 +409,7 @@
         }
 
         .copy-link-btn {
-            background: #d2e823;
+            background: #38bdf8;
             color: #000000;
             border: none;
             border-radius: 30px;
@@ -405,7 +446,7 @@
 <body>
 
     <div class="lp-wrap">
-        <div class="lp-card">
+        <div class="lp-card" id="mainCard">
             
             <div class="qr-trigger" onclick="toggleQR()" title="QR Kodu Göster">
                 <i class="fas fa-share-alt"></i>
@@ -419,7 +460,7 @@
                 </div>
                 <div class="lp-name">Cemal Evli</div>
                 <div class="lp-bio" id="lpBio">
-                    <i class="fas fa-spinner fa-spin" style="font-size:11px; color:#d2e823"></i>
+                    <i class="fas fa-spinner fa-spin" style="font-size:11px; color:#38bdf8"></i>
                 </div>
             </div>
 
@@ -433,9 +474,9 @@
 
             <div class="lp-footer">
                 <button class="lp-refresh" onclick="refreshData()" id="refreshBtn">
-                    <i class="fas fa-sync-alt" id="refreshIcon"></i> Yenile
+                    <i class="fas fa-sync-alt" id="refreshIcon"></i> <span id="refreshBtnText">Yenile</span>
                 </button>
-                <span><i class="fas fa-tree" style="color:#d2e823;"></i> Cemal Evli</span>
+                <span><i class="far fa-heart" style="color:#ffffff;"></i> Cemal Evli</span>
             </div>
 
         </div>
@@ -444,7 +485,7 @@
     <div class="qr-modal" id="qrModal" onclick="toggleQR()">
         <div class="qr-content" onclick="event.stopPropagation()">
             <img src="https://api.qrcode-monkey.com/qr/custom?data=https%3A%2F%2Fcemalevli38.dpdns.org%2Fsocialv2%2F&config=%7B%22logo%22%3A%22https%3A%2F%2Fwsrv.nl%2F%3Furl%3Dhttps%3A%2F%2Fgithub.com%2Fcemalevli38.png%253Fv%253D2%26w%3D64%26h%3D64%26mask%3Dcircle%26output%3Dpng%26ext%3D.png%22%2C%22logoMode%22%3A%22clean%22%7D&size=300&file=png" alt="QR Code">
-            <p style="font-size: 0.95rem; margin-bottom: 12px; color: #fff; font-weight: 600;">Profilimi Paylaş</p>
+            <p style="font-size: 0.95rem; margin-bottom: 12px; color: #fff; font-weight: 600;">Profili Paylaş</p>
             
             <!-- Link Kopyalama Alanı -->
             <div class="copy-link-box">
@@ -595,7 +636,7 @@
         function renderBio(lines) {
             const bio = document.getElementById('lpBio');
             bio.innerHTML = lines
-                .map(l => `<span style="display:block;white-space:nowrap;overflow:hidden;">${parseLine(l)}</span>`)
+                .map(l => `<span style="display:block;white-space:nowrap;overflow:hidden;color:#f3f4f6;">${parseLine(l)}</span>`)
                 .join('');
             bio.querySelectorAll('span').forEach(fitLine);
         }
@@ -653,13 +694,20 @@
         async function refreshData() {
             const btn = document.getElementById('refreshBtn');
             const icon = document.getElementById('refreshIcon');
+            const btnText = document.getElementById('refreshBtnText');
+            const mainCard = document.getElementById('mainCard');
             const bio = document.getElementById('lpBio');
             const inner = document.getElementById('lpAvatarInner');
             const container = document.getElementById('lpLinksContainer');
 
             btn.disabled = true;
+            btn.classList.add('is-refreshing');
             icon.classList.add('rotating');
-            bio.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size:11px; color:#d2e823"></i>';
+            mainCard.classList.add('refreshing');
+            
+            if (btnText) btnText.textContent = 'Yenileniyor...';
+
+            bio.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size:11px; color:#38bdf8"></i>';
             inner.innerHTML = '<i class="fas fa-circle-notch fa-spin" style="font-size:1.5rem;color:#9ca3af"></i>';
             container.innerHTML = '<div style="text-align: center; padding: 20px; color: #9ca3af;"><i class="fas fa-circle-notch fa-spin"></i> Yenileniyor...</div>';
 
@@ -667,8 +715,11 @@
 
             setTimeout(() => {
                 icon.classList.remove('rotating');
+                btn.classList.remove('is-refreshing');
+                mainCard.classList.remove('refreshing');
+                if (btnText) btnText.textContent = 'Yenile';
                 btn.disabled = false;
-            }, 400);
+            }, 600);
         }
 
         window.addEventListener('DOMContentLoaded', () => {
