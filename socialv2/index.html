@@ -70,7 +70,9 @@
             top: -24px;
             right: 8px;
             background: rgba(255, 255, 255, 0.1);
-            border: none;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: #ffffff;
             width: 44px;
             height: 44px;
@@ -110,12 +112,15 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: #2a2e3d;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
         .lp-avatar-inner img {
@@ -136,6 +141,7 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
         }
 
         /* Linktree Biyografi */
@@ -149,6 +155,7 @@
             max-width: 480px;
             overflow: hidden;
             text-align: center;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.4);
         }
 
         .lp-bio span {
@@ -181,31 +188,32 @@
             margin-bottom: 32px;
         }
 
-        /* Birebir Linktree İkonik Pill (Oval) Butonları */
+        /* Arka plan ile tam uyumlu Glassmorphism Pill Butonları */
         .lp-link {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 16px 24px;
             border-radius: 50px; /* Linktree Pill Shape */
-            background: #2a2e3d;
-            border: 2px solid transparent;
+            background: rgba(255, 255, 255, 0.08); /* Arka plandaki renkleri süzen hafif saydam katman */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             text-decoration: none;
             color: #ffffff;
             font-size: 1rem;
             font-weight: 600;
             position: relative;
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
         }
 
-        /* Hover durumunda arkaplanın tam beyaz yerine koyu temayla uyumlu tatlı bir tona geçmesi sağlandı */
+        /* Hover durumunda daha parlak cam efekti ve hafif genişleme */
         .lp-link:hover {
-            background: #3b4252;
-            color: #ffffff;
-            border-color: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.35);
             transform: scale(1.02);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
         }
 
         .lp-link-left {
@@ -280,11 +288,14 @@
             align-items: center;
             gap: 6px;
             font-size: 1rem;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
 
         .lp-refresh {
             background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: #d1d5db;
             padding: 10px 22px;
             border-radius: 30px;
@@ -298,13 +309,14 @@
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
         }
 
         .lp-refresh:hover {
             color: #ffffff;
             background: rgba(255, 255, 255, 0.18);
             border-color: rgba(56, 189, 248, 0.4);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
             transform: translateY(-2px);
         }
 
@@ -361,7 +373,10 @@
         }
 
         .qr-content {
-            background: #2a2e3d;
+            background: rgba(30, 35, 48, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             padding: 28px 24px 20px 24px;
             border-radius: 32px;
             text-align: center;
