@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CemalEvli - Linklerim</title>
+    <link rel="icon" type="image/png" href="https://wsrv.nl/?url=https://github.com/cemalevli38.png&w=200&h=200&mask=circle&t=">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #254f1a; /* Orijinal Linktree yeşil/koyu tema alternatifi veya şık Linktree koyu teması */
+            background: #1e2330;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 48px 16px 24px 16px;
+            color: #ffffff;
+            position: relative;
+        }
+
+        /* Linktree Stil Konteyner */
+        .lp-wrap {
+            max-width: 580px;
+            width: 100%;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .lp-card {
+            width: 100%;
+            position: relative;
+            padding: 0 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Sağ üst QR butonu - Linktree paylaşım ikonu stili */
+        .qr-trigger {
+            position: absolute;
+            top: -24px;
+            right: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #ffffff;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .qr-trigger:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .lp-header {
+            text-align: center;
+            margin-bottom: 32px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Linktree Yuvarlak Profil Resmi */
+        .lp-avatar-ring {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            position: relative;
+        }
+
+        .lp-avatar-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #2a2e3d;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .lp-avatar-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            display: block;
+        }
+
+        .lp-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+            letter-spacing: -0.2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        /* Linktree Biyografi */
+        .lp-bio {
+            font-size: 0.95rem;
+            color: #d1d5db;
+            line-height: 1.5;
+            min-height: 42px;
+            font-weight: 500;
+            width: 100%;
+            max-width: 480px;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .lp-bio span {
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .lp-bio-link {
+            color: #d2e823; /* Linktree Imza Fıstık Yeşili Accent */
+            text-decoration: none !important;
+            font-weight: 600;
+            transition: opacity 0.2s;
+            display: inline-block;
+        }
+
+        .lp-bio-link:hover {
+            opacity: 0.8;
+            text-decoration: underline !important;
+        }
+
+        /* Linktree Buton Listesi */
+        .lp-links {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            margin-bottom: 32px;
+        }
+
+        /* Birebir Linktree İkonik Pill (Oval) Butonları */
+        .lp-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            border-radius: 50px; /* Linktree Pill Shape */
+            background: #2a2e3d;
+            border: 2px solid transparent;
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 600;
+            position: relative;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .lp-link:hover {
+            background: #ffffff;
+            color: #000000;
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .lp-link-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            width: 100%;
+            justify-content: center;
+            position: relative;
+        }
+
+        .lp-icon-box {
+            position: absolute;
+            left: 0;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+            transition: color 0.2s;
+            color: #ffffff;
+        }
+
+        .lp-link:hover .lp-icon-box {
+            color: #000000 !important;
+        }
+
+        .lp-link-left span {
+            color: inherit !important;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .lp-arrow {
+            position: absolute;
+            right: 20px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .lp-link:hover .lp-arrow {
+            color: #000000;
+            transform: translateX(3px);
+        }
+
+        .lp-divider {
+            display: none; /* Linktree'de ayırıcı çizgi bulunmaz */
+        }
+
+        /* Linktree Alt Kısım ve Logo Esintisi */
+        .lp-footer {
+            margin-top: auto;
+            padding-top: 16px;
+            font-size: 0.88rem;
+            color: #9ca3af;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            width: 100%;
+        }
+
+        .lp-footer span {
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 1rem;
+        }
+
+        .lp-refresh {
+            background: rgba(255, 255, 255, 0.08);
+            border: none;
+            color: #d1d5db;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .lp-refresh:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-1px);
+        }
+
+        .rotating { animation: lp-spin 0.8s linear infinite; }
+        @keyframes lp-spin { 100% { transform: rotate(360deg); } }
+
+        /* Modal - Linktree QR Pop-up */
+        .qr-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .qr-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .qr-content {
+            background: #2a2e3d;
+            padding: 28px 24px 20px 24px;
+            border-radius: 32px;
+            text-align: center;
+            max-width: 340px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            transform: scale(0.9);
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .qr-modal.active .qr-content {
+            transform: scale(1);
+        }
+
+        .qr-content img {
+            width: 100%;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            background: #fff;
+            padding: 16px;
+        }
+
+        /* Link Kopyalama Kutusu ve Butonu */
+        .copy-link-box {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 50px;
+            padding: 6px 6px 6px 16px;
+            margin-bottom: 16px;
+        }
+
+        .copy-link-input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #d1d5db;
+            font-size: 0.85rem;
+            font-family: inherit;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .copy-link-btn {
+            background: #d2e823;
+            color: #000000;
+            border: none;
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .copy-link-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.03);
+        }
+
+        .qr-close {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s;
+            margin-top: 4px;
+        }
+
+        .qr-close:hover {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="lp-wrap">
+        <div class="lp-card">
+            
+            <div class="qr-trigger" onclick="toggleQR()" title="QR Kodu Göster">
+                <i class="fas fa-share-alt"></i>
+            </div>
+
+            <div class="lp-header">
+                <div class="lp-avatar-ring">
+                    <div class="lp-avatar-inner" id="lpAvatarInner">
+                        <i class="fas fa-user" style="font-size:1.8rem;color:#6b7280"></i>
+                    </div>
+                </div>
+                <div class="lp-name">Cemal Evli</div>
+                <div class="lp-bio" id="lpBio">
+                    <i class="fas fa-spinner fa-spin" style="font-size:11px; color:#d2e823"></i>
+                </div>
+            </div>
+
+            <div class="lp-links" id="lpLinksContainer">
+                <div style="text-align: center; padding: 20px; color: #9ca3af;">
+                    <i class="fas fa-circle-notch fa-spin"></i> Bağlantılar yükleniyor...
+                </div>
+            </div>
+
+            <div class="lp-divider"></div>
+
+            <div class="lp-footer">
+                <button class="lp-refresh" onclick="refreshData()" id="refreshBtn">
+                    <i class="fas fa-sync-alt" id="refreshIcon"></i> Yenile
+                </button>
+                <span><i class="fas fa-tree" style="color:#d2e823;"></i> Cemal Evli</span>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="qr-modal" id="qrModal" onclick="toggleQR()">
+        <div class="qr-content" onclick="event.stopPropagation()">
+            <img src="https://api.qrcode-monkey.com/qr/custom?data=https%3A%2F%2Fcemalevli38.dpdns.org%2Fsocialv2%2F&config=%7B%22logo%22%3A%22https%3A%2F%2Fwsrv.nl%2F%3Furl%3Dhttps%3A%2F%2Fgithub.com%2Fcemalevli38.png%253Fv%253D2%26w%3D64%26h%3D64%26mask%3Dcircle%26output%3Dpng%26ext%3D.png%22%2C%22logoMode%22%3A%22clean%22%7D&size=300&file=png" alt="QR Code">
+            <p style="font-size: 0.95rem; margin-bottom: 12px; color: #fff; font-weight: 600;">Profilimi Paylaş</p>
+            
+            <!-- Link Kopyalama Alanı -->
+            <div class="copy-link-box">
+                <input type="text" class="copy-link-input" id="profileUrlInput" value="https://cemalevli38.dpdns.org/socialv2/" readonly>
+                <button class="copy-link-btn" onclick="copyProfileLink()" id="copyBtn">
+                    <i class="fas fa-link"></i> <span id="copyBtnText">Kopyala</span>
+                </button>
+            </div>
+
+            <div class="qr-close" onclick="toggleQR()">Kapat</div>
+        </div>
+    </div>
+
+    <script>
+        // En gelişmiş sosyal medya / platform renk haritası
+        const BRAND_COLORS = {
+            "instagram":   { color: "#f472b6" },
+            "facebook":    { color: "#1877f2" },
+            "twitter":     { color: "#1da1f2" },
+            "x-twitter":   { color: "#ffffff" },
+            "youtube":     { color: "#f87171" },
+            "tiktok":      { color: "#ffffff" },
+            "linkedin":    { color: "#0a66c2" },
+            "whatsapp":    { color: "#25d366" },
+            "telegram":    { color: "#229edd" },
+            "pinterest":   { color: "#e60023" },
+            "reddit":      { color: "#ff4500" },
+            "snapchat":    { color: "#fffc00" },
+            "threads":     { color: "#ffffff" },
+            "tumblr":      { color: "#36465d" },
+            "quora":       { color: "#b92b27" },
+            "medium":      { color: "#ffffff" },
+            "vk":          { color: "#4a76a8" },
+            "line":        { color: "#00c300" },
+            "viber":       { color: "#7360f2" },
+            "skype":       { color: "#00aff0" },
+            "signal":      { color: "#3a76f0" },
+            "mastodon":    { color: "#6364ff" },
+            "bluesky":     { color: "#1185fe" },
+            "spotify":     { color: "#1ed760" },
+            "twitch":      { color: "#a970ff" },
+            "kick":        { color: "#53fc18" },
+            "soundcloud":  { color: "#ff5500" },
+            "apple-music": { color: "#fa243c" },
+            "deezer":      { color: "#a238ff" },
+            "vimeo":       { color: "#1ab7ea" },
+            "patreon":     { color: "#ff424d" },
+            "discord":     { color: "#5865f2" },
+            "steam":       { color: "#66c0f4" },
+            "epic-games":  { color: "#ffffff" },
+            "roblox":      { color: "#ffffff" },
+            "xbox":        { color: "#107c41" },
+            "playstation": { color: "#003791" },
+            "github":      { color: "#ffffff" },
+            "gitlab":      { color: "#fc6d26" },
+            "behance":     { color: "#1769ff" },
+            "dribbble":    { color: "#ea4c89" },
+            "figma":       { color: "#f24e1e" },
+            "dev-to":      { color: "#ffffff" },
+            "envelope":    { color: "#6366f1" },
+            "globe":       { color: "#38bdf8" },
+            "app-store":   { color: "#007aff" },
+            "google-play": { color: "#00f076" }
+        };
+
+        function getBrandKey(iconClass) {
+            if (!iconClass) return null;
+            const parts = iconClass.split(' ');
+            for (const part of parts) {
+                if (part.startsWith('fa-')) {
+                    const key = part.replace('fa-', '');
+                    if (BRAND_COLORS[key]) return key;
+                }
+            }
+            return null;
+        }
+
+        function toggleQR() {
+            const modal = document.getElementById('qrModal');
+            if (modal.classList.contains('active')) {
+                modal.classList.remove('active');
+                setTimeout(() => modal.style.display = 'none', 250);
+            } else {
+                modal.style.display = 'flex';
+                setTimeout(() => modal.classList.add('active'), 10);
+            }
+        }
+
+        function copyProfileLink() {
+            const urlInput = document.getElementById('profileUrlInput');
+            const btnText = document.getElementById('copyBtnText');
+            
+            navigator.clipboard.writeText(urlInput.value).then(() => {
+                btnText.textContent = 'Kopyalandı!';
+                setTimeout(() => {
+                    btnText.textContent = 'Kopyala';
+                }, 2000);
+            }).catch(err => {
+                console.error('Kopyalama hatası:', err);
+                urlInput.select();
+                document.execCommand('copy');
+                btnText.textContent = 'Kopyalandı!';
+                setTimeout(() => {
+                    btnText.textContent = 'Kopyala';
+                }, 2000);
+            });
+        }
+
+        async function loadProfileImage() {
+            const inner = document.getElementById('lpAvatarInner');
+            const url = 'https://wsrv.nl/?url=https://github.com/cemalevli38.png&w=200&h=200&mask=circle&t=' + Date.now();
+            return new Promise(res => {
+                const img = new Image();
+                img.src = url;
+                img.onload = () => {
+                    inner.innerHTML = '';
+                    img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%;';
+                    inner.appendChild(img);
+                    res();
+                };
+                img.onerror = () => {
+                    inner.innerHTML = '<i class="fas fa-user" style="font-size:1.8rem;color:#6b7280"></i>';
+                    res();
+                };
+            });
+        }
+
+        function parseLine(line) {
+            line = line.replace(/@([a-zA-Z0-9_]+)\$+\((https?:\/\/[^)]+)\)\$+/g,
+                '<a href="$2" target="_blank" class="lp-bio-link">@$1</a>');
+            line = line.replace(/#([a-zA-Z0-9_]+)\$+\((https?:\/\/[^)]+)\)\$+/g,
+                '<a href="$2" target="_blank" class="lp-bio-link">#$1</a>');
+            return line;
+        }
+
+        function fitLine(span) {
+            const parent = span.parentElement;
+            if (!parent) return;
+            const maxWidth = parent.clientWidth;
+            let size = 15;
+            span.style.fontSize = size + 'px';
+            while (span.scrollWidth > maxWidth && size > 10) {
+                size -= 0.5;
+                span.style.fontSize = size + 'px';
+            }
+        }
+
+        function renderBio(lines) {
+            const bio = document.getElementById('lpBio');
+            bio.innerHTML = lines
+                .map(l => `<span style="display:block;white-space:nowrap;overflow:hidden;">${parseLine(l)}</span>`)
+                .join('');
+            bio.querySelectorAll('span').forEach(fitLine);
+        }
+
+        async function loadBiography() {
+            const fallback = [
+                'Small wins lead to a big victory: @bunyanfen$$(https://www.instagram.com/bunyanfen/)$$',
+                '🖤 @besiktas$$(https://www.instagram.com/besiktas/)$$ 🤍'
+            ];
+            try {
+                const r = await fetch('https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/social/biography?t=' + Date.now());
+                const d = await r.json();
+                renderBio(d.bio && Array.isArray(d.bio) ? d.bio : fallback);
+            } catch (e) {
+                renderBio(fallback);
+                console.error('Biyografi yükleme hatası:', e);
+            }
+        }
+
+        async function loadSocialLinks() {
+            const container = document.getElementById('lpLinksContainer');
+            try {
+                const response = await fetch('https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/social-links?t=' + Date.now());
+                const links = await response.json();
+                
+                if (Array.isArray(links) && links.length > 0) {
+                    container.innerHTML = links.map(link => {
+                        const brandKey = getBrandKey(link.icon);
+                        let leftIconColorStyle = '';
+                        
+                        if (brandKey) {
+                            const config = BRAND_COLORS[brandKey];
+                            leftIconColorStyle = `style="color: ${config.color};"`;
+                        }
+
+                        return `
+                            <a href="${link.url}" class="lp-link" target="_blank">
+                                <div class="lp-link-left">
+                                    <div class="lp-icon-box" ${leftIconColorStyle}><i class="${link.icon}"></i></div>
+                                    <span>${link.title}</span>
+                                </div>
+                                <i class="fas fa-arrow-right lp-arrow"></i>
+                            </a>
+                        `;
+                    }).join('');
+                } else {
+                    container.innerHTML = '<div style="text-align: center; padding: 20px; color: #ef4444;">Bağlantı bulunamadı.</div>';
+                }
+            } catch (error) {
+                console.error('Sosyal medya linkleri yükleme hatası:', error);
+                container.innerHTML = '<div style="text-align: center; padding: 20px; color: #ef4444;">Bağlantılar yüklenirken bir hata oluştu.</div>';
+            }
+        }
+
+        async function refreshData() {
+            const btn = document.getElementById('refreshBtn');
+            const icon = document.getElementById('refreshIcon');
+            const bio = document.getElementById('lpBio');
+            const inner = document.getElementById('lpAvatarInner');
+            const container = document.getElementById('lpLinksContainer');
+
+            btn.disabled = true;
+            icon.classList.add('rotating');
+            bio.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size:11px; color:#d2e823"></i>';
+            inner.innerHTML = '<i class="fas fa-circle-notch fa-spin" style="font-size:1.5rem;color:#9ca3af"></i>';
+            container.innerHTML = '<div style="text-align: center; padding: 20px; color: #9ca3af;"><i class="fas fa-circle-notch fa-spin"></i> Yenileniyor...</div>';
+
+            await Promise.all([loadProfileImage(), loadBiography(), loadSocialLinks()]);
+
+            setTimeout(() => {
+                icon.classList.remove('rotating');
+                btn.disabled = false;
+            }, 400);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadProfileImage();
+            loadBiography();
+            loadSocialLinks();
+        });
+
+        window.addEventListener('resize', () => {
+            document.querySelectorAll('#lpBio span').forEach(fitLine);
+        });
+    </script>
+</body>
+</html>
