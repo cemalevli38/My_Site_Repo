@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CemalEvli - Linklerim</title>
+    <link rel="icon" type="image/png" href="https://wsrv.nl/?url=https://github.com/cemalevli38.png&w=200&h=200&mask=circle&t=">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+            max-width: 100%;
+            /* Scrollbar'ı gizleme kuralları */
+            -ms-overflow-style: none;  /* IE ve Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        /* Chrome, Safari ve Opera için scrollbar'ı gizle */
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #1e2330; /* Resim yoksa veya yüklenemezse görünecek düz renk */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 48px 16px 24px 16px;
+            color: #ffffff;
+            position: relative;
+            transition: background-image 0.3s ease-in-out;
+        }
+
+        /* Linktree Stil Konteyner */
+        .lp-wrap {
+            max-width: 580px;
+            width: 100%;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .lp-card {
+            width: 100%;
+            position: relative;
+            padding: 0 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Yenileme sırasında karta hafif parıldama / odak efekti */
+        .lp-card.refreshing {
+            filter: brightness(1.08);
+        }
+
+        /* Sağ üst QR butonu - Linktree paylaşım ikonu stili */
+        .qr-trigger {
+            position: absolute;
+            top: -24px;
+            right: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .qr-trigger:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .lp-header {
+            text-align: center;
+            margin-bottom: 32px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Linktree Yuvarlak Profil Resmi */
+        .lp-avatar-ring {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        /* Mobil Basılı Tutma Sırasındaki Görsel Tepki Efekti */
+        .lp-avatar-ring.pressing {
+            transform: scale(0.92);
+            filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.6));
+        }
+
+        .lp-avatar-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            pointer-events: none;
+        }
+
+        .lp-avatar-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            display: block;
+            pointer-events: none;
+        }
+
+        .lp-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+            letter-spacing: -0.2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+        }
+
+        /* Linktree Biyografi */
+        .lp-bio {
+            font-size: 0.95rem;
+            color: #f3f4f6; /* Yumuşak Beyaz Düz Metin */
+            line-height: 1.5;
+            min-height: 42px;
+            font-weight: 500;
+            width: 100%;
+            max-width: 480px;
+            overflow: hidden;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .lp-bio span {
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            color: #f3f4f6;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Biyografideki @etiket ve #hashtag linkleri için özel açık turkuaz Mavi tonu */
+        .lp-bio-link {
+            color: #38bdf8 !important; 
+            text-decoration: none !important;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: inline-block;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .lp-bio-link:hover {
+            color: #7dd3fc !important;
+            text-decoration: underline !important;
+        }
+
+        /* Linktree Buton Listesi */
+        .lp-links {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            margin-bottom: 32px;
+        }
+
+        /* Arka plan ile tam uyumlu Glassmorphism Pill Butonları */
+        .lp-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            border-radius: 50px; /* Linktree Pill Shape */
+            background: rgba(255, 255, 255, 0.08); /* Arka plandaki renkleri süzen hafif saydam katman */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 600;
+            position: relative;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Gizli mod açıkken butonlara özel hafif kilit/neon havası */
+        .lp-link.secret-mode {
+            border-color: rgba(244, 114, 182, 0.35);
+            background: rgba(244, 114, 182, 0.08);
+        }
+
+        /* Hover durumunda daha parlak cam efekti ve hafif genişleme */
+        .lp-link:hover {
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.35);
+            transform: scale(1.02);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+        }
+
+        .lp-link-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            width: 100%;
+            justify-content: center;
+            position: relative;
+        }
+
+        .lp-icon-box {
+            position: absolute;
+            left: 0;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+            transition: color 0.2s;
+            color: #ffffff;
+        }
+
+        /* İkonların üstüne gelince renklerinin çakışmaması için orijinal renk korunur */
+        .lp-link:hover .lp-icon-box {
+            color: inherit;
+        }
+
+        .lp-link-left span {
+            color: inherit !important;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .lp-arrow {
+            position: absolute;
+            right: 20px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .lp-link:hover .lp-arrow {
+            color: #ffffff;
+            transform: translateX(3px);
+        }
+
+        .lp-divider {
+            display: none; /* Linktree'de ayırıcı çizgi bulunmaz */
+        }
+
+        /* Linktree Alt Kısım ve Logo Esintisi */
+        .lp-footer {
+            margin-top: auto;
+            padding-top: 16px;
+            font-size: 0.88rem;
+            color: #9ca3af;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            width: 100%;
+        }
+
+        .lp-footer span {
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 1rem;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+
+        /* Alt Butonlar Alanı (Yenile ve Çıkış Butonları) */
+        .lp-footer-buttons {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .lp-refresh, .lp-exit-secret {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #d1d5db;
+            padding: 10px 22px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .lp-exit-secret {
+            background: rgba(244, 114, 182, 0.12);
+            border-color: rgba(244, 114, 182, 0.3);
+            color: #f472b6;
+            display: none; /* Başlangıçta gizli */
+        }
+
+        .lp-refresh:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .lp-exit-secret:hover {
+            color: #ffffff;
+            background: rgba(244, 114, 182, 0.25);
+            border-color: rgba(244, 114, 182, 0.6);
+            box-shadow: 0 6px 20px rgba(244, 114, 182, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .lp-refresh:active, .lp-exit-secret:active {
+            transform: translateY(0) scale(0.97);
+        }
+
+        .lp-refresh.is-refreshing {
+            background: rgba(56, 189, 248, 0.15);
+            color: #38bdf8;
+            border-color: rgba(56, 189, 248, 0.5);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+        }
+
+        /* Çok daha yumuşak, akıcı ve parlak dönebilen yeni yenileme animasyonu */
+        .rotating { 
+            animation: lp-smooth-spin 0.9s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite; 
+        }
+
+        @keyframes lp-smooth-spin { 
+            0% { 
+                transform: rotate(0deg) scale(1); 
+            } 
+            50% { 
+                transform: rotate(180deg) scale(1.25); 
+                filter: drop-shadow(0 0 6px #38bdf8);
+            } 
+            100% { 
+                transform: rotate(360deg) scale(1); 
+            } 
+        }
+
+        /* Modal Ortak Stilleri */
+        .qr-modal, .secret-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .qr-modal.active, .secret-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .qr-content {
+            background: rgba(30, 35, 48, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 28px 24px 20px 24px;
+            border-radius: 32px;
+            text-align: center;
+            max-width: 340px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            transform: scale(0.9);
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Glassmorphism Gizli Mod Penceresi */
+        .secret-content {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 32px 28px 24px 28px;
+            border-radius: 32px;
+            text-align: center;
+            max-width: 340px;
+            width: 90%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35),
+                        inset 0 0 15px rgba(255, 255, 255, 0.05);
+            transform: scale(0.9);
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .qr-modal.active .qr-content, .secret-modal.active .secret-content {
+            transform: scale(1);
+        }
+
+        .qr-content img {
+            width: 100%;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            background: #fff;
+            padding: 16px;
+        }
+
+        /* Link Kopyalama Kutusu ve Butonu */
+        .copy-link-box {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 50px;
+            padding: 6px 6px 6px 16px;
+            margin-bottom: 16px;
+        }
+
+        .copy-link-input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #d1d5db;
+            font-size: 0.85rem;
+            font-family: inherit;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .copy-link-btn {
+            background: #38bdf8;
+            color: #000000;
+            border: none;
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .copy-link-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.03);
+        }
+
+        .qr-close, .secret-close {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s;
+            margin-top: 12px;
+        }
+
+        .qr-close:hover, .secret-close:hover {
+            color: #ffffff;
+        }
+
+        /* Gizli Ekran Pin Giriş Elemanları - Glassmorphism Uyumlu */
+        .secret-input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 30px;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+            text-align: center;
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            outline: none;
+            margin: 18px 0 14px 0;
+            transition: all 0.2s ease;
+        }
+
+        .secret-input:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .secret-submit-btn {
+            background: #38bdf8;
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+        }
+
+        .secret-submit-btn:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
+        }
+
+        .secret-error {
+            color: #f87171;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            display: none;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="lp-wrap">
+        <div class="lp-card" id="mainCard">
+            
+            <div class="qr-trigger" onclick="toggleQR()" title="QR Kodu Göster">
+                <i class="fas fa-share-alt"></i>
+            </div>
+
+            <div class="lp-header">
+                <div class="lp-avatar-ring" id="lpAvatarRing">
+                    <div class="lp-avatar-inner" id="lpAvatarInner">
+                        <i class="fas fa-user" style="font-size:1.8rem;color:#6b7280"></i>
+                    </div>
+                </div>
+                <div class="lp-name">Cemal Evli</div>
+                <div class="lp-bio" id="lpBio">
+                    <i class="fas fa-spinner fa-spin" style="font-size:11px; color:#38bdf8"></i>
+                </div>
+            </div>
+
+            <div class="lp-links" id="lpLinksContainer">
+                <div style="text-align: center; padding: 20px; color: #9ca3af;">
+                    <i class="fas fa-circle-notch fa-spin"></i> Bağlantılar yükleniyor...
+                </div>
+            </div>
+
+            <div class="lp-divider"></div>
+
+            <div class="lp-footer">
+                <div class="lp-footer-buttons">
+                    <button class="lp-refresh" onclick="refreshData()" id="refreshBtn">
+                        <i class="fas fa-sync-alt" id="refreshIcon"></i> <span id="refreshBtnText">Yenile</span>
+                    </button>
+                    <button class="lp-exit-secret" onclick="exitSecretMode()" id="exitSecretBtn">
+                        <i class="fas fa-arrow-left"></i> <span>Geri</span>
+                    </button>
+                </div>
+                <span><i class="far fa-heart" style="color:#ffffff;"></i> Cemal Evli</span>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- QR Modal -->
+    <div class="qr-modal" id="qrModal" onclick="toggleQR()">
+        <div class="qr-content" onclick="event.stopPropagation()">
+            <img src="https://api.qrcode-monkey.com/qr/custom?data=https%3A%2F%2Fcemalevli38.dpdns.org%2Fsocialv2%2F&config=%7B%22logo%22%3A%22https%3A%2F%2Fwsrv.nl%2F%3Furl%3Dhttps%3A%2F%2Fgithub.com%2Fcemalevli38.png%253Fv%253D2%26w%3D64%26h%3D64%26mask%3Dcircle%26output%3Dpng%26ext%3D.png%22%2C%22logoMode%22%3A%22clean%22%7D&size=300&file=png" alt="QR Code">
+            <p style="font-size: 0.95rem; margin-bottom: 12px; color: #fff; font-weight: 600;">Profili Paylaş</p>
+            
+            <!-- Link Kopyalama Alanı -->
+            <div class="copy-link-box">
+                <input type="text" class="copy-link-input" id="profileUrlInput" value="https://cemalevli38.dpdns.org/socialv2/" readonly>
+                <button class="copy-link-btn" onclick="copyProfileLink()" id="copyBtn">
+                    <i class="fas fa-link"></i> <span id="copyBtnText">Kopyala</span>
+                </button>
+            </div>
+
+            <div class="qr-close" onclick="toggleQR()">Kapat</div>
+        </div>
+    </div>
+
+    <!-- Gizli Şifre Modalı -->
+    <div class="secret-modal" id="secretModal" onclick="toggleSecretModal(false)">
+        <div class="secret-content" onclick="event.stopPropagation()">
+            <i class="fas fa-user-secret" style="font-size: 2.5rem; color: #38bdf8; margin-bottom: 8px; filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.4));"></i>
+            <p style="font-size: 1.15rem; color: #fff; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">Gizli Mod Arayüzü</p>
+            <p style="font-size: 0.8rem; color: #d1d5db; margin-top: 4px;">Erişim için özel parolayı girin</p>
+            
+            <input type="password" class="secret-input" id="secretPinInput" placeholder="••••" maxlength="32">
+            <button class="secret-submit-btn" onclick="verifySecretPin()">Giriş Yap</button>
+            <div class="secret-error" id="secretError">Hatalı Şifre!</div>
+
+            <div class="secret-close" onclick="toggleSecretModal(false)">Vazgeç</div>
+        </div>
+    </div>
+
+    <script>
+        // SHA-256 Hash
+        const SECRET_HASH = "25bc0c4cc1c2467778606a70dea21ceca70c7b504b4c7ed746a67d663b72f617"; 
+        let isSecretUnlocked = false;
+
+        // Base64 ile gizlenmiş gizli link ve biyografi adresleri
+        const ENCODED_SECRET_URL = "aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2NlbWFsZXZsaTM4L015X1NpdGVfUmVwby9tYWluL3NvY2lhbC1saW5rcy1zZWNyZXQ/dD0=";
+        const ENCODED_SECRET_BIO_URL = "aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2NlbWFsZXZsaTM4L015X1NpdGVfUmVwby9tYWluL2Jpb2dyYXBoeS1zZWNyZXQ/dD0=";
+
+        // SHA-256 Oluşturucu Fonksiyon
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        // En gelişmiş sosyal medya / platform renk haritası
+        const BRAND_COLORS = {
+            "instagram":   { color: "#f472b6" },
+            "facebook":    { color: "#1877f2" },
+            "twitter":     { color: "#1da1f2" },
+            "x-twitter":   { color: "#ffffff" },
+            "youtube":     { color: "#f87171" },
+            "tiktok":      { color: "#ffffff" },
+            "linkedin":    { color: "#0a66c2" },
+            "whatsapp":    { color: "#25d366" },
+            "telegram":    { color: "#229edd" },
+            "pinterest":   { color: "#e60023" },
+            "reddit":      { color: "#ff4500" },
+            "snapchat":    { color: "#fffc00" },
+            "threads":     { color: "#ffffff" },
+            "tumblr":      { color: "#36465d" },
+            "quora":       { color: "#b92b27" },
+            "medium":      { color: "#ffffff" },
+            "vk":          { color: "#4a76a8" },
+            "line":        { color: "#00c300" },
+            "viber":       { color: "#7360f2" },
+            "skype":       { color: "#00aff0" },
+            "signal":      { color: "#3a76f0" },
+            "mastodon":    { color: "#6364ff" },
+            "bluesky":     { color: "#1185fe" },
+            "spotify":     { color: "#1ed760" },
+            "twitch":      { color: "#a970ff" },
+            "kick":        { color: "#53fc18" },
+            "soundcloud":  { color: "#ff5500" },
+            "apple-music": { color: "#fa243c" },
+            "deezer":      { color: "#a238ff" },
+            "vimeo":       { color: "#1ab7ea" },
+            "patreon":     { color: "#ff424d" },
+            "discord":     { color: "#5865f2" },
+            "steam":       { color: "#66c0f4" },
+            "epic-games":  { color: "#ffffff" },
+            "roblox":      { color: "#ffffff" },
+            "xbox":        { color: "#107c41" },
+            "playstation": { color: "#003791" },
+            "github":      { color: "#ffffff" },
+            "gitlab":      { color: "#fc6d26" },
+            "behance":     { color: "#1769ff" },
+            "dribbble":    { color: "#ea4c89" },
+            "figma":       { color: "#f24e1e" },
+            "dev-to":      { color: "#ffffff" },
+            "envelope":    { color: "#6366f1" },
+            "globe":       { color: "#38bdf8" },
+            "app-store":   { color: "#007aff" },
+            "google-play": { color: "#00f076" }
+        };
+
+        function getBrandKey(iconClass) {
+            if (!iconClass) return null;
+            const parts = iconClass.split(' ');
+            for (const part of parts) {
+                if (part.startsWith('fa-')) {
+                    const key = part.replace('fa-', '');
+                    if (BRAND_COLORS[key]) return key;
+                }
+            }
+            return null;
+        }
+
+        function triggerVibration() {
+            if (navigator.vibrate) {
+                navigator.vibrate(50); // Mobil cihazda kısa titreşim hissi verir
+            }
+        }
+
+        function toggleQR() {
+            const modal = document.getElementById('qrModal');
+            if (modal.classList.contains('active')) {
+                modal.classList.remove('active');
+                setTimeout(() => modal.style.display = 'none', 250);
+            } else {
+                modal.style.display = 'flex';
+                setTimeout(() => modal.classList.add('active'), 10);
+            }
+        }
+
+        /* Gizli Kod Modalı Kontrolü */
+        function toggleSecretModal(show = true) {
+            const modal = document.getElementById('secretModal');
+            const error = document.getElementById('secretError');
+            const input = document.getElementById('secretPinInput');
+            
+            error.style.display = 'none';
+            input.value = '';
+
+            if (show) {
+                triggerVibration();
+                modal.style.display = 'flex';
+                setTimeout(() => {
+                    modal.classList.add('active');
+                    input.focus();
+                }, 10);
+            } else {
+                modal.classList.remove('active');
+                setTimeout(() => modal.style.display = 'none', 250);
+            }
+        }
+
+        async function verifySecretPin() {
+            const input = document.getElementById('secretPinInput').value;
+            const error = document.getElementById('secretError');
+            
+            const hashedInput = await sha256(input);
+
+            if (hashedInput === SECRET_HASH) {
+                isSecretUnlocked = true;
+                toggleSecretModal(false);
+                document.getElementById('exitSecretBtn').style.display = 'flex'; // Çıkış butonunu göster
+                loadBiography();   // Gizli biyografiyi yükle
+                loadSocialLinks(); // Gizli linkleri yükle
+            } else {
+                error.style.display = 'block';
+                document.getElementById('secretPinInput').value = '';
+            }
+        }
+
+        function exitSecretMode() {
+            isSecretUnlocked = false;
+            document.getElementById('exitSecretBtn').style.display = 'none'; // Çıkış butonunu gizle
+            resetCombo();      // Kombinasyon durumunu sıfırla
+            loadBiography();   // Normal biyografiyi yükle
+            loadSocialLinks(); // Normal linkleri yükle
+        }
+
+        function copyProfileLink() {
+            const urlInput = document.getElementById('profileUrlInput');
+            const btnText = document.getElementById('copyBtnText');
+            
+            navigator.clipboard.writeText(urlInput.value).then(() => {
+                btnText.textContent = 'Kopyalandı!';
+                setTimeout(() => {
+                    btnText.textContent = 'Kopyala';
+                }, 2000);
+            }).catch(err => {
+                console.error('Kopyalama hatası:', err);
+                urlInput.select();
+                document.execCommand('copy');
+                btnText.textContent = 'Kopyalandı!';
+                setTimeout(() => {
+                    btnText.textContent = 'Kopyala';
+                }, 2000);
+            });
+        }
+
+        async function loadBackgroundImage() {
+            const bgUrl = 'https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/socialv2/background.png?t=' + Date.now();
+            return new Promise(res => {
+                const img = new Image();
+                img.src = bgUrl;
+                img.onload = () => {
+                    document.body.style.backgroundImage = `url('${bgUrl}')`;
+                    res();
+                };
+                img.onerror = () => {
+                    document.body.style.backgroundImage = 'none';
+                    res();
+                };
+            });
+        }
+
+        async function loadProfileImage() {
+            const inner = document.getElementById('lpAvatarInner');
+            const url = 'https://wsrv.nl/?url=https://github.com/cemalevli38.png&w=200&h=200&mask=circle&t=' + Date.now();
+            return new Promise(res => {
+                const img = new Image();
+                img.src = url;
+                img.onload = () => {
+                    inner.innerHTML = '';
+                    img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%;';
+                    inner.appendChild(img);
+                    res();
+                };
+                img.onerror = () => {
+                    inner.innerHTML = '<i class="fas fa-user" style="font-size:1.8rem;color:#6b7280"></i>';
+                    res();
+                };
+            });
+        }
+
+        function parseLine(line) {
+            line = line.replace(/@([a-zA-Z0-9_]+)\$+\((https?:\/\/[^)]+)\)\$+/g,
+                '<a href="$2" target="_blank" class="lp-bio-link">@$1</a>');
+            line = line.replace(/#([a-zA-Z0-9_]+)\$+\((https?:\/\/[^)]+)\)\$+/g,
+                '<a href="$2" target="_blank" class="lp-bio-link">#$1</a>');
+            return line;
+        }
+
+        function fitLine(span) {
+            const parent = span.parentElement;
+            if (!parent) return;
+            const maxWidth = parent.clientWidth;
+            let size = 15;
+            span.style.fontSize = size + 'px';
+            while (span.scrollWidth > maxWidth && size > 10) {
+                size -= 0.5;
+                span.style.fontSize = size + 'px';
+            }
+        }
+
+        function renderBio(lines) {
+            const bio = document.getElementById('lpBio');
+            bio.innerHTML = lines
+                .map(l => `<span style="display:block;white-space:nowrap;overflow:hidden;color:#f3f4f6;">${parseLine(l)}</span>`)
+                .join('');
+            bio.querySelectorAll('span').forEach(fitLine);
+        }
+
+        async function loadBiography() {
+            const fallback = [
+                '| 🖤 @Besiktas$$(https://www.instagram.com/besiktas/)$$ 🤍 ;) |'
+            ];
+
+            // Gizli mod açıksa Base64 kodunu çözerek biyografi URL'ini al
+            const bioEndpoint = isSecretUnlocked 
+                ? atob(ENCODED_SECRET_BIO_URL)
+                : 'https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/biography?t=';
+
+            try {
+                const r = await fetch(bioEndpoint + Date.now());
+                const d = await r.json();
+                renderBio(d.bio && Array.isArray(d.bio) ? d.bio : fallback);
+            } catch (e) {
+                renderBio(fallback);
+                console.error('Biyografi yükleme hatası:', e);
+            }
+        }
+
+        async function loadSocialLinks() {
+            const container = document.getElementById('lpLinksContainer');
+            
+            // Gizli mod açıksa Base64 kodunu çözerek URL'i al
+            const endpoint = isSecretUnlocked 
+                ? atob(ENCODED_SECRET_URL)
+                : 'https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/social-links?t=';
+
+            try {
+                const response = await fetch(endpoint + Date.now());
+                const links = await response.json();
+                
+                if (Array.isArray(links) && links.length > 0) {
+                    container.innerHTML = links.map(link => {
+                        const brandKey = getBrandKey(link.icon);
+                        let leftIconColorStyle = '';
+                        
+                        if (brandKey) {
+                            const config = BRAND_COLORS[brandKey];
+                            leftIconColorStyle = `style="color: ${config.color};"`;
+                        }
+
+                        const arrowIcon = isSecretUnlocked ? 'fa-unlock' : 'fa-arrow-right';
+                        const secretClass = isSecretUnlocked ? 'secret-mode' : '';
+
+                        return `
+                            <a href="${link.url}" class="lp-link ${secretClass}" target="_blank">
+                                <div class="lp-link-left">
+                                    <div class="lp-icon-box" ${leftIconColorStyle}><i class="${link.icon}"></i></div>
+                                    <span>${link.title}</span>
+                                </div>
+                                <i class="fas ${arrowIcon} lp-arrow"></i>
+                            </a>
+                        `;
+                    }).join('');
+                } else {
+                    container.innerHTML = '<div style="text-align: center; padding: 20px; color: #ef4444;">Bağlantı bulunamadı.</div>';
+                }
+            } catch (error) {
+                console.error('Sosyal medya linkleri yükleme hatası:', error);
+                container.innerHTML = '<div style="text-align: center; padding: 20px; color: #ef4444;">Bağlantılar yüklenirken bir hata oluştu.</div>';
+            }
+        }
+
+        async function refreshData() {
+            const btn = document.getElementById('refreshBtn');
+            const icon = document.getElementById('refreshIcon');
+            const btnText = document.getElementById('refreshBtnText');
+            const mainCard = document.getElementById('mainCard');
+            const bio = document.getElementById('lpBio');
+            const inner = document.getElementById('lpAvatarInner');
+            const container = document.getElementById('lpLinksContainer');
+
+            btn.disabled = true;
+            btn.classList.add('is-refreshing');
+            icon.classList.add('rotating');
+            mainCard.classList.add('refreshing');
+            
+            if (btnText) btnText.textContent = 'Yenileniyor...';
+
+            bio.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size:11px; color:#38bdf8"></i>';
+            inner.innerHTML = '<i class="fas fa-circle-notch fa-spin" style="font-size:1.5rem;color:#9ca3af"></i>';
+            container.innerHTML = '<div style="text-align: center; padding: 20px; color: #9ca3af;"><i class="fas fa-circle-notch fa-spin"></i> Yenileniyor...</div>';
+
+            await Promise.all([loadBackgroundImage(), loadProfileImage(), loadBiography(), loadSocialLinks()]);
+
+            setTimeout(() => {
+                icon.classList.remove('rotating');
+                btn.classList.remove('is-refreshing');
+                mainCard.classList.remove('refreshing');
+                if (btnText) btnText.textContent = 'Yenile';
+                btn.disabled = false;
+            }, 600);
+        }
+
+        /* --- Gizli Mod Tetikleme Mekanizmaları --- */
+
+        // 1. Klavye Kombinasyonu (Konami Code)
+        const secretSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight'];
+        let secretSequenceIndex = 0;
+
+        window.addEventListener('keydown', (e) => {
+            if (isSecretUnlocked) return; 
+
+            if (e.key === secretSequence[secretSequenceIndex]) {
+                secretSequenceIndex++;
+                if (secretSequenceIndex === secretSequence.length) {
+                    secretSequenceIndex = 0;
+                    toggleSecretModal(true);
+                }
+            } else {
+                secretSequenceIndex = 0;
+            }
+        });
+
+        // 2. Mobilde Kesintisiz 3 Saniye Basılı Tutma VEYA Kombinasyon Desteği
+        let customStep = 0; 
+        let tapCountStage1 = 0;
+        let tapCountStage2 = 0;
+        let resetTimer = null;
+        let pressTimer = null;
+        let directHoldTimer = null;
+        let isLongPressAchieved = false;
+
+        const avatarRing = document.getElementById('lpAvatarRing');
+
+        function resetCombo() {
+            customStep = 0;
+            tapCountStage1 = 0;
+            tapCountStage2 = 0;
+            isLongPressAchieved = false;
+            avatarRing.classList.remove('pressing');
+            if (resetTimer) clearTimeout(resetTimer);
+            if (directHoldTimer) clearTimeout(directHoldTimer);
+            if (pressTimer) clearTimeout(pressTimer);
+        }
+
+        function startResetTimer() {
+            if (resetTimer) clearTimeout(resetTimer);
+            resetTimer = setTimeout(() => {
+                resetCombo();
+            }, 3000); 
+        }
+
+        avatarRing.addEventListener('click', (e) => {
+            if (isSecretUnlocked) return; 
+
+            if (isLongPressAchieved) {
+                isLongPressAchieved = false;
+                return;
+            }
+
+            if (customStep === 0) {
+                tapCountStage1++;
+                startResetTimer();
+                if (tapCountStage1 === 2) {
+                    customStep = 1; 
+                }
+            } else if (customStep === 2) {
+                tapCountStage2++;
+                startResetTimer();
+                if (tapCountStage2 === 2) {
+                    toggleSecretModal(true);
+                    resetCombo();
+                }
+            }
+        });
+
+        function handlePressStart(e) {
+            if (isSecretUnlocked) return; 
+            
+            avatarRing.classList.add('pressing');
+
+            // ALTERNATİF MOBİL METODU: Doğrudan 3 Saniye Kesintisiz Basılı Tutulursa Aç
+            directHoldTimer = setTimeout(() => {
+                isLongPressAchieved = true;
+                toggleSecretModal(true);
+                resetCombo();
+            }, 3000);
+
+            // KOMBİNASYONLU METOD: (2 tık atılmışsa 500ms basılı tutma)
+            if (customStep === 1) {
+                pressTimer = setTimeout(() => {
+                    customStep = 2; 
+                    isLongPressAchieved = true;
+                    triggerVibration(); // Basılı tutma aşaması geçildiğinde minik titret
+                    startResetTimer();
+                }, 500); 
+            }
+        }
+
+        function handlePressEnd() {
+            avatarRing.classList.remove('pressing');
+            if (pressTimer) clearTimeout(pressTimer);
+            if (directHoldTimer) clearTimeout(directHoldTimer);
+        }
+
+        avatarRing.addEventListener('mousedown', handlePressStart);
+        avatarRing.addEventListener('mouseup', handlePressEnd);
+        avatarRing.addEventListener('mouseleave', handlePressEnd);
+
+        avatarRing.addEventListener('touchstart', handlePressStart, { passive: true });
+        avatarRing.addEventListener('touchend', handlePressEnd);
+        avatarRing.addEventListener('touchcancel', handlePressEnd);
+
+        // Enter tuşuyla veya canlı yazma anında şifre kontrolü
+        const secretInputEl = document.getElementById('secretPinInput');
+
+        secretInputEl.addEventListener('input', async function () {
+            const inputVal = this.value;
+            if (!inputVal) return;
+            
+            const hashedInput = await sha256(inputVal);
+            if (hashedInput === SECRET_HASH) {
+                verifySecretPin();
+            }
+        });
+
+        secretInputEl.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                verifySecretPin();
+            }
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadBackgroundImage();
+            loadProfileImage();
+            loadBiography();
+            loadSocialLinks();
+        });
+
+        window.addEventListener('resize', () => {
+            document.querySelectorAll('#lpBio span').forEach(fitLine);
+        });
+    </script>
+</body>
+</html>
