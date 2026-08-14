@@ -120,13 +120,6 @@
             cursor: pointer;
             user-select: none;
             -webkit-user-select: none;
-            transition: transform 0.3s ease, filter 0.3s ease;
-        }
-
-        /* Mobil Basılı Tutma Sırasındaki Görsel Tepki Efekti */
-        .lp-avatar-ring.pressing {
-            transform: scale(0.92);
-            filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.6));
         }
 
         .lp-avatar-inner {
@@ -670,6 +663,11 @@
         const SECRET_HASH = "25bc0c4cc1c2467778606a70dea21ceca70c7b504b4c7ed746a67d663b72f617"; 
         let isSecretUnlocked = false;
 
+        // Cihazın mobil olup olmadığını denetleyen yardımcı fonksiyon
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || ('ontouchstart' in window);
+        }
+
         // Base64 ile gizlenmiş gizli link ve biyografi adresleri
         const ENCODED_SECRET_URL = "aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2NlbWFsZXZsaTM4L015X1NpdGVfUmVwby9tYWluL3NvY2lhbC1saW5rcy1zZWNyZXQ/dD0=";
         const ENCODED_SECRET_BIO_URL = "aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2NlbWFsZXZsaTM4L015X1NpdGVfUmVwby9tYWluL2Jpb2dyYXBoeS1zZWNyZXQ/dD0=";
@@ -746,8 +744,9 @@
         }
 
         function triggerVibration() {
-            if (navigator.vibrate) {
-                navigator.vibrate(50); // Mobil cihazda kısa titreşim hissi verir
+            // Titreşim sadece mobil cihazlarda çalışır
+            if (isMobileDevice() && navigator.vibrate) {
+                navigator.vibrate(50);
             }
         }
 
@@ -1008,7 +1007,7 @@
             }
         });
 
-        // 2. Mobilde Kesintisiz 3 Saniye Basılı Tutma VEYA Kombinasyon Desteği
+        // 2. Cihaz Türüne Göre Tetikleme (Masaüstü vs Mobil)
         let customStep = 0; 
         let tapCountStage1 = 0;
         let tapCountStage2 = 0;
@@ -1024,7 +1023,6 @@
             tapCountStage1 = 0;
             tapCountStage2 = 0;
             isLongPressAchieved = false;
-            avatarRing.classList.remove('pressing');
             if (resetTimer) clearTimeout(resetTimer);
             if (directHoldTimer) clearTimeout(directHoldTimer);
             if (pressTimer) clearTimeout(pressTimer);
@@ -1040,52 +1038,53 @@
         avatarRing.addEventListener('click', (e) => {
             if (isSecretUnlocked) return; 
 
-            if (isLongPressAchieved) {
-                isLongPressAchieved = false;
-                return;
-            }
-
-            if (customStep === 0) {
-                tapCountStage1++;
-                startResetTimer();
-                if (tapCountStage1 === 2) {
-                    customStep = 1; 
+            // Bilgisayar / Masaüstü ortamı: SADECE "2 tık -> Basılı Tut -> 2 tık" kombinasyonu çalışır
+            if (!isMobileDevice()) {
+                if (isLongPressAchieved) {
+                    isLongPressAchieved = false;
+                    return;
                 }
-            } else if (customStep === 2) {
-                tapCountStage2++;
-                startResetTimer();
-                if (tapCountStage2 === 2) {
-                    toggleSecretModal(true);
-                    resetCombo();
+
+                if (customStep === 0) {
+                    tapCountStage1++;
+                    startResetTimer();
+                    if (tapCountStage1 === 2) {
+                        customStep = 1; 
+                    }
+                } else if (customStep === 2) {
+                    tapCountStage2++;
+                    startResetTimer();
+                    if (tapCountStage2 === 2) {
+                        toggleSecretModal(true);
+                        resetCombo();
+                    }
                 }
             }
         });
 
         function handlePressStart(e) {
             if (isSecretUnlocked) return; 
-            
-            avatarRing.classList.add('pressing');
 
-            // ALTERNATİF MOBİL METODU: Doğrudan 3 Saniye Kesintisiz Basılı Tutulursa Aç
-            directHoldTimer = setTimeout(() => {
-                isLongPressAchieved = true;
-                toggleSecretModal(true);
-                resetCombo();
-            }, 3000);
-
-            // KOMBİNASYONLU METOD: (2 tık atılmışsa 500ms basılı tutma)
-            if (customStep === 1) {
-                pressTimer = setTimeout(() => {
-                    customStep = 2; 
+            if (isMobileDevice()) {
+                // MOBİL CİHAZLAR: Sadece kesintisiz 3 saniye basılı tutma
+                directHoldTimer = setTimeout(() => {
                     isLongPressAchieved = true;
-                    triggerVibration(); // Basılı tutma aşaması geçildiğinde minik titret
-                    startResetTimer();
-                }, 500); 
+                    toggleSecretModal(true);
+                    resetCombo();
+                }, 3000);
+            } else {
+                // MASAÜSTÜ / BİLGİSAYAR: "2 tık" aşaması geçilmişse basılı tutmayı algıla (Titreşim yok)
+                if (customStep === 1) {
+                    pressTimer = setTimeout(() => {
+                        customStep = 2; 
+                        isLongPressAchieved = true;
+                        startResetTimer();
+                    }, 500); 
+                }
             }
         }
 
         function handlePressEnd() {
-            avatarRing.classList.remove('pressing');
             if (pressTimer) clearTimeout(pressTimer);
             if (directHoldTimer) clearTimeout(directHoldTimer);
         }
