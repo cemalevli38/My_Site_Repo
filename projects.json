@@ -130,16 +130,16 @@
   {
     "name": "projects.json",
     "path": "projects.json",
-    "sha": "835d7032206ac513f17d83f8938a653951a774eb",
+    "sha": "fe222b4fa973e7068dab5debfe00afc8699b457c",
     "size": 14178,
     "url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/projects.json?ref=main",
     "html_url": "https://github.com/cemalevli38/My_Site_Repo/blob/main/projects.json",
-    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/835d7032206ac513f17d83f8938a653951a774eb",
+    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/fe222b4fa973e7068dab5debfe00afc8699b457c",
     "download_url": "https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/projects.json",
     "type": "file",
     "_links": {
       "self": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/projects.json?ref=main",
-      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/835d7032206ac513f17d83f8938a653951a774eb",
+      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/fe222b4fa973e7068dab5debfe00afc8699b457c",
       "html": "https://github.com/cemalevli38/My_Site_Repo/blob/main/projects.json"
     }
   },
@@ -253,22 +253,6 @@
       "self": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/surpriz?ref=main",
       "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/trees/eef7d6bb32886be83b6be421835a566ece6cab95",
       "html": "https://github.com/cemalevli38/My_Site_Repo/tree/main/surpriz"
-    }
-  },
-  {
-    "name": "tester",
-    "path": "tester",
-    "sha": "56aac223ece38844b5756e228b47bf65c70f06d1",
-    "size": 0,
-    "url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/tester?ref=main",
-    "html_url": "https://github.com/cemalevli38/My_Site_Repo/tree/main/tester",
-    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/trees/56aac223ece38844b5756e228b47bf65c70f06d1",
-    "download_url": null,
-    "type": "dir",
-    "_links": {
-      "self": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/tester?ref=main",
-      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/trees/56aac223ece38844b5756e228b47bf65c70f06d1",
-      "html": "https://github.com/cemalevli38/My_Site_Repo/tree/main/tester"
     }
   }
 ]
