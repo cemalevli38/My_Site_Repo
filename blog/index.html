@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -37,7 +37,7 @@
                 <i class="fa-solid fa-lock text-white text-xl"></i>
             </div>
             <h2 class="text-2xl font-extrabold text-white tracking-tight mb-2">Şifre:</h2>
-            <p class="text-sm text-neutral-400 mb-6 font-light">Bu içeriği görüntülemek için lütfen erişim şifresini girin.</p>
+            <p id="password-description" class="text-sm text-neutral-400 mb-6 font-light">Bu içeriği görüntülemek için lütfen erişim şifresini girin.</p>
             
             <form onsubmit="verifyPassword(event)" class="space-y-4">
                 <div class="relative">
@@ -90,11 +90,11 @@
             </p>
 
             <div class="mt-8 flex justify-center gap-3 flex-wrap">
-                <a href="https://github.com/cemalevli38" target="_blank" class="w-11 h-11 bg-neutral-900/60 border border-neutral-800/80 hover:border-indigo-500/50 rounded-xl flex items-center justify-center text-neutral-400 hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm"><i class="fa-brands fa-github text-lg"></i></a>
-                <a href="https://www.instagram.com/cemalevli38/" target="_blank" class="w-11 h-11 bg-neutral-900/60 border border-neutral-800/80 hover:border-indigo-500/50 rounded-xl flex items-center justify-center text-neutral-400 hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm"><i class="fa-brands fa-instagram text-lg"></i></a>
-                <a href="https://www.facebook.com/profile.php?id=100076601840154" target="_blank" class="w-11 h-11 bg-neutral-900/60 border border-neutral-800/80 hover:border-indigo-500/50 rounded-xl flex items-center justify-center text-neutral-400 hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm"><i class="fa-brands fa-facebook text-lg"></i></a>
-                <a href="https://www.tiktok.com/@imcemalevli" target="_blank" class="w-11 h-11 bg-neutral-900/60 border border-neutral-800/80 hover:border-indigo-500/50 rounded-xl flex items-center justify-center text-neutral-400 hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm"><i class="fa-brands fa-tiktok text-lg"></i></a>
-                <a href="https://www.youtube.com/@imcemalevli" target="_blank" class="w-11 h-11 bg-neutral-900/60 border border-neutral-800/80 hover:border-indigo-500/50 rounded-xl flex items-center justify-center text-neutral-400 hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm"><i class="fa-brands fa-youtube text-lg"></i></a>
+                <a href="https://github.com/cemalevli38" target="_blank" rel="noopener noreferrer" class="w-11 h-11 bg-neutral-900/60 border border-neutral-800/80 hover:border-indigo-500/50 rounded-xl flex items-center justify-center text-neutral-400 hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm"><i class="fa-brands fa-github text-lg"></i></a>
+                <a href="https://www.instagram.com/cemalevli38/" target="_blank" rel="noopener noreferrer" class="w-11 h-11 bg-neutral-900/60 border border-neutral-800/80 hover:border-indigo-500/50 rounded-xl flex items-center justify-center text-neutral-400 hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm"><i class="fa-brands fa-instagram text-lg"></i></a>
+                <a href="https://www.facebook.com/profile.php?id=100076601840154" target="_blank" rel="noopener noreferrer" class="w-11 h-11 bg-neutral-900/60 border border-neutral-800/80 hover:border-indigo-500/50 rounded-xl flex items-center justify-center text-neutral-400 hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm"><i class="fa-brands fa-facebook text-lg"></i></a>
+                <a href="https://www.tiktok.com/@imcemalevli" target="_blank" rel="noopener noreferrer" class="w-11 h-11 bg-neutral-900/60 border border-neutral-800/80 hover:border-indigo-500/50 rounded-xl flex items-center justify-center text-neutral-400 hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm"><i class="fa-brands fa-tiktok text-lg"></i></a>
+                <a href="https://www.youtube.com/@imcemalevli" target="_blank" rel="noopener noreferrer" class="w-11 h-11 bg-neutral-900/60 border border-neutral-800/80 hover:border-indigo-500/50 rounded-xl flex items-center justify-center text-neutral-400 hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm"><i class="fa-brands fa-youtube text-lg"></i></a>
             </div>
         </header>
 
@@ -131,11 +131,29 @@
 
     <script>
         const DATA_URL = './data.json';
+        const GITHUB_USERNAME = "cemalevli38";
+        const GITHUB_REPO = "My_Site_Repo";
+        const GITHUB_BRANCH = "main";
+        
         let globalMediaData = { photos: [], videos: [], texts: [] };
         let fetchedTextsCache = {};
         let activeFilters = { photos: 'all', videos: 'all', posts: 'all' };
+        let targetRedirectFile = null;
 
         const CORRECT_HASH = "61eee464a8c30c0e0d3040ca3a55fbfb67e52a38c636aa684c1a5d7f5a7ad3f0";
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const requestedFile = urlParams.get('file');
+            
+            if (requestedFile) {
+                targetRedirectFile = requestedFile.trim();
+                const descEl = document.getElementById('password-description');
+                if (descEl) {
+                    descEl.innerText = `"${targetRedirectFile}" dosyasına erişmek için lütfen şifreyi girin.`;
+                }
+            }
+        });
 
         async function sha256(message) {
             const msgBuffer = new TextEncoder().encode(message);                    
@@ -152,6 +170,12 @@
             const inputHash = await sha256(passwordInput);
 
             if (inputHash === CORRECT_HASH) {
+                if (targetRedirectFile) {
+                    const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/${GITHUB_BRANCH}/blog/${targetRedirectFile}`;
+                    window.location.href = rawUrl;
+                    return;
+                }
+
                 const passwordScreen = document.getElementById('password-screen');
                 passwordScreen.classList.add('opacity-0', 'pointer-events-none');
                 
@@ -409,14 +433,12 @@
             }, 300);
         }
 
-        // HTML injection ve XSS açıklarını önlemek için güvenli metin kaçırma fonksiyonu
         function escapeHTML(str) {
             return str.replace(/[&<>'"]/g, 
                 tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
             );
         }
 
-        // Metin içindeki düz URL'leri tespit edip tıklanabilir link haline getiren yardımcı fonksiyon
         function linkify(text) {
             const urlRegex = /(https?:\/\/[^\s]+)/g;
             return text.replace(urlRegex, function(url) {
@@ -435,7 +457,6 @@
             document.getElementById('modal-title').innerText = file.title || cleanTitle(file.name);
             
             if (fetchedTextsCache[index]) {
-                // Güvenlik adımları: Önce metni escape et, sonra linkleri a etiketine dönüştür
                 const safeText = escapeHTML(fetchedTextsCache[index]);
                 modalContentEl.innerHTML = linkify(safeText);
             } else {
