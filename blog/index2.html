@@ -171,7 +171,7 @@
 
             if (inputHash === CORRECT_HASH) {
                 if (targetRedirectFile) {
-                    const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/${GITHUB_BRANCH}/${targetRedirectFile}`;
+                    const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/${GITHUB_BRANCH}/blog/${targetRedirectFile}`;
                     window.location.href = rawUrl;
                     return;
                 }
