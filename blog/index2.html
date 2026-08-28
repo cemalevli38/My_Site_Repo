@@ -205,6 +205,7 @@
         }
 
         function initBlogData() {
+            // DÜZELTME: data.json dosyası 'path' parametresi ile gönderiliyor
             fetchProtectedMedia('data.json')
                 .then(response => {
                     if (!response.ok) throw new Error("Veri dosyası yüklenemedi");
