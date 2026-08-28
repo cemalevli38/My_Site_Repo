@@ -192,7 +192,8 @@
         }
 
         function getMediaUrl(filePath) {
-            return `${WORKER_URL}/api/media?path=${encodeURIComponent(filePath)}`;
+            const separator = filePath.includes('?') ? '&' : '?';
+            return `${WORKER_URL}/api/media?path=${encodeURIComponent(filePath)}${userPassword ? `${separator}auth=${encodeURIComponent(userPassword)}` : ''}`;
         }
 
         function fetchProtectedMedia(filePath) {
