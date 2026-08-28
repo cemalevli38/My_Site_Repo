@@ -191,8 +191,6 @@
             }
         }
 
-        // KANKA ASIL DÜZELTTİĞİM YER BURASI.
-        // URL'de halihazırda ?path= olduğu için direkt &auth= ile bağlamak zorundayız.
         function getMediaUrl(filePath) {
             return `${WORKER_URL}/api/media?path=${encodeURIComponent(filePath)}${userPassword ? `&auth=${encodeURIComponent(userPassword)}` : ''}`;
         }
@@ -376,7 +374,9 @@
                 const displayTitle = file.title || cleanTitle(file.name);
                 const folder = getFolderName(file.name);
                 const uniqueId = `text-summary-${orijinalIndex}`;
-                const path = file.path || `blog/texts/${file.name}`;
+                
+                // Klasör içindeki metin dosyasını tam olarak istenen formatta ayarladık
+                const path = file.path || `blog/texts/${folder}/${folder.toLowerCase()}text.txt`;
                 
                 if (!fetchedTextsCache[orijinalIndex]) {
                     fetchProtectedMedia(path)
