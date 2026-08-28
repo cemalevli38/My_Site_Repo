@@ -171,8 +171,13 @@
 
             if (inputHash === CORRECT_HASH) {
                 if (targetRedirectFile) {
-                    const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/${GITHUB_BRANCH}/blog/${targetRedirectFile}`;
-                    window.location.href = rawUrl;
+                    let targetUrl;
+                    if (targetRedirectFile.startsWith('videos/')) {
+                        targetUrl = `https://cdn.jsdelivr.net/gh/${GITHUB_USERNAME}/${GITHUB_REPO}@${GITHUB_BRANCH}/blog/${targetRedirectFile}`;
+                    } else {
+                        targetUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/${GITHUB_BRANCH}/blog/${targetRedirectFile}`;
+                    }
+                    window.location.href = targetUrl;
                     return;
                 }
 
