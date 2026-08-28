@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr" class="scroll-smooth">
+<html lang="tr" class="scroll-smooth h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +26,7 @@
         ::-webkit-scrollbar-thumb:hover { background: #4f46e5; }
     </style>
 </head>
-<body class="bg-[#050505] text-neutral-200 antialiased selection:bg-indigo-500/30 selection:text-indigo-200 overflow-x-hidden">
+<body class="bg-[#050505] text-neutral-200 antialiased selection:bg-indigo-500/30 selection:text-indigo-200 overflow-x-hidden min-h-full flex flex-col">
 
     <div id="password-screen" class="fixed inset-0 bg-[#050505] z-[100] flex items-center justify-center p-6 transition-all duration-500">
         <div class="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none"></div>
@@ -44,45 +44,45 @@
                     <input type="password" id="blog-password" required placeholder="Şifreniz" class="w-full bg-neutral-950 border border-neutral-800/80 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-indigo-500/50 transition-colors duration-300">
                 </div>
                 <p id="password-error" class="text-red-500 text-xs hidden font-medium text-left px-1"><i class="fa-solid fa-circle-exclamation mr-1.5"></i>Hatalı şifre girdiniz!</p>
-                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold py-3 rounded-xl shadow-md hover:shadow-indigo-500/10 transition-all duration-300">
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold py-3 rounded-xl shadow-md hover:shadow-indigo-500/10 transition-all duration-300 cursor-pointer">
                     Giriş Yap
                 </button>
             </form>
         </div>
     </div>
 
-    <div id="main-content" class="hidden">
+    <div id="main-content" class="hidden flex-1 flex flex-col">
         <div class="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
         <div class="fixed bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
 
-        <nav class="sticky top-0 z-50 bg-[#050505]/60 backdrop-blur-xl border-b border-neutral-900/80 transition-all duration-300">
+        <nav class="sticky top-0 z-50 bg-[#050505]/80 backdrop-blur-xl border-b border-neutral-900/80 transition-all duration-300">
             <div class="max-w-5xl mx-auto px-6 h-20 flex items-center justify-between">
                 <a href="#" class="text-xl font-extrabold tracking-tighter bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent hover:scale-105 transition-transform duration-300">
-                    CEMAL EVLI
+                    CEMAL EVLİ
                 </a>
                 <div class="flex bg-neutral-900/60 p-1.5 rounded-full border border-neutral-800/60 shadow-inner">
-                    <button onclick="switchTab('photos')" class="tab-btn px-5 py-2 text-xs md:text-sm font-semibold rounded-full text-neutral-400 hover:text-neutral-100 transition-all duration-300" id="btn-photos">
+                    <button onclick="switchTab('photos')" class="tab-btn px-5 py-2 text-xs md:text-sm font-semibold rounded-full text-neutral-400 hover:text-neutral-100 transition-all duration-300 cursor-pointer" id="btn-photos">
                         <i class="fa-regular fa-image mr-2 opacity-70"></i>Fotoğraflar
                     </button>
-                    <button onclick="switchTab('videos')" class="tab-btn px-5 py-2 text-xs md:text-sm font-semibold rounded-full text-neutral-400 hover:text-neutral-100 transition-all duration-300" id="btn-videos">
+                    <button onclick="switchTab('videos')" class="tab-btn px-5 py-2 text-xs md:text-sm font-semibold rounded-full text-neutral-400 hover:text-neutral-100 transition-all duration-300 cursor-pointer" id="btn-videos">
                         <i class="fa-solid fa-clapperboard mr-2 opacity-70"></i>Videolar
                     </button>
-                    <button onclick="switchTab('posts')" class="tab-btn px-5 py-2 text-xs md:text-sm font-semibold rounded-full text-neutral-400 hover:text-neutral-100 transition-all duration-300 bg-neutral-800/80 text-white shadow-sm" id="btn-posts">
+                    <button onclick="switchTab('posts')" class="tab-btn px-5 py-2 text-xs md:text-sm font-semibold rounded-full text-neutral-400 hover:text-neutral-100 transition-all duration-300 bg-neutral-800/80 text-white shadow-sm cursor-pointer" id="btn-posts">
                         <i class="fa-regular fa-pen-to-square mr-2 opacity-70"></i>Yazılar
                     </button>
                 </div>
             </div>
         </nav>
 
-        <header class="relative z-10 max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
-            <div class="relative w-28 h-28 mx-auto mb-8 group">
+        <header class="relative z-10 max-w-4xl mx-auto px-6 pt-12 pb-12 text-center">
+            <div class="relative w-28 h-28 mx-auto mb-6 group">
                 <div class="absolute inset-0 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-3xl blur-md opacity-70 group-hover:opacity-100 transition-opacity duration-500 animate-pulse"></div>
                 <div class="relative w-full h-full bg-neutral-900 border border-neutral-800 rounded-3xl flex items-center justify-center shadow-2xl overflow-hidden p-1">
                     <img src="https://github.com/cemalevli38.png" alt="Cemal Evli" class="w-full h-full object-cover rounded-2xl">
                 </div>
             </div>
             
-            <h1 class="text-4xl sm:text-6xl font-black tracking-tight mb-6 text-white">
+            <h1 class="text-4xl sm:text-5xl font-black tracking-tight mb-4 text-white leading-tight">
                 Anlarımı ve Hikayelerimi Keşfedin.
             </h1>
             <p class="text-base sm:text-lg text-neutral-400 max-w-2xl mx-auto leading-relaxed font-light">
@@ -98,7 +98,7 @@
             </div>
         </header>
 
-        <main class="relative z-10 max-w-5xl mx-auto px-6 pb-32">
+        <main class="relative z-10 max-w-5xl mx-auto px-6 pb-24 flex-1 w-full">
             <section id="photos" class="tab-content">
                 <div id="photos-folders" class="flex flex-wrap gap-2 justify-center mb-8"></div>
                 <div id="photos-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
@@ -117,13 +117,13 @@
     </div>
 
     <div id="lightbox" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 transition-all duration-300 opacity-0" onclick="closeLightbox()">
-        <button class="absolute top-6 right-6 w-12 h-12 bg-neutral-900/80 hover:bg-neutral-800 text-neutral-300 hover:text-white rounded-full flex items-center justify-center border border-neutral-800 transition-colors"><i class="fa-solid fa-xmark text-lg"></i></button>
+        <button class="absolute top-6 right-6 w-12 h-12 bg-neutral-900/80 hover:bg-neutral-800 text-neutral-300 hover:text-white rounded-full flex items-center justify-center border border-neutral-800 transition-colors cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
         <img id="lightbox-img" src="" alt="Büyük Görsel" class="max-w-full max-h-[82vh] rounded-2xl shadow-2xl border border-neutral-800/40 transform scale-95 transition-transform duration-300">
     </div>
 
     <div id="article-modal" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 transition-all duration-300 opacity-0" onclick="if(event.target === this) closeArticle()">
         <div class="bg-[#0b0b0b] border border-neutral-900 w-full max-w-2xl rounded-2xl max-h-[75vh] overflow-y-auto p-8 relative shadow-2xl transform scale-95 transition-transform duration-300">
-            <button onclick="closeArticle()" class="absolute top-6 right-6 w-10 h-10 bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-white rounded-xl flex items-center justify-center border border-neutral-800/60 transition-colors"><i class="fa-solid fa-xmark"></i></button>
+            <button onclick="closeArticle()" class="absolute top-6 right-6 w-10 h-10 bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-white rounded-xl flex items-center justify-center border border-neutral-800/60 transition-colors cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
             <h2 id="modal-title" class="text-2xl font-extrabold text-white mb-6 pr-8 tracking-tight"></h2>
             <div id="modal-content" class="text-neutral-400 space-y-4 leading-relaxed font-light text-sm md:text-base border-t border-neutral-900 pt-6 whitespace-pre-line"></div>
         </div>
@@ -261,7 +261,7 @@
 
             const currentActive = activeFilters[type];
             let html = `
-                <button onclick="setFolderFilter('${type}', 'all', ${renderCallback.name})" class="px-4 py-1.5 text-xs font-semibold rounded-xl border transition-all duration-300 ${currentActive === 'all' ? 'bg-indigo-600 border-indigo-500 text-white shadow-md' : 'bg-neutral-900/60 border-neutral-800 text-neutral-400 hover:text-white'}">
+                <button onclick="setFolderFilter('${type}', 'all', ${renderCallback.name})" class="px-4 py-1.5 text-xs font-semibold rounded-xl border transition-all duration-300 cursor-pointer ${currentActive === 'all' ? 'bg-indigo-600 border-indigo-500 text-white shadow-md' : 'bg-neutral-900/60 border-neutral-800 text-neutral-400 hover:text-white'}">
                     Hepsi
                 </button>
             `;
@@ -269,7 +269,7 @@
             folders.forEach(folder => {
                 const isActive = currentActive === folder;
                 html += `
-                    <button onclick="setFolderFilter('${type}', '${folder}', ${renderCallback.name})" class="px-4 py-1.5 text-xs font-semibold rounded-xl border transition-all duration-300 capitalize ${isActive ? 'bg-indigo-600 border-indigo-500 text-white shadow-md' : 'bg-neutral-900/60 border-neutral-800 text-neutral-400 hover:text-white'}">
+                    <button onclick="setFolderFilter('${type}', '${folder}', ${renderCallback.name})" class="px-4 py-1.5 text-xs font-semibold rounded-xl border transition-all duration-300 capitalize cursor-pointer ${isActive ? 'bg-indigo-600 border-indigo-500 text-white shadow-md' : 'bg-neutral-900/60 border-neutral-800 text-neutral-400 hover:text-white'}">
                         <i class="fa-solid fa-folder mr-1.5 opacity-70"></i>${folder}
                     </button>
                 `;
@@ -303,7 +303,6 @@
                 const title = cleanTitle(file.name);
                 const folder = getFolderName(file.name);
                 const path = file.path || `blog/photos/${file.name}`;
-                const mediaUrl = getMediaUrl(path);
                 
                 return `
                     <div class="group relative overflow-hidden rounded-2xl bg-neutral-900/40 border border-neutral-900 cursor-pointer p-2 hover:border-neutral-800 transition-all duration-500 shadow-xl animate-fade-in" onclick="openLightbox('${path}')">
