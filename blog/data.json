@@ -48,6 +48,10 @@
     {
       "name": "Dürümm/Dürüm Text",
       "download_url": "https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/blog/texts/dürümmtext.txt"
+    },
+    {
+      "name": "test",
+      "download_url": "https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/blog/texts/test.txt"
     }
   ]
 }
