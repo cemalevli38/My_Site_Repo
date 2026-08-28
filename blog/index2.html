@@ -191,10 +191,10 @@
             }
         }
 
-        // Direkt Worker URL'sini üreten fonksiyon (src etiketleri için mükemmel stream sağlar)
+        // KANKA ASIL DÜZELTTİĞİM YER BURASI.
+        // URL'de halihazırda ?path= olduğu için direkt &auth= ile bağlamak zorundayız.
         function getMediaUrl(filePath) {
-            const separator = filePath.includes('?') ? '&' : '?';
-            return `${WORKER_URL}/api/media?path=${encodeURIComponent(filePath)}${userPassword ? `${separator}auth=${encodeURIComponent(userPassword)}` : ''}`;
+            return `${WORKER_URL}/api/media?path=${encodeURIComponent(filePath)}${userPassword ? `&auth=${encodeURIComponent(userPassword)}` : ''}`;
         }
 
         function fetchProtectedMedia(filePath) {
@@ -305,7 +305,6 @@
                 const title = cleanTitle(file.name);
                 const folder = getFolderName(file.name);
                 const path = file.path || `blog/photos/${file.name}`;
-                // Direkt olarak API Linkini veriyoruz, resim anında yüklenir
                 const mediaUrl = getMediaUrl(path); 
                 
                 return `
@@ -341,7 +340,6 @@
                 const title = cleanTitle(file.name);
                 const folder = getFolderName(file.name);
                 const path = file.path || `blog/videos/${file.name}`;
-                // Blob yerine stream destekleyen direkt API linki veriyoruz!
                 const mediaUrl = getMediaUrl(path);
 
                 return `
@@ -380,7 +378,6 @@
                 const uniqueId = `text-summary-${orijinalIndex}`;
                 const path = file.path || `blog/texts/${file.name}`;
                 
-                // Metin dosyalarını mecburen text olarak fetch ile almalıyız
                 if (!fetchedTextsCache[orijinalIndex]) {
                     fetchProtectedMedia(path)
                         .then(res => {
@@ -437,7 +434,6 @@
             const lightbox = document.getElementById('lightbox');
             const img = document.getElementById('lightbox-img');
             
-            // Lightbox için de direkt link kullanabiliriz
             img.src = getMediaUrl(filePath);
             
             lightbox.classList.remove('hidden');
@@ -456,7 +452,7 @@
             setTimeout(() => {
                 lightbox.classList.add('hidden');
                 lightbox.classList.remove('flex');
-                img.src = ""; // Kapatınca hafızayı boşalt
+                img.src = "";
             }, 300);
         }
 
