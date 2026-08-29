@@ -110,6 +110,16 @@
         .copy-btn:hover {
             background: #475569;
         }
+        .redirect-msg {
+            margin-top: 1rem;
+            text-align: center;
+            color: #38bdf8;
+            font-size: 0.9rem;
+            display: none;
+        }
+        .redirect-msg.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -129,24 +139,21 @@
             <div class="result-title">Temizlenmiş Link:</div>
             <div class="result-content" id="resultText"></div>
             <button class="copy-btn" id="copyBtn">Kopyala</button>
+            <div class="redirect-msg" id="redirectMsg">2 saniye içinde yönlendiriliyorsun kardo... 🚀</div>
         </div>
     </div>
 
     <script>
-        // URL'den veya inputtan gelen veriyi işleme fonksiyonu
         function processUrl(rawUrl) {
             if (!rawUrl) return "";
             try {
-                // Eğer tam URL girildiyse parse et
                 const urlObj = new URL(rawUrl);
                 
-                // 1. Playlist kontrolü (skipvids altyapısı ile)
                 if (urlObj.searchParams.has('list')) {
                     const listId = urlObj.searchParams.get('list');
                     return `https://skipvids.com/playlist?list=${listId}`;
                 }
                 
-                // 2. Normal Video kontrolü (watch?v= veya youtu.be/)
                 let videoId = "";
                 if (urlObj.hostname.includes('youtu.be')) {
                     videoId = urlObj.pathname.slice(1);
@@ -158,12 +165,11 @@
                     return `https://skipvids.com/watch?v=${videoId}&gl=TR`;
                 }
             } catch (e) {
-                // Eğer geçerli bir URL değilse düz metin veya parça olarak dönebilir
+                // Geçerli URL değilse
             }
             return rawUrl;
         }
 
-        // Sayfa yüklendiğinde URL'deki query parametrelerini kontrol et (örn: ?url=...)
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const queryUrl = urlParams.get('url') || urlParams.get('link');
@@ -172,10 +178,17 @@
                 document.getElementById('urlInput').value = queryUrl;
                 const cleaned = processUrl(queryUrl);
                 showResult(cleaned);
+
+                // Eğer temizlenmiş geçerli bir skipvids linkiyse 2 saniye sonra yönlendir
+                if (cleaned.startsWith('http')) {
+                    document.getElementById('redirectMsg').classList.add('active');
+                    setTimeout(() => {
+                        window.location.href = cleaned;
+                    }, 2000);
+                }
             }
         });
 
-        // Butona tıklandığında dönüştür
         document.getElementById('convertBtn').addEventListener('click', () => {
             const inputVal = document.getElementById('urlInput').value.trim();
             const cleaned = processUrl(inputVal);
@@ -191,7 +204,6 @@
             box.classList.add('active');
         }
 
-        // Kopyalama butonu
         document.getElementById('copyBtn').addEventListener('click', () => {
             const textToCopy = document.getElementById('resultText').textContent;
             navigator.clipboard.writeText(textToCopy).then(() => {
