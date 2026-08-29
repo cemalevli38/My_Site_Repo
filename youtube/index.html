@@ -134,13 +134,13 @@
             <input type="text" id="urlInput" placeholder="https://www.youtube.com/watch?v=... veya https://youtu.be/...">
         </div>
         
-        <button id="convertBtn">Dönüştür ve Temizle</button>
+        <button id="convertBtn">Dönüştür ve Yönlendir</button>
 
         <div class="result-box" id="resultBox">
             <div class="result-title">Temizlenmiş Link:</div>
             <div class="result-content" id="resultText"></div>
             <button class="copy-btn" id="copyBtn">Kopyala</button>
-            <div class="redirect-msg" id="redirectMsg">Direkt yönlendiriliyorsun kardo... 🚀</div>
+            <div class="redirect-msg" id="redirectMsg">Yönlendiriliyorsun kardo... 🚀</div>
         </div>
     </div>
 
@@ -171,28 +171,37 @@
             return rawUrl;
         }
 
+        function handleUrlAction(targetUrl) {
+            const cleaned = processUrl(targetUrl);
+            if (cleaned) {
+                showResult(cleaned);
+                if (cleaned.startsWith('http')) {
+                    document.getElementById('redirectMsg').classList.add('active');
+                    window.location.href = cleaned;
+                }
+            }
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const queryUrl = urlParams.get('url') || urlParams.get('link');
             
             if (queryUrl) {
                 document.getElementById('urlInput').value = queryUrl;
-                const cleaned = processUrl(queryUrl);
-                showResult(cleaned);
-
-                // Temizlenmiş geçerli bir linkse hiç beklemeden direkt yönlendir
-                if (cleaned.startsWith('http')) {
-                    document.getElementById('redirectMsg').classList.add('active');
-                    window.location.href = cleaned;
-                }
+                handleUrlAction(queryUrl);
             }
         });
 
         document.getElementById('convertBtn').addEventListener('click', () => {
             const inputVal = document.getElementById('urlInput').value.trim();
-            const cleaned = processUrl(inputVal);
-            if (cleaned) {
-                showResult(cleaned);
+            handleUrlAction(inputVal);
+        });
+
+        // Enter tuşuna basınca da çalışması için
+        document.getElementById('urlInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const inputVal = document.getElementById('urlInput').value.trim();
+                handleUrlAction(inputVal);
             }
         });
 
