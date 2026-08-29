@@ -149,8 +149,8 @@
             showResult("İşleniyor, beklemede kal kardo... 🔄");
             
             try {
-                // Kamuya açık aktif Cobalt API sunucularından biri (veya kendi sunucu adresin)
-                const response = await fetch("https://co.wuk.sh/api/json", {
+                // Güncel resmi Cobalt API endpoint adresi
+                const response = await fetch("https://api.cobalt.tools", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -172,7 +172,6 @@
                         window.location.href = downloadUrl;
                     }, 1500);
                 } else if (data.status === "picker") {
-                    // Birden fazla kalıp varsa (örn: video + ses ayrı) ilkini seçelim ya da ilk linki verelim
                     const downloadUrl = data.picker[0].url;
                     showResult(downloadUrl);
                     
