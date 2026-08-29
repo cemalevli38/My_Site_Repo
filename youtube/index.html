@@ -140,10 +140,10 @@
                 // Eğer tam URL girildiyse parse et
                 const urlObj = new URL(rawUrl);
                 
-                // 1. Playlist kontrolü (örn: youtube.com/playlist?list=... veya purify.video için)
+                // 1. Playlist kontrolü (skipvids altyapısı ile)
                 if (urlObj.searchParams.has('list')) {
                     const listId = urlObj.searchParams.get('list');
-                    return `https://purify.video/watch?list=${listId}`;
+                    return `https://skipvids.com/playlist?list=${listId}`;
                 }
                 
                 // 2. Normal Video kontrolü (watch?v= veya youtu.be/)
@@ -155,12 +155,10 @@
                 }
                 
                 if (videoId) {
-                    // Parametreleri temizleyip sadece ID bırakıyoruz (örn: https://youtu.be/fpaobkArtFk)
-                    // İstediğin formatta sondaki soru işaretini atmak için:
                     return `https://youtu.be/${videoId}`;
                 }
             } catch (e) {
-                // Eğer geçerli bir URL değilse düz metin veya parça olarak arayabiliriz
+                // Eğer geçerli bir URL değilse düz metin veya parça olarak dönebilir
             }
             return rawUrl;
         }
