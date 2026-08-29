@@ -149,8 +149,8 @@
             showResult("İşleniyor, beklemede kal kardo... 🔄");
             
             try {
-                // Güncel resmi Cobalt API endpoint adresi
-                const response = await fetch("https://api.cobalt.tools", {
+                // Doğru JSON endpoint adresi (/api/json)
+                const response = await fetch("https://api.cobalt.tools/api/json", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
