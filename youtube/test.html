@@ -149,8 +149,8 @@
             showResult("İşleniyor, beklemede kal kardo... 🔄");
             
             try {
-                // CORS engeline takılmamak için public proxy kullanıyoruz
-                const proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent("https://api.cobalt.tools/api/json");
+                // allorigins POST'ta cortluyor, corsproxy.io kullanıyoruz bro
+                const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent("https://api.cobalt.tools/api/json");
                 
                 const response = await fetch(proxyUrl, {
                     method: "POST",
@@ -185,6 +185,7 @@
                     showResult("Hata: Video çözülemedi kardo! 💀");
                 }
             } catch (err) {
+                console.error("Fetch hatası:", err);
                 showResult("Bağlantı hatası oluştu bro! ⚠️");
             }
         }
