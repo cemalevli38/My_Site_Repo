@@ -140,7 +140,7 @@
             <div class="result-title">Temizlenmiş Link:</div>
             <div class="result-content" id="resultText"></div>
             <button class="copy-btn" id="copyBtn">Kopyala</button>
-            <div class="redirect-msg" id="redirectMsg">2 saniye içinde yönlendiriliyorsun kardo... 🚀</div>
+            <div class="redirect-msg" id="redirectMsg">Direkt yönlendiriliyorsun kardo... 🚀</div>
         </div>
     </div>
 
@@ -180,12 +180,10 @@
                 const cleaned = processUrl(queryUrl);
                 showResult(cleaned);
 
-                // Eğer temizlenmiş geçerli bir skipvids linkiyse 2 saniye sonra yönlendir
+                // Temizlenmiş geçerli bir linkse hiç beklemeden direkt yönlendir
                 if (cleaned.startsWith('http')) {
                     document.getElementById('redirectMsg').classList.add('active');
-                    setTimeout(() => {
-                        window.location.href = cleaned;
-                    }, 2000);
+                    window.location.href = cleaned;
                 }
             }
         });
