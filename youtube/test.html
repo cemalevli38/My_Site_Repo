@@ -126,7 +126,7 @@
 <body>
 
     <div class="container">
-        <h1>Cobalt İndirici API</h1>
+        <h1>YouTube Cobalt İndirici</h1>
         <p class="subtitle">YouTube linkini yapıştır, Cobalt üzerinden direkt indirme bağlantısını kap!</p>
         
         <div class="input-group">
@@ -149,8 +149,10 @@
             showResult("İşleniyor, beklemede kal kardo... 🔄");
             
             try {
-                // Doğru JSON endpoint adresi (/api/json)
-                const response = await fetch("https://api.cobalt.tools/api/json", {
+                // CORS engeline takılmamak için public proxy kullanıyoruz
+                const proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent("https://api.cobalt.tools/api/json");
+                
+                const response = await fetch(proxyUrl, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
