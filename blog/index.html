@@ -32,7 +32,7 @@
         ::-webkit-scrollbar-thumb:hover { background: #4f46e5; }
     </style>
 </head>
-<body class="bg-[#050505] text-neutral-200 antialiased selection:bg-indigo-500/30 selection:text-indigo-200 overflow-x-hidden">
+<body id="main-body" class="bg-[#050505] text-neutral-200 antialiased selection:bg-indigo-500/30 selection:text-indigo-200 overflow-x-hidden bg-cover bg-center bg-no-repeat bg-fixed">
 
     <div id="password-screen" class="fixed inset-0 bg-[#050505] z-[100] flex items-center justify-center p-6 transition-all duration-500">
         <div class="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none"></div>
@@ -150,6 +150,13 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             const currentTimestamp = new Date().getTime();
+            
+            // Arka plan resmini timestamp entegrasyonu ile ayarla
+            const bodyEl = document.getElementById("main-body");
+            if (bodyEl) {
+                bodyEl.style.backgroundImage = `url('https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/refs/heads/main/background.avif?v=${currentTimestamp}')`;
+            }
+
             const avatarImg = document.getElementById("profile-avatar");
             if (avatarImg) {
                 avatarImg.src = `https://github.com/${GITHUB_USERNAME}.png?v=${currentTimestamp}`;
