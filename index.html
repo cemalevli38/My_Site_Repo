@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cemal Evli | My Website</title>
-    <link rel="icon" type="image/x-icon" href="https://wsrv.nl/?url=https://github.com/cemalevli38.png&w=64&h=64&mask=circle&output=png">
+    <link id="favicon" rel="icon" type="image/x-icon" href="https://wsrv.nl/?url=https://github.com/cemalevli38.png&w=64&h=64&mask=circle&output=png">
     <style>
         /* Modern Neon Cyber & Glassmorphism Theme */
         :root {
@@ -350,6 +350,9 @@
 </footer>
 
 <script>
+const timestamp = new Date().getTime();
+document.getElementById("favicon").href = `https://wsrv.nl/?url=https://github.com/cemalevli38.png&w=64&h=64&mask=circle&output=png&v=${timestamp}`;
+
 const PROJECTS_DATA_URL = "https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/refs/heads/main/projects.json"; 
 const GAMES_DATA_URL = "https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/refs/heads/main/games.json";
 const FILES_DATA_URL = "https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/refs/heads/main/files.json";
