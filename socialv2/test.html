@@ -611,8 +611,10 @@
         function loadQRCode() {
             const qrImg = document.getElementById('qrCodeImg');
             const timestamp = Date.now();
-            const logoUrl = encodeURIComponent(`https://wsrv.nl/?url=https://github.com/cemalevli38.png?v=2&w=64&h=64&mask=circle&output=png&ext=.png&t=${timestamp}`);
-            const qrApiUrl = `https://api.qrcode-monkey.com/qr/custom?data=https%3A%2F%2Fcemalevli38.dpdns.org%2Fsocialv2%2F&config=%7B%22logo%22%3A%22${logoUrl}%22%2C%22logoMode%22%3A%22clean%22%7D&size=300&file=png&t=${timestamp}`;
+            // Zaman damgasını wsrv.nl kaynak resminin URL'sine dinamik parametre olarak gömerek QR Monkey sunucularının önbelleğe almasını önlüyoruz.
+            const rawLogoUrl = `https://wsrv.nl/?url=https://github.com/cemalevli38.png?v=${timestamp}&w=64&h=64&mask=circle&output=png`;
+            const logoUrl = encodeURIComponent(rawLogoUrl);
+            const qrApiUrl = `https://api.qrcode-monkey.com/qr/custom?data=https%3A%2F%2Fcemalevli38.dpdns.org%2Fsocialv2%2F&config=%7B%22logo%22%3A%22${logoUrl}%22%2C%22logoMode%22%3A%22clean%22%7D&size=300&file=png&cb=${timestamp}`;
             
             qrImg.src = qrApiUrl;
         }
