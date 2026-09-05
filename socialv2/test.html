@@ -611,19 +611,21 @@
         function loadQRCode() {
             const qrImg = document.getElementById('qrCodeImg');
             const timestamp = Date.now();
-            
-            // Tüm parametreleri ve config JSON yapısını tam encode edilmiş olarak hazırlıyoruz
-            const dataUrl = encodeURIComponent("https://cemalevli38.dpdns.org/socialv2/");
-            const logoUrl = `https://wsrv.nl/?url=https://github.com/cemalevli38.png&w=64&h=64&mask=circle&output=png&v=${timestamp}`;
-            const configJson = JSON.stringify({
-                "logo": logoUrl,
-                "logoMode": "clean"
-            });
-            const encodedConfig = encodeURIComponent(configJson);
 
-            const qrApiUrl = `https://api.qrcode-monkey.com/qr/custom?data=${dataUrl}&config=${encodedConfig}&size=300&file=png&v=${timestamp}`;
-            
-            qrImg.src = qrApiUrl;
+            const targetUrl = "https://cemalevli38.dpdns.org/socialv2/";
+            const logoUrl = `https://wsrv.nl/?url=https://github.com/cemalevli38.png&w=64&h=64&mask=circle&output=png&v=${timestamp}`;
+
+            // QuickChart: ücretsiz, API key gerektirmeyen QR servisi (logo destekli)
+            const primaryUrl = `https://quickchart.io/qr?text=${encodeURIComponent(targetUrl)}&size=300&margin=1&ecLevel=H&centerImageUrl=${encodeURIComponent(logoUrl)}&centerImageSizeRatio=0.25`;
+
+            // Birincil servis başarısız olursa devreye giren yedek (logosuz ama garanti çalışır)
+            const fallbackUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(targetUrl)}`;
+
+            qrImg.onerror = () => {
+                qrImg.onerror = null;
+                qrImg.src = fallbackUrl;
+            };
+            qrImg.src = primaryUrl;
         }
 
         function toggleQR() {
