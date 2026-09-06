@@ -4,342 +4,704 @@
     <meta name="google-site-verification" content="7ZKGIUgvQFxMqSWI9xBMea2VWjHf21anbsiAN4X3O34" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cemal Evli | My Website</title>
+    <title>Cemal Evli | Nexus Portal</title>
     <link id="favicon" rel="icon" type="image/x-icon" href="https://wsrv.nl/?url=https://github.com/cemalevli38.png&w=64&h=64&mask=circle&output=png">
+    
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        /* Modern Neon Cyber & Glassmorphism Theme */
         :root {
-            --bg: #0b0f19;
-            --card: rgba(20, 28, 47, 0.6);
-            --border: rgba(56, 189, 248, 0.15);
-            --text: #f8fafc;
-            --accent: #38bdf8;
-            --accent-glow: rgba(56, 189, 248, 0.3);
-            --game-accent: #f472b6;
-            --game-glow: rgba(244, 114, 182, 0.3);
-            --file-accent: #c084fc; 
-            --file-glow: rgba(192, 132, 252, 0.3);
-            --hover: rgba(30, 41, 59, 0.8);
-            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-            --blur: blur(12px);
+            --bg-base: #030712;
+            --bg-surface: rgba(17, 24, 39, 0.4);
+            --bg-surface-hover: rgba(31, 41, 55, 0.6);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-highlight: rgba(56, 189, 248, 0.3);
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            
+            --accent-cyan: #38bdf8;
+            --accent-glow-cyan: rgba(56, 189, 248, 0.25);
+            
+            --accent-pink: #f472b6;
+            --accent-glow-pink: rgba(244, 114, 182, 0.25);
+            
+            --accent-purple: #c084fc;
+            --accent-glow-purple: rgba(192, 132, 252, 0.25);
+
+            --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            --glass-blur: blur(16px);
         }
 
         .light {
-            --bg: #f1f5f9;
-            --card: rgba(255, 255, 255, 0.7);
-            --border: rgba(15, 23, 42, 0.08);
-            --text: #0f172a;
-            --accent: #0284c7;
-            --accent-glow: rgba(2, 132, 199, 0.15);
-            --game-accent: #db2777;
-            --game-glow: rgba(219, 39, 119, 0.15);
-            --file-accent: #7c3aed;
-            --file-glow: rgba(124, 58, 237, 0.15);
-            --hover: rgba(255, 255, 255, 0.9);
-            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+            --bg-base: #f8fafc;
+            --bg-surface: rgba(255, 255, 255, 0.65);
+            --bg-surface-hover: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(0, 0, 0, 0.06);
+            --border-highlight: rgba(2, 132, 199, 0.3);
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            
+            --accent-cyan: #0284c7;
+            --accent-glow-cyan: rgba(2, 132, 199, 0.15);
+            
+            --accent-pink: #db2777;
+            --accent-glow-pink: rgba(219, 39, 119, 0.15);
+            
+            --accent-purple: #7c3aed;
+            --accent-glow-purple: rgba(124, 58, 237, 0.15);
+
+            --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
         }
 
-        * { box-sizing: border-box; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+        }
 
         body {
-            font-family: 'Plus Jakarta Sans', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg);
-            background-image: 
-                radial-gradient(at 0% 0%, var(--accent-glow) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, var(--file-glow) 0px, transparent 50%);
-            color: var(--text);
-            margin: 0;
-            padding: 60px 20px 40px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-base);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: var(--text-primary);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            padding-bottom: 60px;
         }
 
         /* Banner */
         .info-banner {
-            position: fixed; top: 0; left: 0; right: 0;
-            background: backdrop-filter: var(--blur);
-            background: rgba(15, 23, 42, 0.8);
-            color: #38bdf8;
-            border-bottom: 1px solid var(--accent);
-            padding: 14px 20px; display: flex; justify-content: center;
-            align-items: center; gap: 15px; z-index: 2000;
-            font-size: 0.9rem; font-weight: 600;
-            box-shadow: 0 4px 30px rgba(0,0,0,0.3);
-            transform: translateY(-100%);
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-150%);
+            background: var(--bg-surface);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-highlight);
+            color: var(--text-primary);
+            padding: 12px 24px;
+            border-radius: 99px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            z-index: 2000;
+            font-size: 0.875rem;
+            font-weight: 500;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            opacity: 0;
         }
-        .light .info-banner {
-            background: rgba(255, 255, 255, 0.8);
-            color: #0284c7;
+
+        .info-banner.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
         }
-        .info-banner.show { transform: translateY(0); }
+
         .info-banner button {
-            background: var(--accent); border: none;
-            padding: 6px 18px; border-radius: 20px; cursor: pointer;
-            font-size: 0.8rem; font-weight: 700; color: #0f172a;
-            box-shadow: 0 0 10px var(--accent-glow);
+            background: var(--accent-cyan);
+            border: none;
+            padding: 6px 16px;
+            border-radius: 99px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #030712;
         }
-        .info-banner button:hover { transform: scale(1.05); }
 
-        /* Header & Controls */
+        .info-banner button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Header Navigation Container */
+        .header-wrapper {
+            width: 100%;
+            max-width: 1000px;
+            padding: 40px 24px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
         header {
-            width: 100%; max-width: 900px;
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 30px; flex-wrap: wrap; gap: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
-        h1 { 
-            margin: 0; font-size: 2.2rem; font-weight: 800; letter-spacing: -1px;
-            background: linear-gradient(135deg, var(--text) 30%, var(--accent));
+        .brand-profile {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+        }
+
+        .avatar-container img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            background: var(--bg-base);
+        }
+
+        .brand-info h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #ffffff 0%, var(--text-secondary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
+        .light .brand-info h1 {
+            background: linear-gradient(135deg, #0f172a 0%, #475569 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-info p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Controls / Actions */
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 16px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        input#search {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 12px 16px 12px 42px;
+            border-radius: 16px;
+            outline: none;
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            width: 260px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        input#search:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px var(--accent-glow-cyan);
+            width: 290px;
+        }
+
+        .icon-btn {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            height: 46px;
+            padding: 0 16px;
+            border-radius: 16px;
+            cursor: pointer;
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            font-weight: 600;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .icon-btn:hover {
+            border-color: var(--accent-cyan);
+            background: var(--bg-surface-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Language Dropdown */
+        .lang-switcher { position: relative; }
+        .lang-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            overflow: hidden;
+            min-width: 150px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            z-index: 100;
+        }
+
+        .lang-switcher.open .lang-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .lang-option:hover {
+            background: var(--bg-surface-hover);
+            color: var(--accent-cyan);
+        }
+
+        /* Layout Sections */
+        .content-container {
+            width: 100%;
+            max-width: 1000px;
+            padding: 0 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
         .section-header {
-            width: 100%; max-width: 900px;
-            display: flex; justify-content: space-between; align-items: center;
-            margin: 40px 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
         }
 
         .section-title {
-            font-size: 1.4rem; font-weight: 700; display: flex; align-items: center;
-            gap: 12px; color: var(--accent); margin: 0;
-            text-shadow: 0 0 15px var(--accent-glow);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
         }
-        .section-title.games { color: var(--game-accent); text-shadow: 0 0 15px var(--game-glow); }
-        .section-title.files { color: var(--file-accent); text-shadow: 0 0 15px var(--file-glow); }
 
-        .controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+        .section-title i {
+            color: var(--accent-cyan);
+            font-size: 1.1rem;
+        }
+        
+        .section-title.games i { color: var(--accent-pink); }
+        .section-title.files i { color: var(--accent-purple); }
 
-        input {
-            background: var(--card); border: 1px solid var(--border);
-            color: var(--text); padding: 12px 18px; border-radius: 14px;
-            outline: none; backdrop-filter: var(--blur); width: 240px; font-size: 0.95rem;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-        }
-        input:focus { border-color: var(--accent); box-shadow: 0 0 15px var(--accent-glow); }
-
-        button.tool-btn {
-            background: var(--card); border: 1px solid var(--border);
-            color: var(--text); padding: 12px 16px; border-radius: 14px;
-            cursor: pointer; backdrop-filter: var(--blur);
-            font-weight: 600; font-size: 0.95rem; white-space: nowrap;
-        }
-        button.tool-btn:hover { border-color: var(--accent); background: var(--hover); }
-
-        /* Language Switcher */
-        .lang-switcher { position: relative; display: inline-block; }
-        .lang-btn {
-            background: var(--card); border: 1px solid var(--border);
-            color: var(--text); padding: 12px 18px; border-radius: 14px;
-            cursor: pointer; backdrop-filter: var(--blur);
-            font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;
-        }
-        .lang-btn:hover { border-color: var(--accent); background: var(--hover); }
-        .lang-dropdown {
-            position: absolute; top: calc(100% + 8px); left: 50%;
-            background: rgba(15, 23, 42, 0.9); border: 1px solid var(--border);
-            border-radius: 14px; backdrop-filter: var(--blur);
-            box-shadow: var(--shadow); overflow: hidden; min-width: 140px;
-            opacity: 0; visibility: hidden; transform: translateX(-50%) translateY(-10px);
-            z-index: 999;
-        }
-        .light .lang-dropdown { background: rgba(255, 255, 255, 0.95); }
-        .lang-switcher.open .lang-dropdown { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
-        .lang-option {
-            display: flex; align-items: center; gap: 10px; padding: 12px 18px;
-            cursor: pointer; font-size: 0.95rem; font-weight: 600; color: var(--text);
-            border: none; background: none; width: 100%; text-align: left;
-        }
-        .lang-option:hover { background: var(--hover); color: var(--accent); }
-
-        /* Grid & Cards */
+        /* Grid System */
         .grid {
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px; width: 100%; max-width: 900px;
-            justify-content: start;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 20px;
+            width: 100%;
         }
 
+        /* Modern Modernized Cards */
         .project-card {
-            background: var(--card); border: 1px solid var(--border);
-            padding: 20px; border-radius: 20px; text-decoration: none;
-            color: var(--text); display: flex; align-items: center;
-            gap: 16px; box-shadow: var(--shadow); backdrop-filter: var(--blur);
-            cursor: pointer; min-height: 90px; width: 100%;
-            position: relative; overflow: hidden;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 24px;
+            text-decoration: none;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
         }
+
         .project-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.03));
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
             pointer-events: none;
         }
-        .project-card:hover { 
-            transform: translateY(-5px); 
-            border-color: var(--accent); 
-            background: var(--hover);
-            box-shadow: 0 12px 20px var(--accent-glow);
+
+        .project-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            background: var(--bg-surface-hover);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 15px 35px var(--accent-glow-cyan);
         }
-        .project-card.game-card:hover { border-color: var(--game-accent); box-shadow: 0 12px 20px var(--game-glow); }
-        .project-card.file-card:hover { border-color: var(--file-accent); box-shadow: 0 12px 20px var(--file-glow); }
+
+        .project-card.game-card:hover {
+            border-color: var(--accent-pink);
+            box-shadow: 0 15px 35px var(--accent-glow-pink);
+        }
+
+        .project-card.file-card:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 15px 35px var(--accent-glow-purple);
+        }
+
+        .icon-wrapper {
+            width: 52px;
+            height: 52px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 18px;
+            font-size: 1.25rem;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+        }
+
+        .game-card .icon-wrapper {
+            background: rgba(244, 114, 182, 0.1);
+            color: var(--accent-pink);
+            border-color: rgba(244, 114, 182, 0.15);
+        }
+
+        .file-card .icon-wrapper {
+            background: rgba(192, 132, 252, 0.1);
+            color: var(--accent-purple);
+            border-color: rgba(192, 132, 252, 0.15);
+        }
 
         .info-group {
-            flex: 1; display: flex; flex-direction: column; justify-content: center; min-width: 0;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
         }
 
         .name {
-            font-size: 1rem; font-weight: 600; letter-spacing: -0.2px;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .icon {
-            font-size: 22px; background: rgba(56, 189, 248, 0.12);
-            width: 48px; height: 48px; flex-shrink: 0;
-            display: flex; align-items: center; justify-content: center; border-radius: 14px;
-            box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.1);
+        .tag-sub {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
         }
-        .game-card .icon { background: rgba(244, 114, 182, 0.12); box-shadow: inset 0 0 10px rgba(244, 114, 182, 0.1); }
-        .file-card .icon { background: rgba(192, 132, 252, 0.12); box-shadow: inset 0 0 10px rgba(192, 132, 252, 0.1); color: var(--file-accent); }
 
-        .badge {
-            margin-left: 8px; font-size: 0.75rem; padding: 6px 14px;
-            border-radius: 12px; font-weight: 700; letter-spacing: 0.5px;
-            background: var(--accent); color: #0f172a; flex-shrink: 0;
-            text-align: center; min-width: 60px;
+        .action-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            flex-shrink: 0;
         }
-        .game-card .badge { background: var(--game-accent); color: #0f172a; }
-        .file-card .badge { background: var(--file-accent); color: #0f172a; }
 
-        /* Modal Structure */
-        .modal-overlay { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(4, 6, 14, 0.8); backdrop-filter: blur(15px); 
-            display: flex; align-items: center; justify-content: center; 
-            z-index: 1000; opacity: 0; visibility: hidden;
-            padding: 16px;
+        .project-card:hover .action-icon {
+            background: var(--accent-cyan);
+            color: #030712;
         }
-        .modal-overlay.active { opacity: 1; visibility: visible; }
-        .modal-content { 
-            background: rgba(20, 28, 47, 0.85); border: 1px solid var(--border); 
-            border-radius: 24px; padding: 32px; width: 100%; max-width: 600px; 
-            position: relative; box-shadow: var(--shadow);
-            transform: scale(0.95);
+
+        .game-card:hover .action-icon {
+            background: var(--accent-pink);
+            color: #030712;
         }
-        .light .modal-content { background: rgba(255, 255, 255, 0.9); }
-        .modal-overlay.active .modal-content { transform: scale(1); }
+
+        .file-card:hover .action-icon {
+            background: var(--accent-purple);
+            color: #030712;
+        }
+
+        /* Glassmorphic Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 7, 18, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            padding: 20px;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 32px;
+            padding: 32px;
+            width: 100%;
+            max-width: 550px;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9) translateY(20px);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .close-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
+        }
 
         .file-list {
-            max-height: 45vh; overflow-y: auto; margin-top: 20px;
-            border-radius: 16px; background: rgba(0,0,0,0.2);
-            border: 1px solid rgba(255,255,255,0.05);
+            max-height: 320px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-right: 4px;
         }
-        .light .file-list { background: rgba(0,0,0,0.03); }
 
         .file-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 16px; border-bottom: 1px solid var(--border); gap: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 18px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            gap: 12px;
         }
-        .file-item:last-child { border-bottom: none; }
+
+        .light .file-item {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .download-btn {
+            background: var(--accent-cyan);
+            color: #030712;
+            padding: 8px 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .game-card-modal .download-btn { background: var(--accent-pink); }
+        .file-card-modal .download-btn { background: var(--accent-purple); }
 
         .alt-links-section {
-            margin-top: 20px; padding: 16px;
-            background: rgba(56, 189, 248, 0.05);
-            border: 1px dashed var(--accent); border-radius: 16px;
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed var(--border-color);
+            border-radius: 20px;
         }
+
         .alt-link-item {
-            display: flex; align-items: center; justify-content: space-between;
-            margin-top: 10px; font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.875rem;
         }
-
-        .download-link {
-            background: var(--accent); color: #0f172a;
-            padding: 8px 18px; border-radius: 12px; text-decoration: none;
-            font-size: 0.8rem; font-weight: 700; white-space: nowrap;
-            box-shadow: 0 4px 12px var(--accent-glow);
-        }
-        .download-link:hover { transform: translateY(-2px); box-shadow: 0 6px 15px var(--accent-glow); }
-        
-        .game-card-modal .download-link { background: var(--game-accent); box-shadow: 0 4px 12px var(--game-glow); }
-        .file-card-modal .download-link { background: var(--file-accent); box-shadow: 0 4px 12px var(--file-glow); }
-        .alt-btn { background: var(--text) !important; color: var(--bg) !important; box-shadow: none !important; }
-
-        .close-modal {
-            position: absolute; top: 20px; right: 20px;
-            background: rgba(255,255,255,0.05); border: none; color: var(--text);
-            width: 36px; height: 36px; border-radius: 50%;
-            font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
-        }
-        .close-modal:hover { background: rgba(255,255,255,0.1); transform: rotate(90deg); }
 
         .hidden { display: none !important; }
 
         /* Footer */
         footer {
-            margin-top: auto; padding: 60px 0 20px; width: 100%;
-            text-align: center; font-size: 0.95rem; opacity: 0.7;
+            margin-top: auto;
+            padding-top: 60px;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
         }
-        footer b { color: var(--accent); text-shadow: 0 0 10px var(--accent-glow); }
-         
-        .footer-links {
-            margin-top: 12px; display: flex; justify-content: center; gap: 20px; font-size: 0.9rem;
+
+        footer b {
+            color: var(--text-primary);
         }
-        .footer-links a {
-            color: var(--text); text-decoration: none; opacity: 0.8; font-weight: 500;
-        }
-        .footer-links a:hover { color: var(--accent); opacity: 1; text-decoration: underline; }
+
+        /* Scrollbar styles */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
     </style>
 </head>
-<body>
+<body id="main-body">
 
 <div id="infoBanner" class="info-banner">
+    <i class="fa-solid fa-circle-info" style="color: var(--accent-cyan);"></i>
     <span id="bannerText"></span>
-    <button id="bannerBtn" onclick="closeBanner()">Tamam</button>
+    <button id="bannerBtn" onclick="closeBanner()"></button>
 </div>
 
-<header>
-    <h1>Cemal Evli</h1>
-    <div class="controls">
-        <input id="search" placeholder="">
-        <div class="lang-switcher" id="langSwitcher">
-            <button class="lang-btn" id="langBtn">🌐 <span id="langLabel"></span> ▾</button>
-            <div class="lang-dropdown">
-                <button class="lang-option" data-lang="en">🇬🇧 English</button>
-                <button class="lang-option" data-lang="tr">🇹🇷 Türkçe</button>
+<div class="header-wrapper">
+    <header>
+        <div class="brand-profile">
+            <div class="avatar-container">
+                <img id="profileImg" src="https://wsrv.nl/?url=https://github.com/cemalevli38.png&w=100&h=100&mask=circle&output=png" alt="Cemal Evli">
+            </div>
+            <div class="brand-info">
+                <h1>Cemal Evli</h1>
+                <p id="profileSub">Developer & Cyber Enthusiast</p>
             </div>
         </div>
-        <button id="themeToggle" class="tool-btn">🌙 / ☀️</button>
-    </div>
-</header>
 
-<div id="projects-section" style="width: 100%; max-width: 900px;">
-    <div class="section-header">
-        <h2 class="section-title" id="projectsTitle"></h2>
-    </div>
-    <div id="project-container" class="grid"></div>
+        <div class="controls">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="search" placeholder="">
+            </div>
+
+            <div class="lang-switcher" id="langSwitcher">
+                <button class="icon-btn" id="langBtn">
+                    <i class="fa-solid fa-globe"></i>
+                    <span id="langLabel"></span>
+                    <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem;"></i>
+                </button>
+                <div class="lang-dropdown">
+                    <button class="lang-option" data-lang="en">🇬🇧 English</button>
+                    <button class="lang-option" data-lang="tr">🇹🇷 Türkçe</button>
+                </div>
+            </div>
+
+            <button id="themeToggle" class="icon-btn" aria-label="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </header>
 </div>
 
-<div id="games-section" class="hidden" style="width: 100%; max-width: 900px;">
-    <div class="section-header">
-        <h2 class="section-title games" id="gamesTitle"></h2>
+<div class="content-container">
+    <div id="projects-section">
+        <div class="section-header">
+            <h2 class="section-title"><i class="fa-solid fa-folder-open"></i> <span id="projectsTitle"></span></h2>
+        </div>
+        <div id="project-container" class="grid"></div>
     </div>
-    <div id="game-container" class="grid"></div>
-</div>
 
-<div id="files-section" class="hidden" style="width: 100%; max-width: 900px;">
-    <div class="section-header">
-        <h2 class="section-title files" id="filesTitle"></h2>
+    <div id="games-section" class="hidden">
+        <div class="section-header">
+            <h2 class="section-title games"><i class="fa-solid fa-gamepad"></i> <span id="gamesTitle"></span></h2>
+        </div>
+        <div id="game-container" class="grid"></div>
     </div>
-    <div id="files-container" class="grid"></div>
+
+    <div id="files-section" class="hidden">
+        <div class="section-header">
+            <h2 class="section-title files"><i class="fa-solid fa-box-archive"></i> <span id="filesTitle"></span></h2>
+        </div>
+        <div id="files-container" class="grid"></div>
+    </div>
 </div>
 
 <div id="gameFilesModal" class="modal-overlay">
     <div class="modal-content" id="modalContentWrapper">
-        <button class="close-modal" onclick="toggleModal('gameFilesModal', false)">&times;</button>
-        <h2 id="modalGameName" style="margin:0; font-size:1.6rem; font-weight: 700;"></h2>
+        <div class="modal-header">
+            <h2 id="modalGameName"></h2>
+            <button class="close-btn" onclick="toggleModal('gameFilesModal', false)"><i class="fa-solid fa-xmark"></i></button>
+        </div>
         <div id="fileContainer" class="file-list"></div>
         <div id="altLinksContainer" class="alt-links-section hidden">
-            <div style="font-weight: bold; font-size: 0.85rem; color: var(--accent); margin-bottom: 5px;" id="altTitle">🔗 ALTERNATİF LİNKLER</div>
+            <div style="font-weight: 700; font-size: 0.8rem; color: var(--accent-cyan); margin-bottom: 8px;" id="altTitle"></div>
             <div id="altLinksList"></div>
         </div>
     </div>
@@ -350,8 +712,14 @@
 </footer>
 
 <script>
-const timestamp = new Date().getTime();
-document.getElementById("favicon").href = `https://wsrv.nl/?url=https://github.com/cemalevli38.png&w=64&h=64&mask=circle&output=png&v=${timestamp}`;
+const currentTimestamp = new Date().getTime();
+document.getElementById("favicon").href = `https://wsrv.nl/?url=https://github.com/cemalevli38.png&w=64&h=64&mask=circle&output=png&v=${currentTimestamp}`;
+document.getElementById("profileImg").src = `https://wsrv.nl/?url=https://github.com/cemalevli38.png&w=100&h=100&mask=circle&output=png&v=${currentTimestamp}`;
+
+const bodyEl = document.getElementById("main-body");
+if (bodyEl) {
+    bodyEl.style.backgroundImage = `url('https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/refs/heads/main/background.avif?v=${currentTimestamp}')`;
+}
 
 const PROJECTS_DATA_URL = "https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/refs/heads/main/projects.json"; 
 const GAMES_DATA_URL = "https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/refs/heads/main/games.json";
@@ -359,42 +727,42 @@ const FILES_DATA_URL = "https://raw.githubusercontent.com/cemalevli38/My_Site_Re
 
 const TRANSLATIONS = {
     en: {
-        searchPlaceholder: "🔍 Search sites or games...",
-        projectsTitle: "📂 My Sites",
-        gamesTitle: "🎮 Games",
-        filesTitle: "📁 Files",
+        profileSub: "Developer",
+        searchPlaceholder: "Search projects, games...",
+        projectsTitle: "Web Projects",
+        gamesTitle: "Game Vault",
+        filesTitle: "Downloads & Files",
+        webAppSub: "Web Application",
+        cloudMirror: "Cloud Mirror",
         loading: "Loading...",
-        error: "Data is not ready yet.",
+        error: "Data unavailable.",
         noFiles: "No files found.",
-        openBadge: "OPEN",
-        downloadBtn: "DOWNLOAD",
-        altLinkBtn: "LINK",
-        altTitle: "🔗 ALTERNATIVE LINKS",
-        footerText: 'All rights reserved. &copy; 2026 <a href="https://github.com/cemalevli38" target="_blank" style="text-decoration:none; color:inherit;"><b>Cemal Evli</b></a>',
-        langLabel: "English",
-        updateNotice: "🔄 Note: Data on this site is updated every hour.",
-        bannerConfirm: "Got it!",
-        linkAbout: "About & Impressum",
-        linkPrivacy: "Privacy Policy"
+        downloadBtn: "Download",
+        altLinkBtn: "Mirror",
+        altTitle: "ALTERNATIVE MIRRORS",
+        footerText: 'Designed & Built by <a href="https://github.com/cemalevli38" target="_blank" style="text-decoration:none; color:inherit;"><b>Cemal Evli</b></a> &copy; 2026',
+        langLabel: "EN",
+        updateNotice: "Data syncs automatically every hour.",
+        bannerConfirm: "Got it"
     },
     tr: {
-        searchPlaceholder: "🔍 Site veya Oyun Ara...",
-        projectsTitle: "📂 Sitelerim",
-        gamesTitle: "🎮 Oyunlar",
-        filesTitle: "📁 Dosyalar",
+        profileSub: "Geliştirici",
+        searchPlaceholder: "Proje veya oyun ara...",
+        projectsTitle: "Web Projeleri",
+        gamesTitle: "Oyun Arşivi",
+        filesTitle: "Dosyalar & İndirmeler",
+        webAppSub: "Web Uygulaması",
+        cloudMirror: "Bulut Aynası",
         loading: "Yükleniyor...",
-        error: "Veriler henüz hazır değil.",
+        error: "Veriler yüklenemedi.",
         noFiles: "Dosya bulunamadı.",
-        openBadge: "AÇ",
-        downloadBtn: "İNDİR",
-        altLinkBtn: "LİNK",
-        altTitle: "🔗 ALTERNATİF LİNKLER",
-        footerText: 'Tüm hakları saklıdır. &copy; 2026 <a href="https://github.com/cemal201138" target="_blank" style="text-decoration:none; color:inherit;"><b>Cemal Evli</b></a>',
-        langLabel: "Türkçe",
-        updateNotice: "🔄 Bilgi: Sitedeki veriler her saat başı otomatik olarak güncellenmektedir.",
-        bannerConfirm: "Tamam",
-        linkAbout: "Hakkımda & Künye",
-        linkPrivacy: "Gizlilik Politikası"
+        downloadBtn: "İndir",
+        altLinkBtn: "Alternatif",
+        altTitle: "ALTERNATİF LİNKLER",
+        footerText: '<a href="https://github.com/cemalevli38" target="_blank" style="text-decoration:none; color:inherit;"><b>Cemal Evli</b></a> tarafından tasarlandı &copy; 2026',
+        langLabel: "TR",
+        updateNotice: "Sitedeki veriler her saat başı otomatik güncellenir.",
+        bannerConfirm: "Anlaşıldı"
     }
 };
 
@@ -403,6 +771,7 @@ function tr(key) { return TRANSLATIONS[currentLang][key] || TRANSLATIONS["en"][k
 
 function applyLanguage() {
     document.documentElement.lang = currentLang;
+    document.getElementById("profileSub").textContent = tr("profileSub");
     document.getElementById("search").placeholder = tr("searchPlaceholder");
     document.getElementById("projectsTitle").textContent = tr("projectsTitle");
     document.getElementById("gamesTitle").textContent = tr("gamesTitle");
@@ -418,12 +787,28 @@ function applyLanguage() {
     loadFiles();
 }
 
-function checkBanner() { if (!localStorage.getItem("bannerClosed")) setTimeout(() => document.getElementById("infoBanner").classList.add("show"), 800); }
-function closeBanner() { document.getElementById("infoBanner").classList.remove("show"); localStorage.setItem("bannerClosed", "true"); }
-if (localStorage.getItem("theme") === "light") document.body.classList.add("light");
-document.getElementById('themeToggle').onclick = () => {
+function checkBanner() { 
+    if (!localStorage.getItem("bannerClosed")) {
+        setTimeout(() => document.getElementById("infoBanner").classList.add("show"), 800); 
+    }
+}
+
+function closeBanner() { 
+    document.getElementById("infoBanner").classList.remove("show"); 
+    localStorage.setItem("bannerClosed", "true"); 
+}
+
+const themeToggleBtn = document.getElementById('themeToggle');
+if (localStorage.getItem("theme") === "light") {
+    document.body.classList.add("light");
+    themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+}
+
+themeToggleBtn.onclick = () => {
     document.body.classList.toggle("light");
-    localStorage.setItem("theme", document.body.classList.contains("light") ? "light" : "dark");
+    const isLight = document.body.classList.contains("light");
+    themeToggleBtn.innerHTML = isLight ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+    localStorage.setItem("theme", isLight ? "light" : "dark");
 };
 
 const norm = s => !s ? "" : s.toLowerCase().replace(/ı/g, 'i').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c').normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[_\s-]/g, "");
@@ -453,11 +838,12 @@ async function loadProjects() {
             card.target = "_blank";
             card.dataset.searchName = norm(p.name);
             card.innerHTML = `
-                <div class="icon">🌐</div>
+                <div class="icon-wrapper"><i class="fa-solid fa-globe"></i></div>
                 <div class="info-group">
-                    <div class="name"><b>${p.name.replace(/_/g, " ")}</b></div>
+                    <div class="name">${p.name.replace(/_/g, " ")}</div>
+                    <div class="tag-sub">${tr("webAppSub")}</div>
                 </div>
-                <span class="badge">${tr("openBadge")}</span>
+                <div class="action-icon"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
             `;
             container.appendChild(card);
         });
@@ -479,12 +865,12 @@ async function loadGames() {
             card.className = "project-card game-card";
             card.dataset.searchName = norm(rel.name || rel.tag_name);
             card.innerHTML = `
-                <div class="icon">🎮</div>
+                <div class="icon-wrapper"><i class="fa-solid fa-gamepad"></i></div>
                 <div class="info-group">
-                    <div class="name"><b>${rel.name || rel.tag_name}</b></div>
-                    <div style="font-size:0.75rem; opacity:0.6; margin-top:2px;">${rel.tag_name}</div>
+                    <div class="name">${rel.name || rel.tag_name}</div>
+                    <div class="tag-sub">${rel.tag_name}</div>
                 </div>
-                <span class="badge">${tr("openBadge")}</span>
+                <div class="action-icon"><i class="fa-solid fa-download"></i></div>
             `;
             card.onclick = () => openGameModal(rel, "game");
             container.appendChild(card);
@@ -507,12 +893,12 @@ async function loadFiles() {
             card.className = "project-card file-card";
             card.dataset.searchName = norm(file.name || file.tag_name);
             card.innerHTML = `
-                <div class="icon">📁</div>
+                <div class="icon-wrapper"><i class="fa-solid fa-box-archive"></i></div>
                 <div class="info-group">
-                    <div class="name"><b>${file.name || file.tag_name}</b></div>
-                    <div style="font-size:0.75rem; opacity:0.6; margin-top:2px;">${file.tag_name}</div>
+                    <div class="name">${file.name || file.tag_name}</div>
+                    <div class="tag-sub">${file.tag_name}</div>
                 </div>
-                <span class="badge">${tr("openBadge")}</span>
+                <div class="action-icon"><i class="fa-solid fa-download"></i></div>
             `;
             card.onclick = () => openGameModal(file, "file");
             container.appendChild(card);
@@ -526,9 +912,7 @@ function openGameModal(rel, category) {
     const altList = document.getElementById("altLinksList");
     const modalWrapper = document.getElementById("modalContentWrapper");
     
-    // Modal renk şemasını dinamik ayarlamak için sınıf yönetimi
     modalWrapper.className = "modal-content " + (category === "game" ? "game-card-modal" : "file-card-modal");
-
     document.getElementById("modalGameName").textContent = rel.name || rel.tag_name;
     
     fileContainer.innerHTML = "";
@@ -541,38 +925,36 @@ function openGameModal(rel, category) {
             div.className = "file-item";
             const size = (asset.size / (1024 * 1024)).toFixed(2);
             div.innerHTML = `
-                <div class="file-info" style="display:flex; gap:12px; align-items:center; min-width:0;">
-                    <div class="file-icon" style="font-size:1.3rem;">${getFileIcon(asset.name)}</div>
-                    <div style="min-width:0; flex:1;">
-                        <div style="font-weight:bold; font-size:0.9rem; word-break:break-all;">${asset.name}</div>
-                        <div style="font-size:0.75rem; opacity:0.6; margin-top:2px;">${size} MB</div>
+                <div style="display:flex; gap:12px; align-items:center; min-width:0;">
+                    <i class="${getFileIconClass(asset.name)}" style="font-size:1.2rem; color:var(--text-secondary);"></i>
+                    <div style="min-width:0;">
+                        <div style="font-weight:700; font-size:0.875rem; word-break:break-all;">${asset.name}</div>
+                        <div style="font-size:0.75rem; color:var(--text-secondary); margin-top:2px;">${size} MB</div>
                     </div>
                 </div>
-                <a href="${asset.browser_download_url}" class="download-link" target="_blank">${tr("downloadBtn")}</a>
+                <a href="${asset.browser_download_url}" class="download-btn" target="_blank"><i class="fa-solid fa-arrow-down"></i> ${tr("downloadBtn")}</a>
             `;
             fileContainer.appendChild(div);
         });
     } else {
-        fileContainer.innerHTML = `<p style='padding:30px; opacity:0.6; text-align:center;'>${tr("noFiles")}</p>`;
+        fileContainer.innerHTML = `<p style='padding:20px; color:var(--text-secondary); text-align:center;'>${tr("noFiles")}</p>`;
     }
 
     if (rel.alt_links && rel.alt_links.length > 0) {
         altContainer.classList.remove("hidden");
-        rel.alt_links.forEach(link => {
-            addAltLinkRow(link.name, link.url);
-        });
+        rel.alt_links.forEach(link => { addAltLinkRow(link.name, link.url); });
     } 
     else if (rel.body && rel.body.trim().startsWith("http")) {
         altContainer.classList.remove("hidden");
-        addAltLinkRow("Google Drive / Cloud", rel.body.trim());
+        addAltLinkRow(tr("cloudMirror"), rel.body.trim());
     }
 
     function addAltLinkRow(label, url) {
         const div = document.createElement("div");
         div.className = "alt-link-item";
         div.innerHTML = `
-            <span style="font-weight:600; opacity:0.8;">${label}</span>
-            <a href="${url}" class="download-link alt-btn" target="_blank">${tr("altLinkBtn")}</a>
+            <span style="font-weight:600;">${label}</span>
+            <a href="${url}" class="download-btn" style="background:var(--bg-surface-hover); color:var(--text-primary);" target="_blank">${tr("altLinkBtn")} <i class="fa-solid fa-up-right-from-square" style="font-size:0.7rem;"></i></a>
         `;
         altList.appendChild(div);
     }
@@ -580,9 +962,18 @@ function openGameModal(rel, category) {
     toggleModal('gameFilesModal', true);
 }
 
-function getFileIcon(fn) {
+function getFileIconClass(fn) {
     const ext = fn.split('.').pop().toLowerCase();
-    return { 'zip':'📦','rar':'📦','apk':'🤖','exe':'⚙️','pdf':'📕','mp4':'🎬','mp3':'🎵' }[ext] || '📄';
+    const map = {
+        'zip': 'fa-solid fa-file-zipper',
+        'rar': 'fa-solid fa-file-zipper',
+        'apk': 'fa-brands fa-android',
+        'exe': 'fa-solid fa-gears',
+        'pdf': 'fa-solid fa-file-pdf',
+        'mp4': 'fa-solid fa-file-video',
+        'mp3': 'fa-solid fa-file-audio'
+    };
+    return map[ext] || 'fa-solid fa-file';
 }
 
 document.getElementById('search').addEventListener("input", function () {
