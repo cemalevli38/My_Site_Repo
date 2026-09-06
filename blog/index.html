@@ -34,7 +34,7 @@
 </head>
 <body id="main-body" class="bg-[#050505] text-neutral-200 antialiased selection:bg-indigo-500/30 selection:text-indigo-200 overflow-x-hidden bg-cover bg-center bg-no-repeat bg-fixed">
 
-    <div id="password-screen" class="fixed inset-0 bg-[#050505] z-[100] flex items-center justify-center p-6 transition-all duration-500">
+    <div id="password-screen" class="fixed inset-0 bg-[#050505] bg-cover bg-center bg-no-repeat bg-fixed z-[100] flex items-center justify-center p-6 transition-all duration-500">
         <div class="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none"></div>
         <div class="fixed bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none"></div>
         
@@ -67,13 +67,13 @@
                     CEMAL EVLI
                 </a>
                 <div class="flex bg-neutral-900/60 p-1.5 rounded-full border border-neutral-800/60 shadow-inner">
-                    <button onclick="switchTab('photos')" class="tab-btn px-5 py-2 text-xs md:text-sm font-semibold rounded-full text-neutral-400 hover:text-neutral-100 transition-all duration-300" id="btn-photos">
+                    <button onclick="switchTab('photos')" class="tab-btn px-5 py-2 text-xs md:text-sm font-semibold rounded-full bg-neutral-800/80 text-white shadow-sm transition-all duration-300" id="btn-photos">
                         <i class="fa-regular fa-image mr-2 opacity-70"></i>Fotoğraflar
                     </button>
                     <button onclick="switchTab('videos')" class="tab-btn px-5 py-2 text-xs md:text-sm font-semibold rounded-full text-neutral-400 hover:text-neutral-100 transition-all duration-300" id="btn-videos">
                         <i class="fa-solid fa-clapperboard mr-2 opacity-70"></i>Videolar
                     </button>
-                    <button onclick="switchTab('posts')" class="tab-btn px-5 py-2 text-xs md:text-sm font-semibold rounded-full text-neutral-400 hover:text-neutral-100 transition-all duration-300 bg-neutral-800/80 text-white shadow-sm" id="btn-posts">
+                    <button onclick="switchTab('posts')" class="tab-btn px-5 py-2 text-xs md:text-sm font-semibold rounded-full text-neutral-400 hover:text-neutral-100 transition-all duration-300" id="btn-posts">
                         <i class="fa-regular fa-pen-to-square mr-2 opacity-70"></i>Yazılar
                     </button>
                 </div>
@@ -105,7 +105,7 @@
         </header>
 
         <main class="relative z-10 max-w-5xl mx-auto px-6 pb-32">
-            <section id="photos" class="tab-content">
+            <section id="photos" class="tab-content active">
                 <div id="photos-folders" class="flex flex-wrap gap-2 justify-center mb-8"></div>
                 <div id="photos-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
             </section>
@@ -115,7 +115,7 @@
                 <div id="videos-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
             </section>
 
-            <section id="posts" class="tab-content active">
+            <section id="posts" class="tab-content">
                 <div id="posts-folders" class="flex flex-wrap gap-2 justify-center mb-8"></div>
                 <div id="posts-container" class="space-y-6 max-w-3xl mx-auto"></div>
             </section>
@@ -150,11 +150,17 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             const currentTimestamp = new Date().getTime();
+            const bgUrl = `url('https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/refs/heads/main/background.avif?v=${currentTimestamp}')`;
             
-            // Arka plan resmini timestamp entegrasyonu ile ayarla
+            // Arka plan resmini hem ana gövdeye hem de şifre ekranına uygula
             const bodyEl = document.getElementById("main-body");
             if (bodyEl) {
-                bodyEl.style.backgroundImage = `url('https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/refs/heads/main/background.avif?v=${currentTimestamp}')`;
+                bodyEl.style.backgroundImage = bgUrl;
+            }
+
+            const passwordScreenEl = document.getElementById("password-screen");
+            if (passwordScreenEl) {
+                passwordScreenEl.style.backgroundImage = bgUrl;
             }
 
             const avatarImg = document.getElementById("profile-avatar");
@@ -223,6 +229,7 @@
                 .then(data => {
                     globalMediaData = data;
                     renderAllSections();
+                    switchTab('photos');
                 })
                 .catch(error => {
                     console.error("Hata:", error);
