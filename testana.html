@@ -821,6 +821,46 @@ function toggleModal(id, show) {
     }
 }
 
+async function handleCustomRouting() {
+    const pathName = window.location.pathname.replace(/^\/+|\/+$/g, '');
+    if (!pathName) return;
+
+    const requestedFile = decodeURIComponent(pathName).toLowerCase();
+
+    try {
+        const [filesRes, gamesRes] = await Promise.all([
+            fetch(FILES_DATA_URL),
+            fetch(GAMES_DATA_URL)
+        ]);
+
+        const filesData = filesRes.ok ? await filesRes.json() : [];
+        const gamesData = gamesRes.ok ? await gamesRes.json() : [];
+        const combinedData = [...filesData, ...gamesData];
+
+        let targetRawUrl = null;
+
+        for (const item of combinedData) {
+            if (item.assets && Array.isArray(item.assets)) {
+                const matchedAsset = item.assets.find(asset => 
+                    asset.name.toLowerCase() === requestedFile
+                );
+                if (matchedAsset && matchedAsset.browser_download_url) {
+                    targetRawUrl = matchedAsset.browser_download_url;
+                    break;
+                }
+            }
+        }
+
+        if (targetRawUrl) {
+            window.location.href = targetRawUrl;
+        } else {
+            window.history.replaceState({}, document.title, window.location.origin);
+        }
+    } catch (e) {
+        window.history.replaceState({}, document.title, window.location.origin);
+    }
+}
+
 async function loadProjects() {
     const container = document.getElementById("project-container");
     const section = document.getElementById("projects-section");
@@ -1002,6 +1042,7 @@ window.onclick = (e) => {
     if (!document.getElementById("langSwitcher").contains(e.target)) document.getElementById("langSwitcher").classList.remove("open");
 };
 
+handleCustomRouting();
 applyLanguage();
 checkBanner();
 </script>
