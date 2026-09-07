@@ -3,25 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yönlendiriliyor...</title>
+    <title></title>
 </head>
 <body>
-    <p id="status">İndirme linki aranıyor, lütfen bekleyin...</p>
-
     <script>
         const jsonUrl = "https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/games.json";
 
         async function redirectCS16() {
             try {
                 const response = await fetch(jsonUrl);
-                if (!response.ok) {
-                    throw new Error("JSON dosyası çekilemedi.");
-                }
-                const data = await response.json();
+                if (!response.ok) return;
 
+                const data = await response.json();
                 let downloadUrl = null;
 
-                // JSON içerisindeki release ve asset öğelerini tara
                 for (const release of data) {
                     if (release.assets && Array.isArray(release.assets)) {
                         const targetAsset = release.assets.find(asset => asset.name === "cs16.exe");
@@ -33,14 +28,10 @@
                 }
 
                 if (downloadUrl) {
-                    document.getElementById("status").innerText = "Link bulundu, indirme başlatılıyor...";
                     window.location.href = downloadUrl;
-                } else {
-                    document.getElementById("status").innerText = "cs16.exe indirme linki bulunamadı.";
                 }
             } catch (error) {
                 console.error("Hata:", error);
-                document.getElementById("status").innerText = "Bir hata oluştu: " + error.message;
             }
         }
 
