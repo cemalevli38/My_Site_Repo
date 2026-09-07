@@ -827,6 +827,15 @@ async function handleCustomRouting() {
 
     const requestedFile = decodeURIComponent(pathName).toLowerCase();
 
+    // html, php, asp gibi sayfa uzantılarını kontrol edelim
+    const isWebPageExt = /\.(html|htm|php|asp|aspx|jsp|shtml)$/i.test(requestedFile);
+
+    if (isWebPageExt) {
+        // Sayfa uzantılı bir linkse doğrudan adresi temizleyip ana sayfaya düşmesini sağlayalım
+        window.history.replaceState({}, document.title, window.location.origin);
+        return;
+    }
+
     try {
         const [filesRes, gamesRes] = await Promise.all([
             fetch(FILES_DATA_URL),
