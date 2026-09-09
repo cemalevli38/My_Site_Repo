@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Görsel Şifreleyici & Çözücü</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.1);
+      --error: #ef4444;
+      --success: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top left, #1e1b4b, var(--bg));
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 650px;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #a5b4fc, #6366f1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Tab Navigasyonu */
+    .tabs {
+      display: flex;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 6px;
+      border-radius: 14px;
+      margin-bottom: 28px;
+      border: 1px solid var(--border);
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.95rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn.active {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Form Bilesenleri */
+    .group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input-field:focus {
+      border-color: var(--accent);
+    }
+
+    textarea.input-field {
+      height: 110px;
+      resize: vertical;
+      word-break: break-all;
+    }
+
+    /* Drag & Drop Alanı */
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: 16px;
+      padding: 28px 16px;
+      text-align: center;
+      cursor: pointer;
+      background: rgba(15, 23, 42, 0.3);
+      transition: all 0.2s;
+    }
+
+    .drop-zone:hover, .drop-zone.dragover {
+      border-color: var(--accent);
+      background: rgba(99, 102, 241, 0.05);
+    }
+
+    .drop-zone p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      margin-top: 8px;
+    }
+
+    .drop-zone span {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Butonlar */
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn:active {
+      transform: scale(0.99);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      margin-top: 8px;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Çıktı Alanları */
+    .output-box {
+      position: relative;
+    }
+
+    .preview-card {
+      margin-top: 20px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    .preview-card img {
+      max-width: 100%;
+      max-height: 400px;
+      display: block;
+      margin: auto;
+    }
+
+    /* Bildirim Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 12px 20px;
+      border-radius: 12px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.88rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1>Görsel Kasası</h1>
+      <p>AES-GCM 256-Bit ile fotoğraflarınızı istemci tarafında şifreleyin</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('encrypt')">Şifrele</button>
+      <button class="tab-btn" onclick="switchTab('decrypt')">Çöz</button>
+    </div>
+
+    <!-- ŞİFRELEME SEKME -->
+    <div id="encryptTab" class="tab-content active">
+      <div class="group">
+        <label>Görsel Seçin</label>
+        <div class="drop-zone" id="dropZone" onclick="document.getElementById('imageInput').click()">
+          <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color: var(--accent)">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+          </svg>
+          <p id="fileNameDisplay">Tıklayın veya resmi buraya sürükleyin</p>
+          <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleFileSelect(this)">
+        </div>
+      </div>
+
+      <div class="group">
+        <label for="encryptKey">Anahtar Kelime (Şifre)</label>
+        <input type="password" id="encryptKey" class="input-field" placeholder="Güçlü bir anahtar belirleyin...">
+      </div>
+
+      <button class="btn" onclick="encryptImage()">Şifrele ve Kod Üret</button>
+
+      <div class="group output-box" style="margin-top: 24px;">
+        <label>Şifrelenmiş Kod</label>
+        <textarea id="encryptedOutput" class="input-field" readonly placeholder="Şifreli veri burada oluşacak..."></textarea>
+        <button class="btn btn-secondary" onclick="copyOutput()">Kodu Kopyala</button>
+      </div>
+    </div>
+
+    <!-- ŞİFRE ÇÖZME SEKME -->
+    <div id="decryptTab" class="tab-content">
+      <div class="group">
+        <label for="decryptInput">Şifreli Kod</label>
+        <textarea id="decryptInput" class="input-field" placeholder="Şifrelenmiş Base64 kodunu buraya yapıştırın..."></textarea>
+      </div>
+
+      <div class="group">
+        <label for="decryptKey">Anahtar Kelime (Şifre)</label>
+        <input type="password" id="decryptKey" class="input-field" placeholder="Resmi çözerken kullanılan şifre...">
+      </div>
+
+      <button class="btn" onclick="decryptImage()">Görseli Çöz</button>
+
+      <div id="previewCard" class="preview-card" style="display: none;">
+        <div id="imageContainer"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">İşlem Başarılı!</div>
+
+  <script>
+    // Sekme Geçişleri
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+      if (tabName === 'encrypt') {
+        document.querySelectorAll('.tab-btn')[0].classList.add('active');
+        document.getElementById('encryptTab').classList.add('active');
+      } else {
+        document.querySelectorAll('.tab-btn')[1].classList.add('active');
+        document.getElementById('decryptTab').classList.add('active');
+      }
+    }
+
+    // Drag & Drop İşlemleri
+    const dropZone = document.getElementById('dropZone');
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropZone.addEventListener(eventName, () => dropZone.classList.add('dragover'), false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, () => dropZone.classList.remove('dragover'), false);
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      if (files.length > 0 && files[0].type.startsWith('image/')) {
+        document.getElementById('imageInput').files = files;
+        handleFileSelect(document.getElementById('imageInput'));
+      } else {
+        showToast("Lütfen sadece geçerli bir resim dosyası bırakın.");
+      }
+    });
+
+    function handleFileSelect(input) {
+      if (input.files && input.files[0]) {
+        document.getElementById('fileNameDisplay').innerHTML = `Seçilen: <span>${input.files[0].name}</span>`;
+      }
+    }
+
+    // Bildirim Mesajı
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // Kopyalama Butonu
+    function copyOutput() {
+      const output = document.getElementById('encryptedOutput');
+      if (!output.value) return;
+      output.select();
+      navigator.clipboard.writeText(output.value);
+      showToast("Şifreli kod panoya kopyalandı!");
+    }
+
+    // Kripto Anahtar Türetme
+    async function getKey(password, salt) {
+      const enc = new TextEncoder();
+      const keyMaterial = await crypto.subtle.importKey(
+        "raw", enc.encode(password), "PBKDF2", false, ["deriveKey"]
+      );
+      return crypto.subtle.deriveKey(
+        {
+          name: "PBKDF2",
+          salt: salt,
+          iterations: 100000,
+          hash: "SHA-256"
+        },
+        keyMaterial,
+        { name: "AES-GCM", length: 256 },
+        false,
+        ["encrypt", "decrypt"]
+      );
+    }
+
+    // 1. ŞİFRELEME İŞLEMİ
+    async function encryptImage() {
+      const fileInput = document.getElementById('imageInput');
+      const password = document.getElementById('encryptKey').value;
+      const outputTextarea = document.getElementById('encryptedOutput');
+
+      if (!fileInput.files[0] || !password) {
+        showToast("Lütfen resim seçin ve şifre girin!");
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+
+      reader.onload = async (e) => {
+        try {
+          const imageDataUrl = e.target.result;
+          const enc = new TextEncoder();
+          const dataToEncrypt = enc.encode(imageDataUrl);
+
+          const salt = crypto.getRandomValues(new Uint8Array(16));
+          const iv = crypto.getRandomValues(new Uint8Array(12));
+
+          const key = await getKey(password, salt);
+          const encryptedContent = await crypto.subtle.encrypt(
+            { name: "AES-GCM", iv: iv },
+            key,
+            dataToEncrypt
+          );
+
+          const combined = new Uint8Array(salt.length + iv.length + encryptedContent.byteLength);
+          combined.set(salt, 0);
+          combined.set(iv, salt.length);
+          combined.set(new Uint8Array(encryptedContent), salt.length + iv.length);
+
+          const base64String = btoa(String.fromCharCode(...combined));
+          outputTextarea.value = base64String;
+          showToast("Şifreleme başarılı!");
+        } catch (err) {
+          showToast("Şifreleme esnasında hata oluştu.");
+          console.error(err);
+        }
+      };
+
+      reader.readAsDataURL(file);
+    }
+
+    // 2. ŞİFRE ÇÖZME İŞLEMİ
+    async function decryptImage() {
+      const encryptedBase64 = document.getElementById('decryptInput').value.trim();
+      const password = document.getElementById('decryptKey').value;
+      const container = document.getElementById('imageContainer');
+      const previewCard = document.getElementById('previewCard');
+
+      if (!encryptedBase64 || !password) {
+        showToast("Şifreli kod ve anahtar kelimeyi girin!");
+        return;
+      }
+
+      try {
+        const combined = Uint8Array.from(atob(encryptedBase64), c => c.charCodeAt(0));
+
+        const salt = combined.slice(0, 16);
+        const iv = combined.slice(16, 28);
+        const data = combined.slice(28);
+
+        const key = await getKey(password, salt);
+        const decryptedContent = await crypto.subtle.decrypt(
+          { name: "AES-GCM", iv: iv },
+          key,
+          data
+        );
+
+        const dec = new TextDecoder();
+        const originalDataUrl = dec.decode(decryptedContent);
+
+        container.innerHTML = `<img src="${originalDataUrl}" alt="Çözülen Görsel">`;
+        previewCard.style.display = 'block';
+        showToast("Görsel başarıyla çözüldü!");
+      } catch (err) {
+        showToast("Hata: Şifre yanlış veya kod bozuk!");
+        previewCard.style.display = 'none';
+        console.error(err);
+      }
+    }
+  </script>
+
+</body>
+</html>
