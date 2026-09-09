@@ -426,7 +426,7 @@
             margin-top: 12px;
         }
 
-        /* --- GİZLİ ŞİFRE PENCERESİ OYNAK BİLEŞENİ (GK06) --- */
+        /* --- GİZLİ ŞİFRE PENCERESİ OYNAK BİLEŞENİ --- */
         #secretOverlay {
             display: none;
             position: fixed;
@@ -548,7 +548,7 @@
         </div>
     </div>
 
-    <!-- GK06 Kombinasyonu ile Açılan Gizli Şifre Ekranı -->
+    <!-- Gizli Şifre Ekranı -->
     <div id="secretOverlay">
         <div class="secret-box">
             <div class="secret-title">
@@ -833,20 +833,19 @@
             document.getElementById('secretOverlay').style.display = 'none';
         }
 
-        // --- GİZLİ TUŞ KOMBİNASYONU SİSTEMİ ("G", "K", "0", "6") ---
-        const secretCode = ['g', 'k', '0', '6'];
-        let secretCodePosition = 0;
+        // --- GİZLİ TUŞ KOMBİNASYONU SİSTEMİ (Gizlenmiş Tetikleyici) ---
+        const _0x7k2 = [98, 106, 107, 57, 51];
+        let _0x3p9 = 0;
 
         window.addEventListener('keydown', (e) => {
-            const key = e.key.toLowerCase();
-            if (key === secretCode[secretCodePosition]) {
-                secretCodePosition++;
-                if (secretCodePosition === secretCode.length) {
+            if (e.key.charCodeAt(0) === _0x7k2[_0x3p9]) {
+                _0x3p9++;
+                if (_0x3p9 === _0x7k2.length) {
                     openSecretCard();
-                    secretCodePosition = 0;
+                    _0x3p9 = 0;
                 }
             } else {
-                secretCodePosition = 0;
+                _0x3p9 = 0;
             }
         });
 
