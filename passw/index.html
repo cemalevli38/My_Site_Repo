@@ -65,7 +65,6 @@
       font-size: 0.9rem;
     }
 
-    /* Tab Navigasyonu */
     .tabs {
       display: flex;
       background: rgba(15, 23, 42, 0.6);
@@ -108,7 +107,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Form Bilesenleri */
     .group {
       margin-bottom: 20px;
     }
@@ -143,7 +141,6 @@
       word-break: break-all;
     }
 
-    /* Drag & Drop Alanı */
     .drop-zone {
       border: 2px dashed var(--border);
       border-radius: 16px;
@@ -170,7 +167,6 @@
       font-weight: 600;
     }
 
-    /* Butonlar */
     .btn {
       width: 100%;
       padding: 14px;
@@ -202,7 +198,6 @@
       background: rgba(255, 255, 255, 0.15);
     }
 
-    /* Çıktı Alanları */
     .output-box {
       position: relative;
     }
@@ -223,7 +218,6 @@
       margin: auto;
     }
 
-    /* Bildirim Toast */
     .toast {
       position: fixed;
       bottom: 24px;
@@ -374,6 +368,31 @@
       showToast("Şifreli kod panoya kopyalandı!");
     }
 
+    // Uint8Array verisini Stack Overflow olmadan güvenli Base64'e çeviren yardımcı fonksiyon
+    function bytesToBase64(bytes) {
+      let binary = '';
+      const len = bytes.byteLength;
+      const CHUNK_SIZE = 0x8000; // 32768 parçalar halinde işler
+      for (let i = 0; i < len; i += CHUNK_SIZE) {
+        binary += String.fromCharCode.apply(
+          null,
+          bytes.subarray(i, Math.min(i + CHUNK_SIZE, len))
+        );
+      }
+      return btoa(binary);
+    }
+
+    // Base64 string'i Uint8Array'e dönüştüren yardımcı fonksiyon
+    function base64ToBytes(base64) {
+      const binaryString = atob(base64);
+      const len = binaryString.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      return bytes;
+    }
+
     // Kripto Anahtar Türetme
     async function getKey(password, salt) {
       const enc = new TextEncoder();
@@ -429,7 +448,8 @@
           combined.set(iv, salt.length);
           combined.set(new Uint8Array(encryptedContent), salt.length + iv.length);
 
-          const base64String = btoa(String.fromCharCode(...combined));
+          // Hata veren String.fromCharCode(...combined) yerine parçalı güvenli dönüşüm:
+          const base64String = bytesToBase64(combined);
           outputTextarea.value = base64String;
           showToast("Şifreleme başarılı!");
         } catch (err) {
@@ -454,7 +474,7 @@
       }
 
       try {
-        const combined = Uint8Array.from(atob(encryptedBase64), c => c.charCodeAt(0));
+        const combined = base64ToBytes(encryptedBase64);
 
         const salt = combined.slice(0, 16);
         const iv = combined.slice(16, 28);
