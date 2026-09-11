@@ -744,7 +744,7 @@
         "state": "uploaded",
         "size": 67826994,
         "digest": "sha256:fe3ebbdaba19c44bd448e3484d6e603a3830077b93ad355161c1a7f0218253fd",
-        "download_count": 19,
+        "download_count": 20,
         "created_at": "2026-04-15T16:02:25Z",
         "updated_at": "2026-09-07T16:20:57Z",
         "browser_download_url": "https://github.com/cemalevli38/games/releases/download/CS16/cs16.exe"
@@ -780,7 +780,7 @@
         "state": "uploaded",
         "size": 67685133,
         "digest": "sha256:85993928bb73b5956efb51116983ccde6914516e1145cf14f412fdd76d1f2d5f",
-        "download_count": 5,
+        "download_count": 6,
         "created_at": "2026-04-15T16:03:48Z",
         "updated_at": "2026-04-15T16:04:59Z",
         "browser_download_url": "https://github.com/cemalevli38/games/releases/download/CS16/cs16.zip"
