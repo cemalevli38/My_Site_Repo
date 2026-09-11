@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/refs/heads/main/csico.ico">
+    <title></title>
+</head>
+<body>
+    <script>
+        const jsonUrl = "https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/games.json";
+
+        async function redirectCS16() {
+            try {
+                const response = await fetch(jsonUrl);
+                if (!response.ok) return;
+
+                const data = await response.json();
+                let downloadUrl = null;
+
+                for (const release of data) {
+                    if (release.assets && Array.isArray(release.assets)) {
+                        const targetAsset = release.assets.find(asset => asset.name === "cs16.zip");
+                        if (targetAsset && targetAsset.browser_download_url) {
+                            downloadUrl = targetAsset.browser_download_url;
+                            break;
+                        }
+                    }
+                }
+
+                if (downloadUrl) {
+                    // İndirmeyi arka planda tetiklemek için bir iframe oluşturuyoruz
+                    const iframe = document.createElement("iframe");
+                    iframe.style.display = "none";
+                    iframe.src = downloadUrl;
+                    document.body.appendChild(iframe);
+
+                    // İndirme tetiklendikten 1 saniye sonra sekmeyi kapatıyoruz
+                    setTimeout(() => {
+                        window.close();
+                    }, 1000);
+                }
+            } catch (error) {
+                console.error("Hata:", error);
+            }
+        }
+
+        redirectCS16();
+    </script>
+</body>
+</html>
