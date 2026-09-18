@@ -712,6 +712,17 @@
 </footer>
 
 <script>
+// === GİZLEMEK İSTEDİĞİN KLASÖR / PROJE ADLARINI BURAYA YAZ ===
+const HIDDEN_PROJECTS = [
+    ".github",
+    "cs16fp",
+    "cs16d",
+    "cs16z",
+    "spotifyprofile",
+    "spotifyplaylist",
+    "surpriz"
+];
+
 const currentTimestamp = new Date().getTime();
 document.getElementById("favicon").href = `https://wsrv.nl/?url=https://github.com/cemalevli38.png&w=64&h=64&mask=circle&output=png&v=${currentTimestamp}`;
 document.getElementById("profileImg").src = `https://wsrv.nl/?url=https://github.com/cemalevli38.png&w=100&h=100&mask=circle&output=png&v=${currentTimestamp}`;
@@ -831,7 +842,16 @@ async function loadProjects() {
         
         section.classList.remove("hidden");
         container.innerHTML = "";
-        items.filter(i => i.type === "dir" && i.name !== ".github" ).forEach(p => {
+        
+        // Gizlenmesini istediğin klasörleri filtreliyoruz
+        const visibleProjects = items.filter(i => i.type === "dir" && !HIDDEN_PROJECTS.includes(i.name));
+        
+        if (visibleProjects.length === 0) {
+            section.classList.add("hidden");
+            return;
+        }
+
+        visibleProjects.forEach(p => {
             const card = document.createElement("a");
             card.className = "project-card";
             card.href = p.path;
