@@ -239,9 +239,13 @@
       buttonGrid.innerHTML = ''; 
 
       sounds.forEach(sound => {
+        // GitHub yönlendirme URL'lerini doğrudan raw CDN adresine çevirelim
+        let cleanUrl = sound.url.replace('github.com/cemalevli38/My_Site_Repo/raw/refs/heads/main', 'raw.githubusercontent.com/cemalevli38/My_Site_Repo/main');
+
         const audio = document.createElement('audio');
         audio.id = sound.id;
-        audio.src = sound.url;
+        audio.src = cleanUrl;
+        audio.crossOrigin = "anonymous"; // CORS kısıtlamalarını aşmak için eklendi
         audio.preload = "auto";
         audioContainer.appendChild(audio);
 
@@ -260,7 +264,7 @@
         button.innerHTML = `
           <div class="icon-circle">🔊</div>
           <span>${sound.name}</span>
-          <a href="${sound.url}" 
+          <a href="${cleanUrl}" 
              download="${sound.name}.mp3" 
              class="download-btn" 
              target="_blank" 
