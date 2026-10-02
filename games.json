@@ -262,7 +262,7 @@
         "state": "uploaded",
         "size": 4539445,
         "digest": "sha256:6436b580566df45ce7ca4564fa604eedd07796229416625e4ff33a2eb60078b4",
-        "download_count": 0,
+        "download_count": 1,
         "created_at": "2026-04-24T16:32:35Z",
         "updated_at": "2026-04-24T16:35:57Z",
         "browser_download_url": "https://github.com/cemalevli38/games/releases/download/FlashGame2/snail-bob-1.swf"
@@ -629,7 +629,7 @@
         "state": "uploaded",
         "size": 10111160,
         "digest": "sha256:6d410b6142a337e4744db7f7f32ba0a8775647e5d85ef0f6ad4d4aba7bd0ecc2",
-        "download_count": 1,
+        "download_count": 2,
         "created_at": "2026-04-24T16:29:17Z",
         "updated_at": "2026-04-24T16:29:36Z",
         "browser_download_url": "https://github.com/cemalevli38/games/releases/download/FlashGame1/redball3.swf"
@@ -665,7 +665,7 @@
         "state": "uploaded",
         "size": 10109271,
         "digest": "sha256:cec8b154f284d582a99aa4f9f486759501315fb1eafcaed9bb2b494eabe7e1f6",
-        "download_count": 1,
+        "download_count": 2,
         "created_at": "2026-04-24T16:29:37Z",
         "updated_at": "2026-04-24T16:30:00Z",
         "browser_download_url": "https://github.com/cemalevli38/games/releases/download/FlashGame1/RedBall3.zip"
@@ -744,7 +744,7 @@
         "state": "uploaded",
         "size": 67826994,
         "digest": "sha256:fe3ebbdaba19c44bd448e3484d6e603a3830077b93ad355161c1a7f0218253fd",
-        "download_count": 22,
+        "download_count": 24,
         "created_at": "2026-04-15T16:02:25Z",
         "updated_at": "2026-09-07T16:20:57Z",
         "browser_download_url": "https://github.com/cemalevli38/games/releases/download/CS16/cs16.exe"
@@ -780,7 +780,7 @@
         "state": "uploaded",
         "size": 67685133,
         "digest": "sha256:85993928bb73b5956efb51116983ccde6914516e1145cf14f412fdd76d1f2d5f",
-        "download_count": 8,
+        "download_count": 9,
         "created_at": "2026-04-15T16:03:48Z",
         "updated_at": "2026-04-15T16:04:59Z",
         "browser_download_url": "https://github.com/cemalevli38/games/releases/download/CS16/cs16.zip"
@@ -895,7 +895,7 @@
         "state": "uploaded",
         "size": 852118,
         "digest": "sha256:ffcec57c2dcc00738c5a9ac9e412d53e84a4702a9eea0ecb872a5a85e4665091",
-        "download_count": 2,
+        "download_count": 4,
         "created_at": "2026-04-15T16:11:23Z",
         "updated_at": "2026-04-15T16:11:25Z",
         "browser_download_url": "https://github.com/cemalevli38/games/releases/download/BubbleTrouble/bubbletrouble.exe"
@@ -974,7 +974,7 @@
         "state": "uploaded",
         "size": 9079091,
         "digest": "sha256:8369f3964d81219f2e2d7ae22cab656b49ccad39e75fb3702de97faea19685ed",
-        "download_count": 2,
+        "download_count": 3,
         "created_at": "2026-04-15T16:09:20Z",
         "updated_at": "2026-04-15T16:09:34Z",
         "browser_download_url": "https://github.com/cemalevli38/games/releases/download/BarbieGiydirmece/Fotografci.Kiz.Giydirme.exe"
@@ -1089,7 +1089,7 @@
         "state": "uploaded",
         "size": 8874424,
         "digest": "sha256:adde9786008c548e8fef7df8deaec2bd0b6f8b6a53789c5d623fadae280efa08",
-        "download_count": 0,
+        "download_count": 1,
         "created_at": "2026-06-27T10:02:41Z",
         "updated_at": "2026-06-27T10:02:57Z",
         "browser_download_url": "https://github.com/cemalevli38/games/releases/download/BA%C5%9ELATICI/BASLATICI_11.4.exe"
