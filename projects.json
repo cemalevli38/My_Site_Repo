@@ -114,16 +114,16 @@
   {
     "name": "background2.avif",
     "path": "background2.avif",
-    "sha": "93774496dc0b0fa218e621bc21f1d812bb80779a",
-    "size": 206095,
+    "sha": "952187e6d8f7300a87ace1f0471095f6656ea5b0",
+    "size": 61336,
     "url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/background2.avif?ref=main",
     "html_url": "https://github.com/cemalevli38/My_Site_Repo/blob/main/background2.avif",
-    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/93774496dc0b0fa218e621bc21f1d812bb80779a",
+    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/952187e6d8f7300a87ace1f0471095f6656ea5b0",
     "download_url": "https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/background2.avif",
     "type": "file",
     "_links": {
       "self": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/background2.avif?ref=main",
-      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/93774496dc0b0fa218e621bc21f1d812bb80779a",
+      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/952187e6d8f7300a87ace1f0471095f6656ea5b0",
       "html": "https://github.com/cemalevli38/My_Site_Repo/blob/main/background2.avif"
     }
   },
@@ -290,16 +290,16 @@
   {
     "name": "games.json",
     "path": "games.json",
-    "sha": "73dc543fce8defe66c707f8e7a96938f559c329b",
+    "sha": "3ce65e38fdfeb4ca9f65738008c2f2788cc19e39",
     "size": 62525,
     "url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/games.json?ref=main",
     "html_url": "https://github.com/cemalevli38/My_Site_Repo/blob/main/games.json",
-    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/73dc543fce8defe66c707f8e7a96938f559c329b",
+    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/3ce65e38fdfeb4ca9f65738008c2f2788cc19e39",
     "download_url": "https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/games.json",
     "type": "file",
     "_links": {
       "self": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/games.json?ref=main",
-      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/73dc543fce8defe66c707f8e7a96938f559c329b",
+      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/3ce65e38fdfeb4ca9f65738008c2f2788cc19e39",
       "html": "https://github.com/cemalevli38/My_Site_Repo/blob/main/games.json"
     }
   },
@@ -322,16 +322,16 @@
   {
     "name": "projects.json",
     "path": "projects.json",
-    "sha": "7036cc5f867ff230063fd54ab5f0d387ac7233e1",
+    "sha": "874310ab89036e2f48a53e7b2a5a436b8114ea48",
     "size": 25625,
     "url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/projects.json?ref=main",
     "html_url": "https://github.com/cemalevli38/My_Site_Repo/blob/main/projects.json",
-    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/7036cc5f867ff230063fd54ab5f0d387ac7233e1",
+    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/874310ab89036e2f48a53e7b2a5a436b8114ea48",
     "download_url": "https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/projects.json",
     "type": "file",
     "_links": {
       "self": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/projects.json?ref=main",
-      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/7036cc5f867ff230063fd54ab5f0d387ac7233e1",
+      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/874310ab89036e2f48a53e7b2a5a436b8114ea48",
       "html": "https://github.com/cemalevli38/My_Site_Repo/blob/main/projects.json"
     }
   },
