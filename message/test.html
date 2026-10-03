@@ -248,10 +248,11 @@ function joinRoom(r){
   mref=db.ref(mpath(r)).limitToLast(100);
   mref.once('value',()=>ready=true);
   mref.on('child_added',s=>{
-    const d=s.val();if(!d||d.timestamp<=cleared)return;
+    const d=s.val();
+    if(!d||typeof d!=='object'||!d.timestamp||!d.username||d.timestamp<=cleared)return;
     add(s.key,d);if(ready)notify(d);
   });
-  mref.on('child_changed',s=>{const d=s.val();data[s.key]=d;const c=$('m_'+s.key);if(c)drawRx(c,d)});
+  mref.on('child_changed',s=>{const d=s.val();const c=$('m_'+s.key);if(!c||!d)return;data[s.key]=d;drawRx(c,d)});
   tref=db.ref('typing/'+r);
   tref.on('value',s=>{
     const n=Object.entries(s.val()||{}).filter(([k])=>k!==devId).map(([,v])=>v);
