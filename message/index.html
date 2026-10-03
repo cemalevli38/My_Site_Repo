@@ -22,9 +22,7 @@
         #usernameInput { width: 35%; }
         #messageInput { flex: 1; }
         button { background-color: #0284c7; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        button:hover:not(:disabled) { background-color: #0369a1; }
-        button:disabled { background-color: #475569; cursor: not-allowed; opacity: 0.6; }
-        .cooldown-text { font-size: 0.8rem; color: #f43f5e; text-align: center; height: 16px; font-weight: 500; }
+        button:hover { background-color: #0369a1; }
     </style>
     <!-- Firebase Compat SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -40,7 +38,6 @@
     <div class="chat-messages" id="chatMessages"></div>
 
     <div class="chat-input-area">
-        <div class="cooldown-text" id="cooldownText"></div>
         <div class="input-row">
             <input type="text" id="usernameInput" placeholder="Kullanıcı Adı" maxlength="15">
             <input type="text" id="messageInput" placeholder="Mesajınızı yazın..." maxlength="200">
@@ -67,16 +64,12 @@
     const db = firebase.database();
     const messagesRef = db.ref('messages');
 
-    const COOLDOWN_TIME = 30; // Saniye
-    let cooldownTimer = null;
-
-    // Sayfa Yüklendiğinde
+    // Sayfa Yüklendiğinde Kullanıcı Adını Getir
     window.addEventListener('load', () => {
         const savedName = localStorage.getItem('chat_username');
         if (savedName) {
             document.getElementById('usernameInput').value = savedName;
         }
-        checkCooldown();
     });
 
     // Anlık Mesajları Dinle
@@ -133,53 +126,16 @@
             timestamp: firebase.database.ServerValue.TIMESTAMP
         });
 
-        // Temizle ve Cooldown Başlat
+        // Temizle
         messageInput.value = '';
-        const now = Date.now();
-        localStorage.setItem('last_message_time', now.toString());
-        startCooldown(COOLDOWN_TIME);
     }
 
     // Enter tuşu ile gönderme
     document.getElementById('messageInput').addEventListener('keypress', function (e) {
-        if (e.key === 'Enter' && !document.getElementById('sendBtn').disabled) {
+        if (e.key === 'Enter') {
             sendMessage();
         }
     });
-
-    // Cooldown Kontrolü
-    function checkCooldown() {
-        const lastTime = localStorage.getItem('last_message_time');
-        if (lastTime) {
-            const elapsed = Math.floor((Date.now() - parseInt(lastTime)) / 1000);
-            const remaining = COOLDOWN_TIME - elapsed;
-            if (remaining > 0) {
-                startCooldown(remaining);
-            }
-        }
-    }
-
-    function startCooldown(seconds) {
-        const sendBtn = document.getElementById('sendBtn');
-        const cooldownText = document.getElementById('cooldownText');
-        
-        sendBtn.disabled = true;
-        let left = seconds;
-
-        clearInterval(cooldownTimer);
-        cooldownText.innerText = `Yeni mesaj için ${left} saniye beklemelisiniz.`;
-
-        cooldownTimer = setInterval(() => {
-            left--;
-            if (left <= 0) {
-                clearInterval(cooldownTimer);
-                sendBtn.disabled = false;
-                cooldownText.innerText = '';
-            } else {
-                cooldownText.innerText = `Yeni mesaj için ${left} saniye beklemelisiniz.`;
-            }
-        }, 1000);
-    }
 
     // XSS Koruması
     function escapeHtml(text) {
