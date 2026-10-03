@@ -336,7 +336,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     const messagesRef = db.ref('messages');
-    const ipUsersRef = db.ref('ip_users');
+    const deviceUsersRef = db.ref('device_users');
     const takenUsernamesRef = db.ref('taken_usernames');
 
     // Sabit İsim Havuzu
@@ -349,55 +349,49 @@
 
     let currentUsername = "";
 
-    // Kullanıcının IP Adresini Çekme
-    async function getUserIP() {
-        try {
-            const response = await fetch('https://api.ipify.org?format=json');
-            const data = await response.json();
-            return data.ip.replace(/[.#$[\]]/g, '_'); // Firebase key sınırları için geçersiz karakterleri değiştir
-        } catch (error) {
-            console.error("IP adresi alınamadı:", error);
-            // Yedek olarak rastgele bir cihaz kimliği üret/kullan
-            let fallbackId = localStorage.getItem('chat_fallback_id');
-            if (!fallbackId) {
-                fallbackId = 'device_' + Math.random().toString(36).substring(2, 9);
-                localStorage.setItem('chat_fallback_id', fallbackId);
-            }
-            return fallbackId;
+    // Cihaz Bazlı Benzersiz ID Üretme / Çekme
+    function getDeviceId() {
+        let deviceId = localStorage.getItem('chat_device_id');
+        if (!deviceId) {
+            deviceId = 'dev_' + Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
+            localStorage.setItem('chat_device_id', deviceId);
         }
+        return deviceId;
     }
 
-    // IP Adresine Göre İsim Atama ve Sabitleme
+    // Atomik İşlem (Transaction) ile Çakışmasız İsim Atama
     async function initUser() {
-        const userIPKey = await getUserIP();
+        const deviceId = getDeviceId();
         
-        // Bu IP adresi için önceden isim atanmış mı kontrol et
-        const ipSnapshot = await ipUsersRef.child(userIPKey).once('value');
-        let assignedName = ipSnapshot.val();
+        // Bu cihaz için daha önce bir isim atanmış mı kontrol et
+        const deviceSnapshot = await deviceUsersRef.child(deviceId).once('value');
+        let assignedName = deviceSnapshot.val();
 
         if (assignedName) {
             currentUsername = assignedName;
         } else {
-            // Firebase'den alınmış tüm isimleri çek
-            const snapshot = await takenUsernamesRef.once('value');
-            const takenData = snapshot.val() || {};
-            const takenList = Object.values(takenData);
+            // Firebase Transaction ile güvenli isim alma
+            await takenUsernamesRef.transaction((takenData) => {
+                let takenObj = takenData || {};
+                let takenList = Object.values(takenObj);
 
-            // Henüz alınmamış isimleri filtrele
-            const freeNames = availableNames.filter(name => !takenList.includes(name));
+                let freeNames = availableNames.filter(name => !takenList.includes(name));
+                let selectedName = "";
 
-            if (freeNames.length === 0) {
-                // Havuz dolduysa benzersiz yedek isim üret
-                currentUsername = "User_" + Math.floor(1000 + Math.random() * 9000);
-            } else {
-                // Rastgele bir isim seç
-                const randomIndex = Math.floor(Math.random() * freeNames.length);
-                currentUsername = freeNames[randomIndex];
-            }
+                if (freeNames.length === 0) {
+                    selectedName = "User_" + Math.floor(1000 + Math.random() * 9000);
+                } else {
+                    let randomIndex = Math.floor(Math.random() * freeNames.length);
+                    selectedName = freeNames[randomIndex];
+                }
 
-            // Firebase'e IP-İsim eşleşmesini ve alınan ismi kaydet
-            await ipUsersRef.child(userIPKey).set(currentUsername);
-            await takenUsernamesRef.push(currentUsername);
+                currentUsername = selectedName;
+                takenObj[Date.now() + '_' + Math.random().toString(36).substring(2, 7)] = selectedName;
+                return takenObj;
+            });
+
+            // Cihaza ismi kaydet
+            await deviceUsersRef.child(deviceId).set(currentUsername);
         }
 
         // Arayüzü güncelle ve inputları aktif et
@@ -405,7 +399,7 @@
         document.getElementById('messageInput').disabled = false;
         document.getElementById('sendBtn').disabled = false;
 
-        // Kullanıcı kimliği netleştiğinde mesajları dinlemeye başla
+        // Mesajları dinlemeye başla
         listenForMessages();
     }
 
