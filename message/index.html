@@ -347,7 +347,7 @@
         const isMyMessage = data.username === currentUsername && currentUsername !== '';
         card.className = `message-card ${isMyMessage ? 'my-message' : ''}`;
         
-        const timeStr = new Date(data.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const timeStr = new Date(data.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
 
         card.innerHTML = `
             <div class="message-header">
