@@ -404,6 +404,9 @@
         document.getElementById('displayUsername').innerText = currentUsername;
         document.getElementById('messageInput').disabled = false;
         document.getElementById('sendBtn').disabled = false;
+
+        // Kullanıcı kimliği netleştiğinde mesajları dinlemeye başla
+        listenForMessages();
     }
 
     window.addEventListener('load', () => {
@@ -411,10 +414,12 @@
     });
 
     // Anlık Mesajları Dinle
-    messagesRef.limitToLast(50).on('child_added', (snapshot) => {
-        const data = snapshot.val();
-        renderMessage(data);
-    });
+    function listenForMessages() {
+        messagesRef.limitToLast(50).on('child_added', (snapshot) => {
+            const data = snapshot.val();
+            renderMessage(data);
+        });
+    }
 
     // Ekrana Mesaj Ekleme
     function renderMessage(data) {
