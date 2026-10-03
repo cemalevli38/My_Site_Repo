@@ -77,7 +77,7 @@ input:focus{border-color:var(--acc)}
 .emo button{background:none;padding:4px;font-size:1.2rem}
 .toast{position:absolute;top:70px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:8px 16px;border-radius:20px;font-size:.82rem;opacity:0;pointer-events:none;transition:.3s;z-index:20}
 .toast.on{opacity:1}
-#modal{position:absolute;inset:0;background:rgba(2,6,23,.7);display:flex;align-items:center;justify-content:center;z-index:30}
+#modal{position:absolute;inset:0;background:rgba(2,6,23,.7);display:none;align-items:center;justify-content:center;z-index:30}
 .mbox{background:var(--head);border:1px solid var(--bd);border-radius:16px;padding:22px;width:min(340px,92%);display:flex;flex-direction:column;gap:10px;backdrop-filter:blur(20px)}
 .mbox .row{display:flex;gap:8px}.mbox .row input{flex:1}
 .pv{width:84px;height:84px;border-radius:50%;align-self:center;background:#334155}
@@ -133,6 +133,19 @@ input:focus{border-color:var(--acc)}
 </div>
 
 <script>
+/* ---------- Kalıcı depolama (localStorage + cookie yedeği) ---------- */
+const S={
+  get(k){
+    try{const v=localStorage.getItem(k);if(v!==null)return v}catch(e){}
+    const m=document.cookie.match(new RegExp('(?:^|; )'+k+'=([^;]*)'));
+    return m?decodeURIComponent(m[1]):null;
+  },
+  set(k,v){
+    try{localStorage.setItem(k,v)}catch(e){}
+    try{document.cookie=k+'='+encodeURIComponent(v)+';max-age=31536000;path=/;SameSite=Lax'}catch(e){}
+  }
+};
+
 firebase.initializeApp({
   apiKey:"AIzaSyDC5cTxGvJq4Cc3dlkcD-QYfdUQPOOo4E8",
   authDomain:"message-site-329ee.firebaseapp.com",
@@ -153,19 +166,19 @@ const mpath=r=>r==='genel'?'messages':'messages_'+r;
 const nk=n=>n.toLowerCase().replace(/[.#$\[\]\/]/g,'_');
 const av=(s,f)=>`https://api.dicebear.com/7.x/avataaars/${f||'svg'}?seed=${encodeURIComponent(s)}`;
 
-const devId=(()=>{let i=localStorage.chat_device_id;if(!i){i='dev_'+Math.random().toString(36).slice(2,12)+Date.now().toString(36);localStorage.chat_device_id=i}return i})();
-let me={nick:localStorage.chat_nick||'',seed:localStorage.chat_seed||''};
-let room=ROOMS[localStorage.chat_room]?localStorage.chat_room:'genel';
+const devId=(()=>{let i=S.get('chat_device_id');if(!i){i='dev_'+Math.random().toString(36).slice(2,12)+Date.now().toString(36);S.set('chat_device_id',i)}return i})();
+let me={nick:S.get('chat_nick')||'',seed:S.get('chat_seed')||''};
+let room=ROOMS[S.get('chat_room')]?S.get('chat_room'):'genel';
 let replyTo=null,lastSend=0,unread=0,lastTs=0,mref=null,tref=null,typingTimer=null,presInit=false,ac=null;
-let sound=localStorage.chat_sound!=='0';
+let sound=S.get('chat_sound')!=='0';
 const data={};
 
 /* ---------- Tema & ses ---------- */
-function applyTheme(t){document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'🌙':'☀️';localStorage.chat_theme=t}
-applyTheme(localStorage.chat_theme||'dark');
+function applyTheme(t){document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'🌙':'☀️';S.set('chat_theme',t)}
+applyTheme(S.get('chat_theme')||'dark');
 $('themeBtn').onclick=()=>applyTheme(document.documentElement.dataset.theme==='dark'?'light':'dark');
 $('sndBtn').textContent=sound?'🔊':'🔇';
-$('sndBtn').onclick=()=>{sound=!sound;localStorage.chat_sound=sound?'1':'0';$('sndBtn').textContent=sound?'🔊':'🔇';if(sound)beep()};
+$('sndBtn').onclick=()=>{sound=!sound;S.set('chat_sound',sound?'1':'0');$('sndBtn').textContent=sound?'🔊':'🔇';if(sound)beep()};
 function beep(){
   if(!sound)return;
   try{
@@ -202,7 +215,7 @@ $('saveM').onclick=async()=>{
   try{
     if(!(await claimNick(n))){$('nickErr').textContent='Bu nick alınmış, başka dene';return}
     if(me.nick&&nk(me.nick)!==nk(n))db.ref('nicks/'+nk(me.nick)).remove().catch(()=>{});
-    me={nick:n,seed:s};localStorage.chat_nick=n;localStorage.chat_seed=s;
+    me={nick:n,seed:s};S.set('chat_nick',n);S.set('chat_seed',s);
     $('modal').style.display='none';
     if('Notification' in window&&Notification.permission==='default')Notification.requestPermission();
     enter();
@@ -226,19 +239,20 @@ $('sideBtn').onclick=()=>$('side').classList.toggle('open');
 function joinRoom(r){
   if(mref)mref.off();if(tref)tref.off();
   db.ref(`typing/${room}/${devId}`).remove();
-  room=r;localStorage.chat_room=r;
+  room=r;S.set('chat_room',r);
   $('msgs').innerHTML='';$('typing').textContent='';lastTs=0;
   for(const k in data)delete data[k];
   setReply(null);drawRooms();setPresence();
-  const cleared=+localStorage['chat_clr_'+r]||0;
+  const cleared=+S.get('chat_clr_'+r)||0;
   let ready=false;
   mref=db.ref(mpath(r)).limitToLast(100);
   mref.once('value',()=>ready=true);
   mref.on('child_added',s=>{
-    const d=s.val();if(!d||d.timestamp<=cleared)return;
+    const d=s.val();
+    if(!d||typeof d!=='object'||!d.timestamp||!d.username||d.timestamp<=cleared)return;
     add(s.key,d);if(ready)notify(d);
   });
-  mref.on('child_changed',s=>{const d=s.val();data[s.key]=d;const c=$('m_'+s.key);if(c)drawRx(c,d)});
+  mref.on('child_changed',s=>{const d=s.val();const c=$('m_'+s.key);if(!c||!d)return;data[s.key]=d;drawRx(c,d)});
   tref=db.ref('typing/'+r);
   tref.on('value',s=>{
     const n=Object.entries(s.val()||{}).filter(([k])=>k!==devId).map(([,v])=>v);
@@ -404,7 +418,7 @@ function notify(d){
 /* ---------- Yerel temizleme ---------- */
 $('clrBtn').onclick=()=>{
   if(!confirm('Bu odadaki sohbet sadece senin ekranından temizlensin mi?'))return;
-  localStorage['chat_clr_'+room]=lastTs||Date.now();
+  S.set('chat_clr_'+room,lastTs||Date.now());
   $('msgs').innerHTML='';
 };
 
