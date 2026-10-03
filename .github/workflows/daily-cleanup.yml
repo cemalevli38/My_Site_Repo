@@ -3,7 +3,7 @@ name: Daily Database Cleanup
 on:
   schedule:
     # Her gece Türkiye saatiyle 00:00'da çalışır (UTC 21:00)
-    - cron: '0 21 * * *'
+    - cron: '0 */3 * * *'
   workflow_dispatch: # İstediğinde GitHub panelinden elle de çalıştırabilmen için
 
 jobs:
