@@ -336,6 +336,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     const messagesRef = db.ref('messages');
+    const ipUsersRef = db.ref('ip_users');
     const takenUsernamesRef = db.ref('taken_usernames');
 
     // Sabit İsim Havuzu
@@ -348,14 +349,36 @@
 
     let currentUsername = "";
 
-    // Benzersiz ve Sabit İsmi Hazırla
+    // Kullanıcının IP Adresini Çekme
+    async function getUserIP() {
+        try {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            return data.ip.replace(/[.#$[\]]/g, '_'); // Firebase key sınırları için geçersiz karakterleri değiştir
+        } catch (error) {
+            console.error("IP adresi alınamadı:", error);
+            // Yedek olarak rastgele bir cihaz kimliği üret/kullan
+            let fallbackId = localStorage.getItem('chat_fallback_id');
+            if (!fallbackId) {
+                fallbackId = 'device_' + Math.random().toString(36).substring(2, 9);
+                localStorage.setItem('chat_fallback_id', fallbackId);
+            }
+            return fallbackId;
+        }
+    }
+
+    // IP Adresine Göre İsim Atama ve Sabitleme
     async function initUser() {
-        let savedName = localStorage.getItem('chat_fixed_username');
+        const userIPKey = await getUserIP();
         
-        if (savedName) {
-            currentUsername = savedName;
+        // Bu IP adresi için önceden isim atanmış mı kontrol et
+        const ipSnapshot = await ipUsersRef.child(userIPKey).once('value');
+        let assignedName = ipSnapshot.val();
+
+        if (assignedName) {
+            currentUsername = assignedName;
         } else {
-            // Firebase'den alınmış isimleri çek
+            // Firebase'den alınmış tüm isimleri çek
             const snapshot = await takenUsernamesRef.once('value');
             const takenData = snapshot.val() || {};
             const takenList = Object.values(takenData);
@@ -372,10 +395,9 @@
                 currentUsername = freeNames[randomIndex];
             }
 
-            // Firebase'e bu ismin alındığını kaydet
+            // Firebase'e IP-İsim eşleşmesini ve alınan ismi kaydet
+            await ipUsersRef.child(userIPKey).set(currentUsername);
             await takenUsernamesRef.push(currentUsername);
-            // Tarayıcıya bir daha değişmeyecek şekilde kaydet
-            localStorage.setItem('chat_fixed_username', currentUsername);
         }
 
         // Arayüzü güncelle ve inputları aktif et
