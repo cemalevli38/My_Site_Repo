@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Anlık Chat</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0f172a; color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .chat-container { width: 100%; max-width: 600px; background-color: #1e293b; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); display: flex; flex-direction: column; height: 80vh; overflow: hidden; }
+        .chat-header { background-color: #334155; padding: 15px 20px; text-align: center; border-bottom: 1px solid #475569; }
+        .chat-header h2 { font-size: 1.2rem; color: #38bdf8; }
+        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+        .message-card { background-color: #334155; padding: 10px 14px; border-radius: 8px; max-width: 85%; word-wrap: break-word; align-self: flex-start; }
+        .message-header { display: flex; justify-content: space-between; font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px; gap: 10px; }
+        .username { font-weight: bold; color: #38bdf8; }
+        .message-text { font-size: 0.95rem; line-height: 1.4; color: #f1f5f9; }
+        .chat-input-area { padding: 15px; background-color: #0f172a; border-top: 1px solid #334155; display: flex; flex-direction: column; gap: 10px; }
+        .input-row { display: flex; gap: 10px; }
+        input[type="text"] { background-color: #1e293b; border: 1px solid #475569; color: #fff; padding: 10px 14px; border-radius: 6px; font-size: 0.9rem; outline: none; }
+        input[type="text"]:focus { border-color: #38bdf8; }
+        #usernameInput { width: 35%; }
+        #messageInput { flex: 1; }
+        button { background-color: #0284c7; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        button:hover:not(:disabled) { background-color: #0369a1; }
+        button:disabled { background-color: #475569; cursor: not-allowed; opacity: 0.6; }
+        .cooldown-text { font-size: 0.8rem; color: #f43f5e; text-align: center; height: 16px; font-weight: 500; }
+    </style>
+    <!-- Firebase Compat SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="chat-header">
+        <h2>Global Anlık Chat Room</h2>
+    </div>
+    
+    <div class="chat-messages" id="chatMessages"></div>
+
+    <div class="chat-input-area">
+        <div class="cooldown-text" id="cooldownText"></div>
+        <div class="input-row">
+            <input type="text" id="usernameInput" placeholder="Kullanıcı Adı" maxlength="15">
+            <input type="text" id="messageInput" placeholder="Mesajınızı yazın..." maxlength="200">
+            <button id="sendBtn" onclick="sendMessage()">Gönder</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Firebase Konfigürasyonu
+    const firebaseConfig = {
+        apiKey: "AIzaSyDC5cTxGvJq4Cc3dlkcD-QYfdUQPOOo4E8",
+        authDomain: "message-site-329ee.firebaseapp.com",
+        databaseURL: "https://message-site-329ee-default-rtdb.firebaseio.com",
+        projectId: "message-site-329ee",
+        storageBucket: "message-site-329ee.firebasestorage.app",
+        messagingSenderId: "417292887136",
+        appId: "1:417292887136:web:72a0d823dfa12f4969cf05",
+        measurementId: "G-ZHRKD087KH"
+    };
+
+    // Firebase Başlatma
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const messagesRef = db.ref('messages');
+
+    const COOLDOWN_TIME = 30; // Saniye
+    let cooldownTimer = null;
+
+    // Sayfa Yüklendiğinde
+    window.addEventListener('load', () => {
+        const savedName = localStorage.getItem('chat_username');
+        if (savedName) {
+            document.getElementById('usernameInput').value = savedName;
+        }
+        checkCooldown();
+    });
+
+    // Anlık Mesajları Dinle
+    messagesRef.limitToLast(50).on('child_added', (snapshot) => {
+        const data = snapshot.val();
+        renderMessage(data);
+    });
+
+    // Ekrana Mesaj Ekleme
+    function renderMessage(data) {
+        const chatMessages = document.getElementById('chatMessages');
+        const card = document.createElement('div');
+        card.className = 'message-card';
+        
+        const timeStr = new Date(data.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        card.innerHTML = `
+            <div class="message-header">
+                <span class="username">${escapeHtml(data.username)}</span>
+                <span class="time">${timeStr}</span>
+            </div>
+            <div class="message-text">${escapeHtml(data.text)}</div>
+        `;
+
+        chatMessages.appendChild(card);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Mesaj Gönderme Fonksiyonu
+    function sendMessage() {
+        const usernameInput = document.getElementById('usernameInput');
+        const messageInput = document.getElementById('messageInput');
+        
+        const username = usernameInput.value.trim();
+        const text = messageInput.value.trim();
+
+        if (!username) {
+            alert('Lütfen bir kullanıcı adı girin!');
+            return;
+        }
+
+        if (!text) {
+            alert('Lütfen bir mesaj yazın!');
+            return;
+        }
+
+        // Kullanıcı adını hatırla
+        localStorage.setItem('chat_username', username);
+
+        // Firebase'e Ekle
+        messagesRef.push({
+            username: username,
+            text: text,
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        });
+
+        // Temizle ve Cooldown Başlat
+        messageInput.value = '';
+        const now = Date.now();
+        localStorage.setItem('last_message_time', now.toString());
+        startCooldown(COOLDOWN_TIME);
+    }
+
+    // Enter tuşu ile gönderme
+    document.getElementById('messageInput').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter' && !document.getElementById('sendBtn').disabled) {
+            sendMessage();
+        }
+    });
+
+    // Cooldown Kontrolü
+    function checkCooldown() {
+        const lastTime = localStorage.getItem('last_message_time');
+        if (lastTime) {
+            const elapsed = Math.floor((Date.now() - parseInt(lastTime)) / 1000);
+            const remaining = COOLDOWN_TIME - elapsed;
+            if (remaining > 0) {
+                startCooldown(remaining);
+            }
+        }
+    }
+
+    function startCooldown(seconds) {
+        const sendBtn = document.getElementById('sendBtn');
+        const cooldownText = document.getElementById('cooldownText');
+        
+        sendBtn.disabled = true;
+        let left = seconds;
+
+        clearInterval(cooldownTimer);
+        cooldownText.innerText = `Yeni mesaj için ${left} saniye beklemelisiniz.`;
+
+        cooldownTimer = setInterval(() => {
+            left--;
+            if (left <= 0) {
+                clearInterval(cooldownTimer);
+                sendBtn.disabled = false;
+                cooldownText.innerText = '';
+            } else {
+                cooldownText.innerText = `Yeni mesaj için ${left} saniye beklemelisiniz.`;
+            }
+        }, 1000);
+    }
+
+    // XSS Koruması
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.innerText = text;
+        return div.innerHTML;
+    }
+</script>
+
+</body>
+</html>
