@@ -322,16 +322,16 @@
   {
     "name": "projects.json",
     "path": "projects.json",
-    "sha": "a3e674f7ac1a1ee457a4b81dff620c234fb004ec",
+    "sha": "1d65a63bdb62e6f386a94cf71924991dde9c34f4",
     "size": 25624,
     "url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/projects.json?ref=main",
     "html_url": "https://github.com/cemalevli38/My_Site_Repo/blob/main/projects.json",
-    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/a3e674f7ac1a1ee457a4b81dff620c234fb004ec",
+    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/1d65a63bdb62e6f386a94cf71924991dde9c34f4",
     "download_url": "https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/projects.json",
     "type": "file",
     "_links": {
       "self": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/projects.json?ref=main",
-      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/a3e674f7ac1a1ee457a4b81dff620c234fb004ec",
+      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/1d65a63bdb62e6f386a94cf71924991dde9c34f4",
       "html": "https://github.com/cemalevli38/My_Site_Repo/blob/main/projects.json"
     }
   },
@@ -370,16 +370,16 @@
   {
     "name": "socialv2",
     "path": "socialv2",
-    "sha": "8cb0154555dc0369bfd493a5ffebc0c370479fb7",
+    "sha": "b3a1e83ef1b59cab99e180e16420bee8713cc401",
     "size": 0,
     "url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/socialv2?ref=main",
     "html_url": "https://github.com/cemalevli38/My_Site_Repo/tree/main/socialv2",
-    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/trees/8cb0154555dc0369bfd493a5ffebc0c370479fb7",
+    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/trees/b3a1e83ef1b59cab99e180e16420bee8713cc401",
     "download_url": null,
     "type": "dir",
     "_links": {
       "self": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/socialv2?ref=main",
-      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/trees/8cb0154555dc0369bfd493a5ffebc0c370479fb7",
+      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/trees/b3a1e83ef1b59cab99e180e16420bee8713cc401",
       "html": "https://github.com/cemalevli38/My_Site_Repo/tree/main/socialv2"
     }
   },
@@ -461,6 +461,38 @@
       "self": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/testana.html?ref=main",
       "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/c2f49ee648cd57cb90c2476e54aa1688b08979a6",
       "html": "https://github.com/cemalevli38/My_Site_Repo/blob/main/testana.html"
+    }
+  },
+  {
+    "name": "walpaper-pc.avif",
+    "path": "walpaper-pc.avif",
+    "sha": "72fa6b57a2a7f6a1fa99c7ead91492ff9a5a94d2",
+    "size": 57634,
+    "url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/walpaper-pc.avif?ref=main",
+    "html_url": "https://github.com/cemalevli38/My_Site_Repo/blob/main/walpaper-pc.avif",
+    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/72fa6b57a2a7f6a1fa99c7ead91492ff9a5a94d2",
+    "download_url": "https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/walpaper-pc.avif",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/walpaper-pc.avif?ref=main",
+      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/72fa6b57a2a7f6a1fa99c7ead91492ff9a5a94d2",
+      "html": "https://github.com/cemalevli38/My_Site_Repo/blob/main/walpaper-pc.avif"
+    }
+  },
+  {
+    "name": "walpaper-phone.avif",
+    "path": "walpaper-phone.avif",
+    "sha": "49f1ccaef4a3aa99cecc689b1ab100dc322e806c",
+    "size": 57142,
+    "url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/walpaper-phone.avif?ref=main",
+    "html_url": "https://github.com/cemalevli38/My_Site_Repo/blob/main/walpaper-phone.avif",
+    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/49f1ccaef4a3aa99cecc689b1ab100dc322e806c",
+    "download_url": "https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/walpaper-phone.avif",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/walpaper-phone.avif?ref=main",
+      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/49f1ccaef4a3aa99cecc689b1ab100dc322e806c",
+      "html": "https://github.com/cemalevli38/My_Site_Repo/blob/main/walpaper-phone.avif"
     }
   },
   {
