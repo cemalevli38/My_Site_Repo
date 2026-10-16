@@ -659,8 +659,14 @@
             });
         }
 
+        // Cihaza göre arka plan: telefon (küçük ekran) / tablet-pc (geniş ekran)
+        const BG_DESKTOP = 'https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/background.avif';
+        const BG_MOBILE  = 'https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/background.avif';
+        const phoneQuery = window.matchMedia('(max-width: 600px)');
+        
         async function loadBackgroundImage() {
-            const bgUrl = 'https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/background.avif?t=' + Date.now();
+            const baseUrl = phoneQuery.matches ? BG_MOBILE : BG_DESKTOP;
+            const bgUrl = baseUrl + '?t=' + Date.now();
             return new Promise(res => {
                 const img = new Image();
                 img.src = bgUrl;
@@ -674,6 +680,9 @@
                 };
             });
         }
+
+        // Telefon <-> geniş ekran geçişinde (ör. tablet döndürme) arka planı yenile
+        phoneQuery.addEventListener('change', loadBackgroundImage);
 
         async function loadProfileImage() {
             const inner = document.getElementById('lpAvatarInner');
