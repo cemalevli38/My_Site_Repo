@@ -95,10 +95,8 @@
                 Objektifime takılan kareleri, hazırladığım video projelerini ve kişisel yazılarımı bu platformda bulabilirsiniz.
             </p>
 
-            <!-- Dinamik Sosyal Linkler Alanı -->
-            <div id="social-links-container" class="mt-8 flex justify-center gap-3 flex-wrap">
-                <!-- JavaScript üzerinden doldurulacak -->
-            </div>
+            <!-- Sosyal linkler dinamik olarak buraya yüklenir -->
+            <div id="social-links-container" class="mt-8 flex justify-center gap-3 flex-wrap"></div>
         </header>
 
         <main class="relative z-10 max-w-5xl mx-auto px-6 pb-32">
@@ -134,11 +132,14 @@
 
     <script>
         const DATA_URL = './data.json';
-        const SOCIAL_LINKS_URL = 'https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/social-links';
         const GITHUB_USERNAME = "cemalevli38";
         const GITHUB_REPO = "My_Site_Repo";
         const GITHUB_BRANCH = "main";
-        
+
+        // Hangi platformlar gösterilecek — icon class içinde bu stringlerden biri geçmeli
+        const SOCIAL_WHITELIST = ['github', 'instagram', 'facebook', 'tiktok', 'youtube'];
+        const SOCIAL_LINKS_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/${GITHUB_BRANCH}/social-links.txt`;
+
         let globalMediaData = { photos: [], videos: [], texts: [] };
         let fetchedTextsCache = {};
         let activeFilters = { photos: 'all', videos: 'all', posts: 'all' };
@@ -151,19 +152,13 @@
             const bgUrl = `url('https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/refs/heads/main/background.avif?v=${currentTimestamp}')`;
             
             const bodyEl = document.getElementById("main-body");
-            if (bodyEl) {
-                bodyEl.style.backgroundImage = bgUrl;
-            }
+            if (bodyEl) bodyEl.style.backgroundImage = bgUrl;
 
             const passwordScreenEl = document.getElementById("password-screen");
-            if (passwordScreenEl) {
-                passwordScreenEl.style.backgroundImage = bgUrl;
-            }
+            if (passwordScreenEl) passwordScreenEl.style.backgroundImage = bgUrl;
 
             const avatarImg = document.getElementById("profile-avatar");
-            if (avatarImg) {
-                avatarImg.src = `https://github.com/${GITHUB_USERNAME}.png?v=${currentTimestamp}`;
-            }
+            if (avatarImg) avatarImg.src = `https://github.com/${GITHUB_USERNAME}.png?v=${currentTimestamp}`;
 
             const urlParams = new URLSearchParams(window.location.search);
             const requestedFile = urlParams.get('file');
@@ -171,41 +166,40 @@
             if (requestedFile) {
                 targetRedirectFile = requestedFile.trim();
                 const descEl = document.getElementById('password-description');
-                if (descEl) {
-                    descEl.innerText = `"${targetRedirectFile}" dosyasına erişmek için lütfen şifreyi girin.`;
-                }
+                if (descEl) descEl.innerText = `"${targetRedirectFile}" dosyasına erişmek için lütfen şifreyi girin.`;
             }
 
+            // Sosyal linkleri yükle (şifre ekranındayken de başlatılabilir, görünmez zaten)
             loadSocialLinks();
         });
 
+        // ─── Sosyal Linkler ───────────────────────────────────────────────────────
         async function loadSocialLinks() {
             try {
-                const response = await fetch(SOCIAL_LINKS_URL);
-                if (!response.ok) throw new Error("Sosyal linkler yüklenemedi");
-                const links = await response.json();
-                
-                // İstenen platformlar: github, facebook, instagram, tiktok, youtube
-                const allowedPlatforms = ['github', 'facebook', 'instagram', 'tiktok', 'youtube'];
-                
-                const filteredLinks = links.filter(item => {
-                    const titleLower = item.title ? item.title.toLowerCase().trim() : '';
-                    return allowedPlatforms.some(platform => titleLower.includes(platform));
-                });
+                const res = await fetch(SOCIAL_LINKS_URL);
+                if (!res.ok) throw new Error('Sosyal linkler yüklenemedi');
+                const links = await res.json();
+
+                // Sadece whitelist'teki platformları al
+                const filtered = links.filter(link =>
+                    SOCIAL_WHITELIST.some(key => link.icon.toLowerCase().includes(key))
+                );
 
                 const container = document.getElementById('social-links-container');
-                if (container) {
-                    container.innerHTML = filteredLinks.map(link => `
-                        <a href="${link.url}" target="_blank" rel="noopener noreferrer" title="${link.title}" class="w-11 h-11 bg-neutral-900/60 border border-neutral-800/80 hover:border-indigo-500/50 rounded-xl flex items-center justify-center text-neutral-400 hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm">
-                            <i class="${link.icon} text-lg"></i>
-                        </a>
-                    `).join('');
-                }
-            } catch (error) {
-                console.error("Sosyal linkler yüklenirken hata oluştu:", error);
+                if (!container) return;
+
+                container.innerHTML = filtered.map(link => `
+                    <a href="${link.url}" target="_blank" rel="noopener noreferrer" title="${link.title}"
+                       class="w-11 h-11 bg-neutral-900/60 border border-neutral-800/80 hover:border-indigo-500/50 rounded-xl flex items-center justify-center text-neutral-400 hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm">
+                        <i class="${link.icon} text-lg"></i>
+                    </a>
+                `).join('');
+            } catch (err) {
+                console.warn('Sosyal linkler yüklenemedi:', err);
             }
         }
 
+        // ─── Şifre ───────────────────────────────────────────────────────────────
         async function sha256(message) {
             const msgBuffer = new TextEncoder().encode(message);                    
             const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
@@ -246,6 +240,7 @@
             }
         }
 
+        // ─── Blog Verisi ─────────────────────────────────────────────────────────
         function initBlogData() {
             fetch(DATA_URL)
                 .then(response => {
@@ -272,9 +267,7 @@
         }
 
         function getFolderName(filename) {
-            if (filename && filename.includes('/')) {
-                return filename.split('/')[0];
-            }
+            if (filename && filename.includes('/')) return filename.split('/')[0];
             return null;
         }
 
@@ -282,7 +275,6 @@
             renderSectionFolders('photos', globalMediaData.photos || [], renderPhotos);
             renderSectionFolders('videos', globalMediaData.videos || [], renderVideos);
             renderSectionFolders('posts', globalMediaData.texts || [], renderTexts);
-
             renderPhotos();
             renderVideos();
             renderTexts();
@@ -298,10 +290,7 @@
                 if (folder) folders.add(folder);
             });
 
-            if (folders.size === 0) {
-                folderContainer.innerHTML = '';
-                return;
-            }
+            if (folders.size === 0) { folderContainer.innerHTML = ''; return; }
 
             const currentActive = activeFilters[type];
             let html = `
@@ -333,10 +322,7 @@
         function renderPhotos() {
             const grid = document.getElementById('photos-grid');
             let data = globalMediaData.photos || [];
-
-            if (activeFilters.photos !== 'all') {
-                data = data.filter(file => getFolderName(file.name) === activeFilters.photos);
-            }
+            if (activeFilters.photos !== 'all') data = data.filter(file => getFolderName(file.name) === activeFilters.photos);
 
             if (data.length === 0) {
                 grid.innerHTML = `<p class="text-neutral-600 text-sm col-span-full text-center py-12">Henüz fotoğraf eklenmedi.</p>`;
@@ -365,10 +351,7 @@
         function renderVideos() {
             const grid = document.getElementById('videos-grid');
             let data = globalMediaData.videos || [];
-
-            if (activeFilters.videos !== 'all') {
-                data = data.filter(file => getFolderName(file.name) === activeFilters.videos);
-            }
+            if (activeFilters.videos !== 'all') data = data.filter(file => getFolderName(file.name) === activeFilters.videos);
 
             if (data.length === 0) {
                 grid.innerHTML = `<p class="text-neutral-600 text-sm col-span-full text-center py-12">Henüz video eklenmedi.</p>`;
@@ -399,17 +382,14 @@
         function renderTexts() {
             const container = document.getElementById('posts-container');
             let data = globalMediaData.texts || [];
-
-            if (activeFilters.posts !== 'all') {
-                data = data.filter(file => getFolderName(file.name) === activeFilters.posts);
-            }
+            if (activeFilters.posts !== 'all') data = data.filter(file => getFolderName(file.name) === activeFilters.posts);
 
             if (data.length === 0) {
                 container.innerHTML = `<p class="text-neutral-600 text-sm text-center py-12">Henüz yazı eklenmedi.</p>`;
                 return;
             }
 
-            container.innerHTML = data.map((file, index) => {
+            container.innerHTML = data.map((file) => {
                 const orijinalIndex = globalMediaData.texts.indexOf(file);
                 const displayTitle = file.title || cleanTitle(file.name);
                 const folder = getFolderName(file.name);
@@ -424,9 +404,7 @@
                         .then(text => {
                             fetchedTextsCache[orijinalIndex] = text;
                             const summaryEl = document.getElementById(uniqueId);
-                            if (summaryEl) {
-                                summaryEl.innerText = text.length > 150 ? text.substring(0, 150) + "..." : text;
-                            }
+                            if (summaryEl) summaryEl.innerText = text.length > 150 ? text.substring(0, 150) + "..." : text;
                         })
                         .catch(err => {
                             console.error("Yazı getirme hatası:", err, "URL:", file.download_url);
@@ -492,7 +470,7 @@
 
         function escapeHTML(str) {
             return str.replace(/[&<>'"]/g, 
-                tag => ({ '&': '&', '<': '<', '>': '>', "'": ''', '"': '"' }[tag] || tag)
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
             );
         }
 
