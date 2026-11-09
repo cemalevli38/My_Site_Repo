@@ -194,16 +194,16 @@
   {
     "name": "blog",
     "path": "blog",
-    "sha": "a511a7b10745774a7256665badd81641c50c36dc",
+    "sha": "afd9ea6d7a486ff315ddc9d7325a2fb1c8ac2724",
     "size": 0,
     "url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/blog?ref=main",
     "html_url": "https://github.com/cemalevli38/My_Site_Repo/tree/main/blog",
-    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/trees/a511a7b10745774a7256665badd81641c50c36dc",
+    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/trees/afd9ea6d7a486ff315ddc9d7325a2fb1c8ac2724",
     "download_url": null,
     "type": "dir",
     "_links": {
       "self": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/blog?ref=main",
-      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/trees/a511a7b10745774a7256665badd81641c50c36dc",
+      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/trees/afd9ea6d7a486ff315ddc9d7325a2fb1c8ac2724",
       "html": "https://github.com/cemalevli38/My_Site_Repo/tree/main/blog"
     }
   },
@@ -322,16 +322,16 @@
   {
     "name": "projects.json",
     "path": "projects.json",
-    "sha": "07e943597dbfe22ed7189c61cc8ee2bcb28f73b5",
+    "sha": "0762bd3bacac4aa7d6d80ac6878f14615fb3274f",
     "size": 27479,
     "url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/projects.json?ref=main",
     "html_url": "https://github.com/cemalevli38/My_Site_Repo/blob/main/projects.json",
-    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/07e943597dbfe22ed7189c61cc8ee2bcb28f73b5",
+    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/0762bd3bacac4aa7d6d80ac6878f14615fb3274f",
     "download_url": "https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/projects.json",
     "type": "file",
     "_links": {
       "self": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/projects.json?ref=main",
-      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/07e943597dbfe22ed7189c61cc8ee2bcb28f73b5",
+      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/0762bd3bacac4aa7d6d80ac6878f14615fb3274f",
       "html": "https://github.com/cemalevli38/My_Site_Repo/blob/main/projects.json"
     }
   },
