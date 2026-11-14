@@ -68,7 +68,7 @@
         "state": "uploaded",
         "size": 1865397,
         "digest": "sha256:53e6179cf7c1190bb265015f176dc49eff482ed33cd9dd2812c4fe73ac582923",
-        "download_count": 4,
+        "download_count": 5,
         "created_at": "2026-04-21T17:07:15Z",
         "updated_at": "2026-04-21T17:07:18Z",
         "browser_download_url": "https://github.com/cemalevli38/files/releases/download/KMS_Suite_v10/KMS_Suite_v10.zip"
