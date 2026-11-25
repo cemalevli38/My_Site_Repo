@@ -136,7 +136,7 @@
     </div>
 
     <script>
-        const DATA_URL = 'https://raw.githubusercontent.com/cemalevli38/blog-files/main/data.json';
+        const DATA_URL = 'https://raw.githubusercontent.com/cemalevli38/blog-files/main/blog/data.json';
         const GITHUB_USERNAME = "cemalevli38";
         const GITHUB_REPO = "blog-files";
         const GITHUB_BRANCH = "main";
@@ -198,9 +198,9 @@
                 if (targetRedirectFile) {
                     let targetUrl;
                     if (targetRedirectFile.startsWith('videos/')) {
-                        targetUrl = `https://cdn.jsdelivr.net/gh/${GITHUB_USERNAME}/${GITHUB_REPO}@${GITHUB_BRANCH}/${targetRedirectFile}`;
+                        targetUrl = `https://cdn.jsdelivr.net/gh/${GITHUB_USERNAME}/${GITHUB_REPO}@${GITHUB_BRANCH}/blog/${targetRedirectFile}`;
                     } else {
-                        targetUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/${GITHUB_BRANCH}/${targetRedirectFile}`;
+                        targetUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/${GITHUB_BRANCH}/blog/${targetRedirectFile}`;
                     }
                     window.location.href = targetUrl;
                     return;
