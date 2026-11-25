@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cemal Evli | Kişisel Blog</title>
+    <title>Cemal Evli | Kişisel Alan</title>
     
     <link id="favicon" rel="icon" type="image/png" href="">
     <script>
@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -47,7 +47,7 @@
             
             <form onsubmit="verifyPassword(event)" class="space-y-4">
                 <div class="relative">
-                    <input type="password" id="blog-password" required placeholder="Şifreniz" class="w-full bg-neutral-950 border border-neutral-800/80 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-indigo-500/50 transition-colors duration-300">
+                    <input type="password" id="media-password" required placeholder="Şifreniz" class="w-full bg-neutral-950 border border-neutral-800/80 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-indigo-500/50 transition-colors duration-300">
                 </div>
                 <p id="password-error" class="text-red-500 text-xs hidden font-medium text-left px-1"><i class="fa-solid fa-circle-exclamation mr-1.5"></i>Hatalı şifre girdiniz!</p>
                 <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold py-3 rounded-xl shadow-md hover:shadow-indigo-500/10 transition-all duration-300">
@@ -148,28 +148,15 @@
 
         const CORRECT_HASH = "fea589312a57f1991fb0ed526aead8955491120942916424ccd716eaf0710aa3";
 
-        function buildRedirectUrl(filePath) {
-            const cleanPath = filePath.trim().replace(/^\/+/, '');
-            if (cleanPath.startsWith('videos/')) {
-                return `https://cdn.jsdelivr.net/gh/${GITHUB_USERNAME}/${GITHUB_REPO}@${GITHUB_BRANCH}/${cleanPath}`;
-            }
-            return `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/${GITHUB_BRANCH}/${cleanPath}`;
+        function buildCdnUrl(filePath) {
+            const cleanPath = filePath.replace(/^\/+/, '');
+            return `https://cdn.jsdelivr.net/gh/${GITHUB_USERNAME}/${GITHUB_REPO}@${GITHUB_BRANCH}/${cleanPath}`;
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const requestedFile = urlParams.get('file');
-
-            if (requestedFile && requestedFile.trim()) {
-                targetRedirectFile = requestedFile.trim();
-                window.location.replace(buildRedirectUrl(targetRedirectFile));
-                return;
-            }
-
             const currentTimestamp = new Date().getTime();
             const bgUrl = `url('https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/refs/heads/main/background.avif?v=${currentTimestamp}')`;
             
-            // Arka plan resmini hem ana gövdeye hem de şifre ekranına uygula
             const bodyEl = document.getElementById("main-body");
             if (bodyEl) {
                 bodyEl.style.backgroundImage = bgUrl;
@@ -184,6 +171,17 @@
             if (avatarImg) {
                 avatarImg.src = `https://github.com/${GITHUB_USERNAME}.png?v=${currentTimestamp}`;
             }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const requestedFile = urlParams.get('file');
+            
+            if (requestedFile) {
+                targetRedirectFile = requestedFile.trim();
+                const descEl = document.getElementById('password-description');
+                if (descEl) {
+                    descEl.innerText = `"${targetRedirectFile}" dosyasına erişmek için lütfen şifreyi girin.`;
+                }
+            }
         });
 
         async function sha256(message) {
@@ -195,14 +193,15 @@
 
         async function verifyPassword(event) {
             event.preventDefault();
-            const passwordInput = document.getElementById('blog-password').value;
+            const passwordInput = document.getElementById('media-password').value;
             const errorText = document.getElementById('password-error');
             
             const inputHash = await sha256(passwordInput);
 
             if (inputHash === CORRECT_HASH) {
                 if (targetRedirectFile) {
-                    window.location.href = buildRedirectUrl(targetRedirectFile);
+                    const targetUrl = buildCdnUrl(targetRedirectFile);
+                    window.location.replace(targetUrl);
                     return;
                 }
 
@@ -213,14 +212,14 @@
                 mainContent.classList.remove('hidden');
                 
                 setTimeout(() => { passwordScreen.remove(); }, 500);
-                initBlogData();
+                initMediaData();
             } else {
                 errorText.classList.remove('hidden');
-                document.getElementById('blog-password').value = '';
+                document.getElementById('media-password').value = '';
             }
         }
 
-        function initBlogData() {
+        function initMediaData() {
             fetch(DATA_URL)
                 .then(response => {
                     if (!response.ok) throw new Error("Veri dosyası yüklenemedi");
@@ -412,7 +411,7 @@
                 return `
                     <article class="group bg-neutral-900/20 hover:bg-neutral-900/40 border border-neutral-900 hover:border-neutral-800 p-6 rounded-2xl transition-all duration-300 cursor-pointer shadow-lg animate-fade-in" onclick="openArticle(${orijinalIndex})">
                         <div class="flex items-center gap-3 text-[11px] text-neutral-500 font-semibold mb-4">
-                            <span class="text-indigo-400 tracking-wider font-bold uppercase">YAZI / BLOG ${folder ? ` / ${folder}` : ''}</span>
+                            <span class="text-indigo-400 tracking-wider font-bold uppercase">YAZI / ARŞİV ${folder ? ` / ${folder}` : ''}</span>
                         </div>
                         <h2 class="text-xl font-bold text-white group-hover:text-indigo-400 transition-colors duration-300 mb-3 tracking-tight capitalize">${displayTitle}</h2>
                         <p id="${uniqueId}" class="text-neutral-400 text-sm font-light leading-relaxed line-clamp-2">
@@ -466,7 +465,7 @@
 
         function escapeHTML(str) {
             return str.replace(/[&<>'"]/g, 
-                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+                tag => ({ '&': '&', '<': '<', '>': '>', "'": ''', '"': '"' }[tag] || tag)
             );
         }
 
