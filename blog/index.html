@@ -198,9 +198,9 @@
                 if (targetRedirectFile) {
                     let targetUrl;
                     if (targetRedirectFile.startsWith('videos/')) {
-                        targetUrl = `https://cdn.jsdelivr.net/gh/${GITHUB_USERNAME}/${GITHUB_REPO}@${GITHUB_BRANCH}/blog/${targetRedirectFile}`;
+                        targetUrl = `https://cdn.jsdelivr.net/gh/${GITHUB_USERNAME}/${GITHUB_REPO}@${GITHUB_BRANCH}/${targetRedirectFile}`;
                     } else {
-                        targetUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/${GITHUB_BRANCH}/blog/${targetRedirectFile}`;
+                        targetUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/${GITHUB_BRANCH}/${targetRedirectFile}`;
                     }
                     window.location.href = targetUrl;
                     return;
