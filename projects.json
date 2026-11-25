@@ -2,16 +2,16 @@
   {
     "name": ".github",
     "path": ".github",
-    "sha": "461d0850d11e2ae04133c2d1c415bc998726f79d",
+    "sha": "8b10eb8f4acf2fb4f3760793bcfe0abf5528912a",
     "size": 0,
     "url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/.github?ref=main",
     "html_url": "https://github.com/cemalevli38/My_Site_Repo/tree/main/.github",
-    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/trees/461d0850d11e2ae04133c2d1c415bc998726f79d",
+    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/trees/8b10eb8f4acf2fb4f3760793bcfe0abf5528912a",
     "download_url": null,
     "type": "dir",
     "_links": {
       "self": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/.github?ref=main",
-      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/trees/461d0850d11e2ae04133c2d1c415bc998726f79d",
+      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/trees/8b10eb8f4acf2fb4f3760793bcfe0abf5528912a",
       "html": "https://github.com/cemalevli38/My_Site_Repo/tree/main/.github"
     }
   },
@@ -194,16 +194,16 @@
   {
     "name": "blog",
     "path": "blog",
-    "sha": "66f1cdc630738c5bc721a2be432d288af7cd7260",
+    "sha": "1795c777c7aba46e5d8cf37d61517d35fecc535d",
     "size": 0,
     "url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/blog?ref=main",
     "html_url": "https://github.com/cemalevli38/My_Site_Repo/tree/main/blog",
-    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/trees/66f1cdc630738c5bc721a2be432d288af7cd7260",
+    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/trees/1795c777c7aba46e5d8cf37d61517d35fecc535d",
     "download_url": null,
     "type": "dir",
     "_links": {
       "self": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/blog?ref=main",
-      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/trees/66f1cdc630738c5bc721a2be432d288af7cd7260",
+      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/trees/1795c777c7aba46e5d8cf37d61517d35fecc535d",
       "html": "https://github.com/cemalevli38/My_Site_Repo/tree/main/blog"
     }
   },
@@ -322,16 +322,16 @@
   {
     "name": "projects.json",
     "path": "projects.json",
-    "sha": "17198769918169a0895fbf60ca0f78c60b2bfd86",
+    "sha": "fdd7ec276cbd1ef7f56d6d70dfffa257ad6e3016",
     "size": 27479,
     "url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/projects.json?ref=main",
     "html_url": "https://github.com/cemalevli38/My_Site_Repo/blob/main/projects.json",
-    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/17198769918169a0895fbf60ca0f78c60b2bfd86",
+    "git_url": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/fdd7ec276cbd1ef7f56d6d70dfffa257ad6e3016",
     "download_url": "https://raw.githubusercontent.com/cemalevli38/My_Site_Repo/main/projects.json",
     "type": "file",
     "_links": {
       "self": "https://api.github.com/repos/cemalevli38/My_Site_Repo/contents/projects.json?ref=main",
-      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/17198769918169a0895fbf60ca0f78c60b2bfd86",
+      "git": "https://api.github.com/repos/cemalevli38/My_Site_Repo/git/blobs/fdd7ec276cbd1ef7f56d6d70dfffa257ad6e3016",
       "html": "https://github.com/cemalevli38/My_Site_Repo/blob/main/projects.json"
     }
   },
