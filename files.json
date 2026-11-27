@@ -140,7 +140,7 @@
         "state": "uploaded",
         "size": 383332,
         "digest": "sha256:1b126689b461e09b9fa03b657ccefc7a47cca766137f6ad541dbcd64e653135d",
-        "download_count": 1,
+        "download_count": 2,
         "created_at": "2026-11-25T13:52:48Z",
         "updated_at": "2026-11-25T13:52:49Z",
         "browser_download_url": "https://github.com/cemalevli38/files/releases/download/muzikkontrol/muzikkontrol.zip"
